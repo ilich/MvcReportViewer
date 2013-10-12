@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcReportViewerExample", "MvcReportViewerExample\MvcReportViewerExample.csproj", "{5804FFD3-29D6-42FA-943B-94DE747CBE24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcReportViewer", "MvcReportViewer\MvcReportViewer.csproj", "{6353720D-C784-4C00-A7B7-D652542FBCC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcReportViewerTests", "MvcReportViewerTests\MvcReportViewerTests.csproj", "{20D0F976-2730-406D-A336-4056416CFF10}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5804FFD3-29D6-42FA-943B-94DE747CBE24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5804FFD3-29D6-42FA-943B-94DE747CBE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5804FFD3-29D6-42FA-943B-94DE747CBE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5804FFD3-29D6-42FA-943B-94DE747CBE24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6353720D-C784-4C00-A7B7-D652542FBCC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6353720D-C784-4C00-A7B7-D652542FBCC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6353720D-C784-4C00-A7B7-D652542FBCC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6353720D-C784-4C00-A7B7-D652542FBCC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20D0F976-2730-406D-A336-4056416CFF10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20D0F976-2730-406D-A336-4056416CFF10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20D0F976-2730-406D-A336-4056416CFF10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20D0F976-2730-406D-A336-4056416CFF10}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

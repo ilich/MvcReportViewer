@@ -1,0 +1,18 @@
+﻿using System.Collections.Specialized;
+using System.Linq;
+
+namespace MvcReportViewer
+{
+    internal static class IgnoreCaseExtensions
+    {
+        public static bool EqualsIgnoreCase(this string that, string str)
+        {
+            return string.Compare(that, str, true) == 0;
+        }
+
+        public static bool ContainsKeyIgnoreCase(this NameValueCollection collection, string key)
+        {
+            return collection.AllKeys.Any(k => k.EqualsIgnoreCase(key));
+        }
+    }
+}
