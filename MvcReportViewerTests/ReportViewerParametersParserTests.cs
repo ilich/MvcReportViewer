@@ -1,9 +1,8 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Text;
-using NUnit.Framework;
 
 namespace MvcReportViewer.Tests
 {
@@ -30,7 +29,7 @@ namespace MvcReportViewer.Tests
         public void Parse_NullQueryString_RaisedArgumentNullException()
         {
             var parser = new ReportViewerParametersParser();
-            var parameters = parser.Parse(null);
+            parser.Parse(null);
         }
 
         [Test]
@@ -38,7 +37,7 @@ namespace MvcReportViewer.Tests
         public void Parse_ParseWithoutQueryString_RaiseMvcReportViewerException()
         {
             var parser = new ReportViewerParametersParser();
-            var parameters = parser.Parse(new NameValueCollection());
+            parser.Parse(new NameValueCollection());
         }
 
         [Test]
@@ -48,7 +47,7 @@ namespace MvcReportViewer.Tests
             var parser = new ReportViewerParametersParser();
             var queryString = GetQueryString();
             queryString.Add(UriParameters.ReportServerUrl, string.Empty);
-            var parameters = parser.Parse(queryString);
+            parser.Parse(queryString);
         }
 
         [Test]

@@ -11,7 +11,7 @@ namespace MvcReportViewer
         {
             if (queryString == null)
             {
-                throw new ArgumentNullException("QueryString cannot be null.");
+                throw new ArgumentNullException("queryString");
             }
 
             var parameters = InitializeDefaults();
@@ -83,10 +83,12 @@ namespace MvcReportViewer
 
         private ReportViewerParameters InitializeDefaults()
         {
-            var parameters = new ReportViewerParameters();
-            parameters.ReportServerUrl = ConfigurationManager.AppSettings[WebConfigSettings.Server];
-            parameters.Username = ConfigurationManager.AppSettings[WebConfigSettings.Username];
-            parameters.Password = ConfigurationManager.AppSettings[WebConfigSettings.Password];
+            var parameters = new ReportViewerParameters
+                {
+                    ReportServerUrl = ConfigurationManager.AppSettings[WebConfigSettings.Server],
+                    Username = ConfigurationManager.AppSettings[WebConfigSettings.Username],
+                    Password = ConfigurationManager.AppSettings[WebConfigSettings.Password]
+                };
 
             bool showPrompts;
             if (!bool.TryParse(ConfigurationManager.AppSettings[WebConfigSettings.ShowParameterPrompts], out showPrompts))

@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 
 namespace MvcReportViewer
@@ -7,7 +8,7 @@ namespace MvcReportViewer
     {
         public static bool EqualsIgnoreCase(this string that, string str)
         {
-            return string.Compare(that, str, true) == 0;
+            return string.Compare(that, str, StringComparison.OrdinalIgnoreCase) == 0;
         }
 
         public static bool ContainsKeyIgnoreCase(this NameValueCollection collection, string key)
