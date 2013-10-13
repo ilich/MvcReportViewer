@@ -17,7 +17,7 @@ namespace MvcReportViewer
 
         private readonly string _password;
 
-        private readonly IDictionary<string, string> _reportParameters;
+        private readonly IDictionary<string, object> _reportParameters;
 
         private readonly bool _showParameterPrompts;
 
@@ -27,10 +27,25 @@ namespace MvcReportViewer
 
         public MvcReportViewerIframe(
             string reportPath,
+            IDictionary<string, object> htmlAttributes)
+            : this(reportPath, null, null, null, null, false, htmlAttributes)
+        {
+        }
+
+        public MvcReportViewerIframe(
+            string reportPath,
+            IDictionary<string, object> reportParameters,
+            IDictionary<string, object> htmlAttributes)
+            : this(reportPath, null, null, null, reportParameters, false, htmlAttributes)
+        {
+        }
+
+        public MvcReportViewerIframe(
+            string reportPath,
             string reportServerUrl,
             string username,
             string password,
-            IDictionary<string, string> reportParameters,
+            IDictionary<string, object> reportParameters,
             bool showParameterPrompts,
             IDictionary<string, object> htmlAttributes)
         {
@@ -50,12 +65,17 @@ namespace MvcReportViewer
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            return RenderIframe();
         }
 
         public string ToHtmlString()
         {
             return ToString();
+        }
+
+        private string RenderIframe()
+        {
+            throw new NotImplementedException();
         }
     }
 }
