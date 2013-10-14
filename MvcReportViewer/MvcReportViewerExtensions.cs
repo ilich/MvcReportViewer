@@ -63,7 +63,7 @@ namespace MvcReportViewer
             string username = null,
             string password = null,
             object reportParameters = null,
-            bool showParameterPrompts = false,
+            bool? showParameterPrompts = null,
             object htmlAttributes = null)
         {
             return new MvcReportViewerIframe(

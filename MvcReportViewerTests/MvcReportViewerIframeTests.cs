@@ -20,7 +20,7 @@ namespace MvcReportViewer.Tests
 
         private const string ViewerUri = "/MvcReportViewer.aspx";
 
-        private readonly string ReportParametes = string.Join("&", TestData.ExprectedParameters
+        private readonly string ReportParametes = string.Join("&amp;", TestData.ExprectedParameters
                                                                            .Select(p => HttpUtility.UrlEncode(p.Key) + "=" + HttpUtility.UrlEncode(p.Value)));
 
         private HtmlHelper _htmlHelper = HtmlHelperFactory.Create();
@@ -64,7 +64,7 @@ namespace MvcReportViewer.Tests
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}&{3}={4}",
+                "{0}?{1}={2}&amp;{3}={4}",
                 ViewerUri,
                 UriParameters.ReportPath, 
                 TestData.ReportName,
@@ -85,7 +85,7 @@ namespace MvcReportViewer.Tests
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}&{3}={4}&{5}={6}&{7}={8}",
+                "{0}?{1}={2}&amp;{3}={4}&amp;{5}={6}&amp;{7}={8}",
                 ViewerUri,
                 UriParameters.ReportPath,
                 TestData.ReportName,
@@ -114,7 +114,7 @@ namespace MvcReportViewer.Tests
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}&{3}",
+                "{0}?{1}={2}&amp;{3}",
                 ViewerUri,
                 UriParameters.ReportPath,
                 TestData.ReportName,
@@ -143,7 +143,7 @@ namespace MvcReportViewer.Tests
             Assert.AreEqual(2, html.Attributes.Count);
             Assert.AreEqual(Id, html.Attributes["id"].Value);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}&{3}={4}&{5}={6}&{7}={8}&{9}={10}&{11}",
+                "{0}?{1}={2}&amp;{3}={4}&amp;{5}={6}&amp;{7}={8}&amp;{9}={10}&amp;{11}",
                 ViewerUri,
                 UriParameters.ReportPath,
                 TestData.ReportName,

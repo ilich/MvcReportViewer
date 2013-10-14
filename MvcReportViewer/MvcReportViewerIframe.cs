@@ -20,7 +20,7 @@ namespace MvcReportViewer
 
         private readonly IDictionary<string, object> _reportParameters;
 
-        private readonly bool _showParameterPrompts;
+        private readonly bool? _showParameterPrompts;
 
         private readonly IDictionary<string, object> _htmlAttributes;
 
@@ -29,7 +29,7 @@ namespace MvcReportViewer
         public MvcReportViewerIframe(
             string reportPath,
             IDictionary<string, object> htmlAttributes)
-            : this(reportPath, null, null, null, null, false, htmlAttributes)
+            : this(reportPath, null, null, null, null, null, htmlAttributes)
         {
         }
 
@@ -37,7 +37,7 @@ namespace MvcReportViewer
             string reportPath,
             IDictionary<string, object> reportParameters,
             IDictionary<string, object> htmlAttributes)
-            : this(reportPath, null, null, null, reportParameters, false, htmlAttributes)
+            : this(reportPath, null, null, null, reportParameters, null, htmlAttributes)
         {
         }
 
@@ -47,7 +47,7 @@ namespace MvcReportViewer
             string username,
             string password,
             IDictionary<string, object> reportParameters,
-            bool showParameterPrompts,
+            bool? showParameterPrompts,
             IDictionary<string, object> htmlAttributes)
         {
             _reportPath = reportPath;
@@ -85,7 +85,42 @@ namespace MvcReportViewer
 
         private string PrepareViewerUri()
         {
-            return string.Empty;
+            var query = HttpUtility.ParseQueryString(string.Empty);
+            if (!string.IsNullOrEmpty(_reportPath))
+            {
+                query[UriParameters.ReportPath] = _reportPath;
+            }
+
+            if (!string.IsNullOrEmpty(_reportServerUrl))
+            {
+                query[UriParameters.ReportServerUrl] = _reportServerUrl;
+            }
+
+            if (!string.IsNullOrEmpty(_username) || !string.IsNullOrEmpty(_password))
+            {
+                query[UriParameters.Username] = _username;
+                query[UriParameters.Password] = _password;
+            }
+
+            if (_showParameterPrompts != null)
+            {
+                query[UriParameters.ShowParameterPrompts] = _showParameterPrompts.ToString();
+            }
+
+            if (_reportParameters != null)
+            {
+                foreach (var parameter in _reportParameters)
+                {
+                    var value = parameter.Value == null ? string.Empty : parameter.Value.ToString();
+                    query[parameter.Key] = value;
+                }
+            }
+
+            var uri = query.Count == 0 ? 
+                _aspxViewer : 
+                _aspxViewer + "?" + query.ToString();
+
+            return uri;
         }
     }
 }
