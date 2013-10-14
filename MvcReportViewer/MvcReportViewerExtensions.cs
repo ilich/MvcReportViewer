@@ -75,5 +75,18 @@ namespace MvcReportViewer
                 showParameterPrompts,
                 HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
+
+        /// <summary>
+        /// Returns fluent interface to HTML <b>iframe</b> rendering ASP.NET ReportViewer control with Remote Processing Mode.
+        /// </summary>
+        /// <param name="helper">The HTML helper instance that this method extends.</param>
+        /// <param name="reportPath">The path to the report on the server.</param>
+        /// <returns>Fluent interface HTML <b>iframe</b> element.</returns>
+        public static IMvcReportViewerOptions MvcReportViewerFluent(
+            this HtmlHelper helper,
+            string reportPath)
+        {
+            return new MvcReportViewerIframe(reportPath);
+        }
     }
 }

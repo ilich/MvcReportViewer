@@ -11,7 +11,7 @@ namespace MvcReportViewer
     /// <summary>
     /// HTML iframe rengering engine for MvcReportViewer HTML extension.
     /// </summary>
-    public class MvcReportViewerIframe : IHtmlString
+    public class MvcReportViewerIframe : IMvcReportViewerOptions, IHtmlString
     {
         private readonly string _reportPath;
 
@@ -28,6 +28,15 @@ namespace MvcReportViewer
         private readonly IDictionary<string, object> _htmlAttributes;
 
         private readonly string _aspxViewer;
+
+        /// <summary>
+        /// Creates an instance of MvcReportViewerIframe class.
+        /// </summary>
+        /// <param name="reportPath">The path to the report on the server.</param>
+        public MvcReportViewerIframe(string reportPath)
+            : this(reportPath, null, null, null, null, null, null)
+        {
+        }
 
         /// <summary>
         /// Creates an instance of MvcReportViewerIframe class.
@@ -153,6 +162,76 @@ namespace MvcReportViewer
                 _aspxViewer + "?" + query.ToString();
 
             return uri;
+        }
+
+        /// <summary>
+        /// Sets the path to the report on the server.
+        /// </summary>
+        /// <param name="reportPath">The path to the report on the server.</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        public IMvcReportViewerOptions ReportPath(string reportPath)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Sets the URL for the report server.
+        /// </summary>
+        /// <param name="reportServerUrl">The URL for the report server.</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        public IMvcReportViewerOptions ReportServerUrl(string reportServerUrl)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Sets the report server username.
+        /// </summary>
+        /// <param name="username">The report server username.</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        public IMvcReportViewerOptions Username(string username)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Sets the report server password.
+        /// </summary>
+        /// <param name="password">The report server password.</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        public IMvcReportViewerOptions Password(string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Sets the report parameter properties for the report.
+        /// </summary>
+        /// <param name="reportParameters">The report parameter properties for the report.</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        public IMvcReportViewerOptions ReportParameters(object reportParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Sets the value that indicates wether parameter prompts are dispalyed.
+        /// </summary>
+        /// <param name="showParameterPrompts">The value that indicates wether parameter prompts are dispalyed.</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        public IMvcReportViewerOptions ShowParameterPrompts(bool showParameterPrompts)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Sets an object that contains the HTML attributes to set for the element.
+        /// </summary>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        public IMvcReportViewerOptions Attributes(object htmlAttributes)
+        {
+            throw new NotImplementedException();
         }
     }
 }

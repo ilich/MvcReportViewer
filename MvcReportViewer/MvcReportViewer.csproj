@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMvcReportViewerOptions.cs" />
     <Compile Include="MvcReportViewer.aspx.cs">
       <DependentUpon>MvcReportViewer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
