@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MvcReportViewer
 {
@@ -75,7 +76,16 @@ namespace MvcReportViewer
 
         private string RenderIframe()
         {
-            throw new NotImplementedException();
+            var iframe = new TagBuilder("iframe");
+            var uri = PrepareViewerUri();
+            iframe.MergeAttribute("src", uri);
+            iframe.MergeAttributes(_htmlAttributes);
+            return iframe.ToString();
+        }
+
+        private string PrepareViewerUri()
+        {
+            return string.Empty;
         }
     }
 }

@@ -9,21 +9,6 @@ namespace MvcReportViewer.Tests
     [TestFixture]
     public class ReportViewerParametersParserTests
     {
-        private const string ReportName = "TestReport";
-
-        private const string Server = "DummyServer";
-
-        private const string Username = "root";
-
-        private const string Password = "secret";
-
-        private static readonly Dictionary<string, string> ExprectedParameters = new Dictionary<string, string>
-            {
-                { "Param1", "Test" },
-                { "Param2", "22" },
-                { "Param3", "25.5" }
-            };
-
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Parse_NullQueryString_RaisedArgumentNullException()
@@ -56,7 +41,7 @@ namespace MvcReportViewer.Tests
             var parser = new ReportViewerParametersParser();
             var queryString = GetQueryString();
             var parameters = parser.Parse(queryString);
-            Assert.AreEqual(ReportName, parameters.ReportPath);
+            Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
             Assert.AreEqual("http://localhost/ReportServer_SQLEXPRESS", parameters.ReportServerUrl);
             Assert.AreEqual("admin", parameters.Username);
             Assert.AreEqual("password", parameters.Password);
@@ -69,10 +54,10 @@ namespace MvcReportViewer.Tests
         {
             var parser = new ReportViewerParametersParser();
             var queryString = GetQueryString();
-            queryString.Add(UriParameters.ReportServerUrl, Server);
+            queryString.Add(UriParameters.ReportServerUrl, TestData.Server);
             var parameters = parser.Parse(queryString);
-            Assert.AreEqual(ReportName, parameters.ReportPath);
-            Assert.AreEqual(Server, parameters.ReportServerUrl);
+            Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
+            Assert.AreEqual(TestData.Server, parameters.ReportServerUrl);
             Assert.AreEqual("admin", parameters.Username);
             Assert.AreEqual("password", parameters.Password);
             Assert.IsTrue(parameters.ShowParameterPrompts);
@@ -84,12 +69,12 @@ namespace MvcReportViewer.Tests
         {
             var parser = new ReportViewerParametersParser();
             var queryString = GetQueryString();
-            queryString.Add(UriParameters.ReportServerUrl, Server);
-            queryString.Add(UriParameters.Username, Username);
+            queryString.Add(UriParameters.ReportServerUrl, TestData.Server);
+            queryString.Add(UriParameters.Username, TestData.Username);
             var parameters = parser.Parse(queryString);
-            Assert.AreEqual(ReportName, parameters.ReportPath);
-            Assert.AreEqual(Server, parameters.ReportServerUrl);
-            Assert.AreEqual(Username, parameters.Username);
+            Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
+            Assert.AreEqual(TestData.Server, parameters.ReportServerUrl);
+            Assert.AreEqual(TestData.Username, parameters.Username);
             Assert.AreEqual(string.Empty, parameters.Password);
             Assert.IsTrue(parameters.ShowParameterPrompts);
             Assert.AreEqual(0, parameters.ReportParameters.Count);
@@ -100,14 +85,14 @@ namespace MvcReportViewer.Tests
         {
             var parser = new ReportViewerParametersParser();
             var queryString = GetQueryString();
-            queryString.Add(UriParameters.ReportServerUrl, Server);
-            queryString.Add(UriParameters.Username, Username);
-            queryString.Add(UriParameters.Password, Password);
+            queryString.Add(UriParameters.ReportServerUrl, TestData.Server);
+            queryString.Add(UriParameters.Username, TestData.Username);
+            queryString.Add(UriParameters.Password, TestData.Password);
             var parameters = parser.Parse(queryString);
-            Assert.AreEqual(ReportName, parameters.ReportPath);
-            Assert.AreEqual(Server, parameters.ReportServerUrl);
-            Assert.AreEqual(Username, parameters.Username);
-            Assert.AreEqual(Password, parameters.Password);
+            Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
+            Assert.AreEqual(TestData.Server, parameters.ReportServerUrl);
+            Assert.AreEqual(TestData.Username, parameters.Username);
+            Assert.AreEqual(TestData.Password, parameters.Password);
             Assert.IsTrue(parameters.ShowParameterPrompts);
             Assert.AreEqual(0, parameters.ReportParameters.Count);
         }
@@ -117,15 +102,15 @@ namespace MvcReportViewer.Tests
         {
             var parser = new ReportViewerParametersParser();
             var queryString = GetQueryString();
-            queryString.Add(UriParameters.ReportServerUrl, Server);
-            queryString.Add(UriParameters.Username, Username);
-            queryString.Add(UriParameters.Password, Password);
+            queryString.Add(UriParameters.ReportServerUrl, TestData.Server);
+            queryString.Add(UriParameters.Username, TestData.Username);
+            queryString.Add(UriParameters.Password, TestData.Password);
             queryString.Add(UriParameters.ShowParameterPrompts, bool.FalseString);
             var parameters = parser.Parse(queryString);
-            Assert.AreEqual(ReportName, parameters.ReportPath);
-            Assert.AreEqual(Server, parameters.ReportServerUrl);
-            Assert.AreEqual(Username, parameters.Username);
-            Assert.AreEqual(Password, parameters.Password);
+            Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
+            Assert.AreEqual(TestData.Server, parameters.ReportServerUrl);
+            Assert.AreEqual(TestData.Username, parameters.Username);
+            Assert.AreEqual(TestData.Password, parameters.Password);
             Assert.IsFalse(parameters.ShowParameterPrompts);
             Assert.AreEqual(0, parameters.ReportParameters.Count);
         }
@@ -135,16 +120,16 @@ namespace MvcReportViewer.Tests
         {
             var parser = new ReportViewerParametersParser();
             var queryString = GetQueryString();
-            queryString.Add(UriParameters.ReportServerUrl, Server);
-            queryString.Add(UriParameters.Username, Username);
-            queryString.Add(UriParameters.Password, Password);
-            queryString.Add(UriParameters.ShowParameterPrompts, "1");
+            queryString.Add(UriParameters.ReportServerUrl, TestData.Server);
+            queryString.Add(UriParameters.Username, TestData.Username);
+            queryString.Add(UriParameters.Password, TestData.Password);
+            queryString.Add(UriParameters.ShowParameterPrompts, TestData.ShowParameterPrompts.ToString());
             var parameters = parser.Parse(queryString);
-            Assert.AreEqual(ReportName, parameters.ReportPath);
-            Assert.AreEqual(Server, parameters.ReportServerUrl);
-            Assert.AreEqual(Username, parameters.Username);
-            Assert.AreEqual(Password, parameters.Password);
-            Assert.IsTrue(parameters.ShowParameterPrompts);
+            Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
+            Assert.AreEqual(TestData.Server, parameters.ReportServerUrl);
+            Assert.AreEqual(TestData.Username, parameters.Username);
+            Assert.AreEqual(TestData.Password, parameters.Password);
+            Assert.AreEqual(TestData.ShowParameterPrompts, parameters.ShowParameterPrompts);
             Assert.AreEqual(0, parameters.ReportParameters.Count);
         }
 
@@ -155,7 +140,7 @@ namespace MvcReportViewer.Tests
             var queryString = GetQueryString();
             PrepareTestReportParameters(queryString);
             var parameters = parser.Parse(queryString);
-            Assert.AreEqual(ReportName, parameters.ReportPath);
+            Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
             var errors = ValidateReportParameters(parameters);
             if (!string.IsNullOrEmpty(errors))
             {
@@ -165,13 +150,13 @@ namespace MvcReportViewer.Tests
 
         private NameValueCollection GetQueryString()
         {
-            var queryString = new NameValueCollection { { UriParameters.ReportPath, ReportName } };
+            var queryString = new NameValueCollection { { UriParameters.ReportPath, TestData.ReportName } };
             return queryString;
         }
 
         private void PrepareTestReportParameters(NameValueCollection queryString)
         {
-            foreach (var parameter in ExprectedParameters)
+            foreach (var parameter in TestData.ExprectedParameters)
             {
                 queryString.Add(parameter.Key, parameter.Value);
             }
@@ -180,16 +165,16 @@ namespace MvcReportViewer.Tests
         private string ValidateReportParameters(ReportViewerParameters parameters)
         {
             var reportParameters = parameters.ReportParameters;
-            if (reportParameters.Count != ExprectedParameters.Count)
+            if (reportParameters.Count != TestData.ExprectedParameters.Count)
             {
                 return string.Format(
                     "There are {0} report parameters, but should be {1}.", 
                     reportParameters.Count,
-                    ExprectedParameters.Count);
+                    TestData.ExprectedParameters.Count);
             }
 
             var errors = new StringBuilder();
-            foreach (var expected in ExprectedParameters)
+            foreach (var expected in TestData.ExprectedParameters)
             {
                 var key = expected.Key;
                 if (!reportParameters.ContainsKey(key))
