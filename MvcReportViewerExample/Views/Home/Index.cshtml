@@ -1,9 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using MvcReportViewer;
+
+<!DOCTYPE html>
 <html>
     <head>
         <title>MvcReportViewer example</title>
     </head>
     <body>
-        <iframe height="900" width="900" style="border: none;" src="http://localhost:56060/MvcReportViewer.aspx?_r=/Reports/Clients"></iframe>
+        @Html.MvcReportViewer(
+            "/Reports/TestReport",
+            new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 },
+            new { Height = 900, Width = 900, style = "border: none" })
     </body>
 </html>

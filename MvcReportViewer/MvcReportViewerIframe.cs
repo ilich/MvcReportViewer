@@ -8,6 +8,9 @@ using System.Web.Mvc;
 
 namespace MvcReportViewer
 {
+    /// <summary>
+    /// HTML iframe rengering engine for MvcReportViewer HTML extension.
+    /// </summary>
     public class MvcReportViewerIframe : IHtmlString
     {
         private readonly string _reportPath;
@@ -26,6 +29,11 @@ namespace MvcReportViewer
 
         private readonly string _aspxViewer;
 
+        /// <summary>
+        /// Creates an instance of MvcReportViewerIframe class.
+        /// </summary>
+        /// <param name="reportPath">The path to the report on the server.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
         public MvcReportViewerIframe(
             string reportPath,
             IDictionary<string, object> htmlAttributes)
@@ -33,6 +41,12 @@ namespace MvcReportViewer
         {
         }
 
+        /// <summary>
+        /// Creates an instance of MvcReportViewerIframe class.
+        /// </summary>
+        /// <param name="reportPath">The path to the report on the server.</param>
+        /// <param name="reportParameters">The report parameter properties for the report.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
         public MvcReportViewerIframe(
             string reportPath,
             IDictionary<string, object> reportParameters,
@@ -41,6 +55,16 @@ namespace MvcReportViewer
         {
         }
 
+        /// <summary>
+        /// Creates an instance of MvcReportViewerIframe class.
+        /// </summary>
+        /// <param name="reportPath">The path to the report on the server.</param>
+        /// <param name="reportServerUrl">The URL for the report server.</param>
+        /// <param name="username">The report server username.</param>
+        /// <param name="password">The report server password.</param>
+        /// <param name="reportParameters">The report parameter properties for the report.</param>
+        /// <param name="showParameterPrompts">The value that indicates wether parameter prompts are dispalyed.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
         public MvcReportViewerIframe(
             string reportPath,
             string reportServerUrl,
@@ -64,11 +88,19 @@ namespace MvcReportViewer
             }
         }
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
             return RenderIframe();
         }
 
+        /// <summary>
+        /// Returns an HTML-encoded string.
+        /// </summary>
+        /// <returns>An HTML-encoded string.</returns>
         public string ToHtmlString()
         {
             return ToString();
