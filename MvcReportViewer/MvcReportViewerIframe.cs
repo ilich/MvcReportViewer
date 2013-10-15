@@ -13,21 +13,21 @@ namespace MvcReportViewer
     /// </summary>
     public class MvcReportViewerIframe : IMvcReportViewerOptions, IHtmlString
     {
-        private readonly string _reportPath;
+        private string _reportPath;
 
-        private readonly string _reportServerUrl;
+        private string _reportServerUrl;
 
-        private readonly string _username;
+        private string _username;
 
-        private readonly string _password;
+        private string _password;
 
-        private readonly IDictionary<string, object> _reportParameters;
+        private IDictionary<string, object> _reportParameters;
 
-        private readonly bool? _showParameterPrompts;
+        private bool? _showParameterPrompts;
 
-        private readonly IDictionary<string, object> _htmlAttributes;
+        private IDictionary<string, object> _htmlAttributes;
 
-        private readonly string _aspxViewer;
+        private string _aspxViewer;
 
         /// <summary>
         /// Creates an instance of MvcReportViewerIframe class.
@@ -171,7 +171,8 @@ namespace MvcReportViewer
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions ReportPath(string reportPath)
         {
-            throw new NotImplementedException();
+            _reportPath = reportPath;
+            return this;
         }
 
         /// <summary>
@@ -181,7 +182,8 @@ namespace MvcReportViewer
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions ReportServerUrl(string reportServerUrl)
         {
-            throw new NotImplementedException();
+            _reportServerUrl = reportServerUrl;
+            return this;
         }
 
         /// <summary>
@@ -191,7 +193,8 @@ namespace MvcReportViewer
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions Username(string username)
         {
-            throw new NotImplementedException();
+            _username = username;
+            return this;
         }
 
         /// <summary>
@@ -201,7 +204,8 @@ namespace MvcReportViewer
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions Password(string password)
         {
-            throw new NotImplementedException();
+            _password = password;
+            return this;
         }
 
         /// <summary>
@@ -211,7 +215,11 @@ namespace MvcReportViewer
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions ReportParameters(object reportParameters)
         {
-            throw new NotImplementedException();
+            var parameters = reportParameters == null ? 
+                null : 
+                HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters);
+            _reportParameters = parameters;
+            return this;
         }
 
         /// <summary>
@@ -221,7 +229,8 @@ namespace MvcReportViewer
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions ShowParameterPrompts(bool showParameterPrompts)
         {
-            throw new NotImplementedException();
+            _showParameterPrompts = showParameterPrompts;
+            return this;
         }
 
         /// <summary>
@@ -231,7 +240,11 @@ namespace MvcReportViewer
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions Attributes(object htmlAttributes)
         {
-            throw new NotImplementedException();
+            var attributes = htmlAttributes == null ?
+                null :
+                HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            _htmlAttributes = attributes;
+            return this;
         }
     }
 }
