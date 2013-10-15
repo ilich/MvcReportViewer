@@ -1,14 +1,16 @@
 ﻿@using MvcReportViewer;
+@{
+    ViewBag.Title = "MvcReportViewer Example";
+}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>MvcReportViewer example</title>
-    </head>
-    <body>
-        @Html.MvcReportViewer(
-            "/Reports/TestReport",
-            new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 },
-            new { Height = 900, Width = 900, style = "border: none" })
-    </body>
-</html>
+@section Code {
+    @@Html.MvcReportViewer(
+        "/Reports/TestReport",
+        new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 },
+        new { Height = 900, Width = 900, style = "border: none" })
+}
+
+@Html.MvcReportViewer(
+    "/Reports/TestReport",
+    new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 },
+    new { Height = 900, Width = 900, style = "border: none" })

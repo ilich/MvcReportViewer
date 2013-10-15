@@ -1,0 +1,18 @@
+﻿li {
+    float: left;
+    list-style-type: none;
+    padding: 10px;
+}
+
+article {
+    clear: both;
+}
+
+code {
+    padding: 10px;
+}
+
+a, a:visited {
+    color: blue;
+    text-decoration: none;
+}

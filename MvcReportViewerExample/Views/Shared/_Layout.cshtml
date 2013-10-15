@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <link href="~/Content/styles.css" rel="stylesheet" />
+        <title>@ViewBag.Title</title>
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li>@Html.ActionLink("MvcReportViewer Sample", "Index")</li>
+                <li>@Html.ActionLink("MvcReportViewerFluent Sample", "Fluent")</li>
+            </ul>
+        </nav>
+        <article>
+            <section>
+                <code>
+                    @RenderSection("Code", false)
+                </code>
+            </section>
+            <section>
+                @RenderBody()
+            </section>
+        </article>
+    </body>
+</html>
