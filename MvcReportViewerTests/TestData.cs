@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 namespace MvcReportViewer.Tests
 {
@@ -20,5 +22,17 @@ namespace MvcReportViewer.Tests
                 { "Param2", "22" },
                 { "Param3", "25.5" }
             };
+
+        public static readonly string Style = "height: 100px; width: 100px;";
+
+        public static readonly string CssClass = "dummy-class";
+
+        public static readonly string Id = "dummy-id";
+
+        public static readonly string ViewerUri = "/MvcReportViewer.aspx";
+
+        public static readonly string ReportParametes = string.Join(
+            "&amp;", 
+            ExprectedParameters.Select(p => HttpUtility.UrlEncode(p.Key) + "=" + HttpUtility.UrlEncode(p.Value)));
     }
 }

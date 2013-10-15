@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HtmlHelperFactory.cs" />
+    <Compile Include="IframeTests.cs" />
+    <Compile Include="MvcReportViewerIframeFluentTests.cs" />
     <Compile Include="MvcReportViewerIframeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportViewerParametersParserTests.cs" />

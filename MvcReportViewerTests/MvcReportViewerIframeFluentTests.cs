@@ -1,38 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Web.Mvc;
-using HtmlAgilityPack;
-using System.Web;
 
 namespace MvcReportViewer.Tests
 {
     [TestFixture]
-    public class MvcReportViewerIframeTests : IframeTests
+    public class MvcReportViewerIframeFluentTests : IframeTests
     {
         private HtmlHelper _htmlHelper = HtmlHelperFactory.Create();
 
         [Test]
-        public void Iframe_SrcOnly()
+        public void IframeFluent_SrcOnly()
         {
-            var iframe = _htmlHelper.MvcReportViewer(TestData.ReportName);
+            var iframe = _htmlHelper.MvcReportViewerFluent(TestData.ReportName);
+
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}", 
+                "{0}?{1}={2}",
                 TestData.ViewerUri,
-                UriParameters.ReportPath, 
+                UriParameters.ReportPath,
                 TestData.ReportName);
             Assert.AreEqual(expectedUrl, html.Attributes["src"].Value);
         }
 
         [Test]
-        public void Iframe_HeightWidthSrc()
+        public void IframeFluent_HeightWidthSrc()
         {
-            var iframe = _htmlHelper.MvcReportViewer(TestData.ReportName, new { style = TestData.Style });
+            var iframe = _htmlHelper.MvcReportViewerFluent(TestData.ReportName)
+                                    .Attributes(new { style = TestData.Style });
+            
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(2, html.Attributes.Count);
@@ -46,16 +43,18 @@ namespace MvcReportViewer.Tests
         }
 
         [Test]
-        public void Iframe_SrcReportServer()
+        public void IframeFluent_SrcReportServer()
         {
-            var iframe = _htmlHelper.MvcReportViewer(TestData.ReportName, reportServerUrl: TestData.Server);
+            var iframe = _htmlHelper.MvcReportViewerFluent(TestData.ReportName)
+                                    .ReportServerUrl(TestData.Server);
+            
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
             var expectedUrl = string.Format(
                 "{0}?{1}={2}&amp;{3}={4}",
                 TestData.ViewerUri,
-                UriParameters.ReportPath, 
+                UriParameters.ReportPath,
                 TestData.ReportName,
                 UriParameters.ReportServerUrl,
                 TestData.Server);
@@ -63,13 +62,13 @@ namespace MvcReportViewer.Tests
         }
 
         [Test]
-        public void Iframe_SrcReportServerCredentials()
+        public void IframeFluent_SrcReportServerCredentials()
         {
-            var iframe = _htmlHelper.MvcReportViewer(
-                TestData.ReportName, 
-                reportServerUrl: TestData.Server,
-                username: TestData.Username,
-                password: TestData.Password);
+            var iframe = _htmlHelper.MvcReportViewerFluent(TestData.ReportName)
+                                    .ReportServerUrl(TestData.Server)
+                                    .Username(TestData.Username)
+                                    .Password(TestData.Password);
+            
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
@@ -88,17 +87,17 @@ namespace MvcReportViewer.Tests
         }
 
         [Test]
-        public void Iframe_SrcReportParameters()
+        public void IframeFluent_SrcReportParameters()
         {
-            var iframe = _htmlHelper.MvcReportViewer(
-                TestData.ReportName,
-                new
-                    {
-                        Param1 = TestData.ExprectedParameters["Param1"],
-                        Param2 = TestData.ExprectedParameters["Param2"],
-                        Param3 = TestData.ExprectedParameters["Param3"]
-                    },
-                null);
+            var iframe = _htmlHelper.MvcReportViewerFluent(TestData.ReportName)
+                                    .ReportParameters(
+                                        new
+                                            {
+                                                Param1 = TestData.ExprectedParameters["Param1"],
+                                                Param2 = TestData.ExprectedParameters["Param2"],
+                                                Param3 = TestData.ExprectedParameters["Param3"]
+                                            });
+
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
@@ -112,21 +111,22 @@ namespace MvcReportViewer.Tests
         }
 
         [Test]
-        public void Iframe_SrcReportServerCredentialsPromptsParametersId()
+        public void IframeFluent_SrcReportServerCredentialsPromptsParametersId()
         {
-            var iframe = _htmlHelper.MvcReportViewer(
-                TestData.ReportName,
-                TestData.Server,
-                TestData.Username,
-                TestData.Password,
-                new
-                    {
-                        Param1 = TestData.ExprectedParameters["Param1"],
-                        Param2 = TestData.ExprectedParameters["Param2"],
-                        Param3 = TestData.ExprectedParameters["Param3"]
-                    },
-                TestData.ShowParameterPrompts,
-                new { id = TestData.Id });
+            var iframe = _htmlHelper.MvcReportViewerFluent(TestData.ReportName)
+                                    .ReportServerUrl(TestData.Server)
+                                    .Username(TestData.Username)
+                                    .Password(TestData.Password)
+                                    .ReportParameters(
+                                        new
+                                            {
+                                                Param1 = TestData.ExprectedParameters["Param1"],
+                                                Param2 = TestData.ExprectedParameters["Param2"],
+                                                Param3 = TestData.ExprectedParameters["Param3"]
+                                            })
+                                    .ShowParameterPrompts(TestData.ShowParameterPrompts)
+                                    .Attributes(new { id = TestData.Id });
+            
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(2, html.Attributes.Count);
@@ -149,9 +149,11 @@ namespace MvcReportViewer.Tests
         }
 
         [Test]
-        public void Iframe_SrcClassId()
+        public void IframeFluent_SrcClassId()
         {
-            var iframe = _htmlHelper.MvcReportViewer(TestData.ReportName, new { @class = TestData.CssClass, id = TestData.Id });
+            var iframe = _htmlHelper.MvcReportViewerFluent(TestData.ReportName)
+                                    .Attributes(new { @class = TestData.CssClass, id = TestData.Id });
+            
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(3, html.Attributes.Count);
@@ -164,6 +166,5 @@ namespace MvcReportViewer.Tests
                 TestData.ReportName);
             Assert.AreEqual(expectedUrl, html.Attributes["src"].Value);
         }
-
-            }
+    }
 }
