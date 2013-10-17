@@ -6,7 +6,7 @@ namespace MvcReportViewer.Tests
     [TestFixture]
     public class MvcReportViewerIframeFluentTests : IframeTests
     {
-        private HtmlHelper _htmlHelper = HtmlHelperFactory.Create();
+        private readonly HtmlHelper _htmlHelper = HtmlHelperFactory.Create();
 
         [Test]
         public void IframeFluent_SrcOnly()

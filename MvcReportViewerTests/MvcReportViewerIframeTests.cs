@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Web.Mvc;
-using HtmlAgilityPack;
-using System.Web;
 
 namespace MvcReportViewer.Tests
 {
     [TestFixture]
     public class MvcReportViewerIframeTests : IframeTests
     {
-        private HtmlHelper _htmlHelper = HtmlHelperFactory.Create();
+        private readonly HtmlHelper _htmlHelper = HtmlHelperFactory.Create();
 
         [Test]
         public void Iframe_SrcOnly()
@@ -48,7 +42,7 @@ namespace MvcReportViewer.Tests
         [Test]
         public void Iframe_SrcReportServer()
         {
-            var iframe = _htmlHelper.MvcReportViewer(TestData.ReportName, reportServerUrl: TestData.Server);
+            var iframe = _htmlHelper.MvcReportViewer(TestData.ReportName, TestData.Server);
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
@@ -67,9 +61,9 @@ namespace MvcReportViewer.Tests
         {
             var iframe = _htmlHelper.MvcReportViewer(
                 TestData.ReportName, 
-                reportServerUrl: TestData.Server,
-                username: TestData.Username,
-                password: TestData.Password);
+                TestData.Server,
+                TestData.Username,
+                TestData.Password);
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);

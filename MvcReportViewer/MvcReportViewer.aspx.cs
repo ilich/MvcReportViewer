@@ -1,9 +1,5 @@
 ﻿using Microsoft.Reporting.WebForms;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.UI;
 
 namespace MvcReportViewer
@@ -13,7 +9,7 @@ namespace MvcReportViewer
     /// </summary>
     public class MvcReportViewer : Page
     {
-        protected ReportViewer _reportViewer;
+        protected ReportViewer ReportViewer;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -30,10 +26,10 @@ namespace MvcReportViewer
             var parser = new ReportViewerParametersParser();
             var parameters = parser.Parse(Request.QueryString);
 
-            _reportViewer.ProcessingMode = ProcessingMode.Remote;
-            _reportViewer.ShowParameterPrompts = parameters.ShowParameterPrompts;
+            ReportViewer.ProcessingMode = ProcessingMode.Remote;
+            ReportViewer.ShowParameterPrompts = parameters.ShowParameterPrompts;
 
-            var serverReport = _reportViewer.ServerReport;
+            var serverReport = ReportViewer.ServerReport;
             serverReport.ReportServerUrl = new Uri(parameters.ReportServerUrl);
             serverReport.ReportPath = parameters.ReportPath;
             if (!string.IsNullOrEmpty(parameters.Username))

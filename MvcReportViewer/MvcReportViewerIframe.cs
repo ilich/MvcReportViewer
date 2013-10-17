@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,7 +8,7 @@ namespace MvcReportViewer
     /// <summary>
     /// HTML iframe rengering engine for MvcReportViewer HTML extension.
     /// </summary>
-    public class MvcReportViewerIframe : IMvcReportViewerOptions, IHtmlString
+    public class MvcReportViewerIframe : IMvcReportViewerOptions
     {
         private string _reportPath;
 
@@ -27,7 +24,7 @@ namespace MvcReportViewer
 
         private IDictionary<string, object> _htmlAttributes;
 
-        private string _aspxViewer;
+        private readonly string _aspxViewer;
 
         /// <summary>
         /// Creates an instance of MvcReportViewerIframe class.
@@ -159,7 +156,7 @@ namespace MvcReportViewer
 
             var uri = query.Count == 0 ? 
                 _aspxViewer : 
-                _aspxViewer + "?" + query.ToString();
+                _aspxViewer + "?" + query;
 
             return uri;
         }
