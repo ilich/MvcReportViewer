@@ -84,8 +84,8 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 
 <pre><code>@Html.MvcReportViewerFluent("/Reports/TestReport")
-                .ReportParameters(new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 })
-				.Attributes(new { Height = 900, Width = 900, style = "border: none" })</pre></code>
+     .ReportParameters(new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 })
+     .Attributes(new { Height = 900, Width = 900, style = "border: none" })</pre></code>
 
 License
 -------
