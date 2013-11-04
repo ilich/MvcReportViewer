@@ -18,23 +18,30 @@ Usage
 
 ### Configuration
 * Make sure you reference Microsoft.ReportViewer.WebForm (Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91) and MvcReportViewer assemblies in the application.
+
 * Configure the ASP.NET Web Forms Report Viewer in the web.config.<br><br>
-Add *<add path="Reserved.ReportViewerWebControl.axd" verb="*" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" validate="false"/>* to *system.web/httpHandlers* section.<br><br>
-Add *<remove name="ReportViewerWebControlHandler" /> <add name="ReportViewerWebControlHandler" preCondition="integratedMode" verb="*" path="Reserved.ReportViewerWebControl.axd" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"/>* to *system.webServer/handlers* section.
+Add **&lt;add path="Reserved.ReportViewerWebControl.axd" verb="&#42;" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" validate="false"/&gt;** to **system.web/httpHandlers** section.<br><br>
+Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="ReportViewerWebControlHandler" preCondition="integratedMode" verb="&#42;" path="Reserved.ReportViewerWebControl.axd" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"/&gt;** to **system.webServer/handlers** section.
+
 * Configure MvcReportViewer HTML helper in the web.config.
-```
-<!-- Required by Microsoft ReportViewer control -->
 
-<add key="MvcReportViewer.AspxViewer" value="/MvcReportViewer.aspx" />
+<pre><code>&lt;!-- Required by Microsoft ReportViewer control --&gt;
+&lt;add key="MvcReportViewer.AspxViewer" value="/MvcReportViewer.aspx" /&gt;
+&lt;add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" /&gt;
+&lt;add key="MvcReportViewer.Username" value="" /&gt;
+&lt;add key="MvcReportViewer.Password" value="" /&gt;
+&lt;add key="MvcReportViewer.ShowParameterPrompts" value="False" /&gt;
+</code></pre>
 
-<add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" />
+**MvcReportViewer.AspxViewer** - Path to the Report Viewer page shown in the iframe. Its name is **MvcReportViewer.aspx** and it is in the application's root by default.
 
-<add key="MvcReportViewer.Username" value="" />
+**MvcReportViewer.ReportServerUrl** - Default SSRS URL.
 
-<add key="MvcReportViewer.Password" value="" />
+**MvcReportViewer.Username** - Default SSRS username.
 
-<add key="MvcReportViewer.ShowParameterPrompts" value="False" />
-```
+**MvcReportViewer.Password** - Default SSRS password.
+
+**MvcReportViewer.ShowParameterPrompts** - Show report parameters bar if set to **True**.
 
 ### Basic Interface
 
