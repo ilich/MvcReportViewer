@@ -53,7 +53,7 @@ namespace MvcReportViewer
         /// <param name="username">The report server username.</param>
         /// <param name="password">The report server password.</param>
         /// <param name="reportParameters">The report parameter properties for the report.</param>
-        /// <param name="showParameterPrompts">The value that indicates wether parameter prompts are dispalyed.</param>
+        /// <param name="showParameterPrompts">The value that indicates whether parameter prompts are displayed.</param>
         /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
         /// <returns>An HTML <b>iframe</b> element.</returns>
         public static MvcReportViewerIframe MvcReportViewer(

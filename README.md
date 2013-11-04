@@ -53,6 +53,31 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 **@Html.MvcReportViewer(string reportPath, object htmlAttributes)**
 
 *reportPath* - The path to the report on the server.
+
+*htmlAttributes* - An object that contains the HTML attributes to set for the element.
+
+**@Html.MvcReportViewer(string reportPath, object reportParameters, object htmlAttributes)**
+
+*reportPath* - The path to the report on the server.
+
+*reportParameters* - The report parameter properties for the report.
+
+*htmlAttributes* - An object that contains the HTML attributes to set for the element.
+
+**@Html.MvcReportViewer(string reportPath, string reportServerUrl = null, string username = null, string password = null, object reportParameters = null, bool? showParameterPrompts = null, object htmlAttributes = null)
+
+*reportPath* - The path to the report on the server.
+
+*reportServerUrl* -  The URL for the report server.
+
+*username* - The report server username.
+
+*password* - The report server password.
+
+*reportParameters* - The report parameter properties for the report.
+
+*showParameterPrompts* - The value that indicates whether parameter prompts are displayed.
+
 *htmlAttributes* - An object that contains the HTML attributes to set for the element.
 
 ### Fluent Interface
