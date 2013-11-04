@@ -17,7 +17,7 @@ Usage
 -----
 
 ### Configuration
-* Make sure you reference Microsoft.ReportViewer.WebForm (Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91) and MvcReportViewer assemblies in the application.
+* Make sure you reference **Microsoft.ReportViewer.WebForm (Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91)** and **MvcReportViewer** assemblies in the application.
 
 * Configure the ASP.NET Web Forms Report Viewer in the web.config.<br><br>
 Add **&lt;add path="Reserved.ReportViewerWebControl.axd" verb="&#42;" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" validate="false"/&gt;** to **system.web/httpHandlers** section.<br><br>
@@ -44,6 +44,16 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 **MvcReportViewer.ShowParameterPrompts** - Show report parameters bar if set to **True**.
 
 ### Basic Interface
+
+<pre><code>@Html.MvcReportViewer(
+    "/Reports/TestReport",
+    new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 },
+    new { Height = 900, Width = 900, style = "border: none" })</code></pre>
+	
+**@Html.MvcReportViewer(string reportPath, object htmlAttributes)**
+
+*reportPath* - The path to the report on the server.
+*htmlAttributes* - An object that contains the HTML attributes to set for the element.
 
 ### Fluent Interface
 
