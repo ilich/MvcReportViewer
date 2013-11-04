@@ -22,12 +22,17 @@ Usage
 Add *<add path="Reserved.ReportViewerWebControl.axd" verb="*" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" validate="false"/>* to *system.web/httpHandlers* section.<br><br>
 Add *<remove name="ReportViewerWebControlHandler" /> <add name="ReportViewerWebControlHandler" preCondition="integratedMode" verb="*" path="Reserved.ReportViewerWebControl.axd" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"/>* to *system.webServer/handlers* section.
 * Configure MvcReportViewer HTML helper in the web.config.
-```xml
+```
 <!-- Required by Microsoft ReportViewer control -->
+
 <add key="MvcReportViewer.AspxViewer" value="/MvcReportViewer.aspx" />
+
 <add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" />
+
 <add key="MvcReportViewer.Username" value="" />
+
 <add key="MvcReportViewer.Password" value="" />
+
 <add key="MvcReportViewer.ShowParameterPrompts" value="False" />
 ```
 
