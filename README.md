@@ -104,7 +104,7 @@ _**Fluent Interface Methods**_
 
 **ReportParameters(object reportParameters)** - Sets the report parameter properties for the report.
 
-**ShowParameterPrompts(bool showParameterPrompts)** - Sets the value that indicates wether parameter prompts are dispalyed.
+**ShowParameterPrompts(bool showParameterPrompts)** - Sets the value that indicates whether parameter prompts are displayed.
 
 **Attributes(object htmlAttributes)** - Sets an object that contains the HTML attributes to set for the element.
 
