@@ -220,7 +220,7 @@ namespace MvcReportViewer
         }
 
         /// <summary>
-        /// Sets the value that indicates wether parameter prompts are dispalyed.
+        /// Sets the value that indicates whether parameter prompts are displayed.
         /// </summary>
         /// <param name="showParameterPrompts">The value that indicates wether parameter prompts are dispalyed.</param>
         /// <returns>An instance of MvcViewerOptions class.</returns>

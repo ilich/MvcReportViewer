@@ -82,10 +82,31 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 ### Fluent Interface
 
-
 <pre><code>@Html.MvcReportViewerFluent("/Reports/TestReport")
      .ReportParameters(new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 })
      .Attributes(new { Height = 900, Width = 900, style = "border: none" })</pre></code>
+
+**@Html.MvcReportViewerFluent(string reportPath)**
+
+*reportPath* - The path to the report on the server.
+
+The method return Fluent interface to show to Report Viewer configuration.
+
+_**Fluent Interface Methods**_
+
+**ReportPath(string reportPath)** - Sets the path to the report on the server.
+
+**ReportServerUrl(string reportServerUrl)** - Sets the URL for the report server.
+
+**Username(string username)** - Sets the report server username.
+
+**Password(string password)** - Sets the report server password.
+
+**ReportParameters(object reportParameters)** - Sets the report parameter properties for the report.
+
+**ShowParameterPrompts(bool showParameterPrompts)** - Sets the value that indicates wether parameter prompts are dispalyed.
+
+**Attributes(object htmlAttributes)** - Sets an object that contains the HTML attributes to set for the element.
 
 License
 -------
