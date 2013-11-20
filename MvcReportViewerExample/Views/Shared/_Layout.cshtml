@@ -10,8 +10,12 @@
     <body>
         <nav>
             <ul>
-                <li>@Html.ActionLink("MvcReportViewer Sample", "Index")</li>
-                <li>@Html.ActionLink("MvcReportViewerFluent Sample", "Fluent")</li>
+                <li>@Html.ActionLink("MvcReportViewer Sample", "Index", "Home")</li>
+                <li>@Html.ActionLink("MvcReportViewerFluent Sample", "Fluent", "Home")</li>
+                <li>@Html.ActionLink("Excel Report", "DownloadExcel", "Home")</li>
+                <li>@Html.ActionLink("Word Report", "DownloadWord", "Home")</li>
+                <li>@Html.ActionLink("PDF Report", "DownloadPdf", "Home")</li>
+                <li>@Html.ActionLink("Image Report", "DownloadImage", "Home")</li>
             </ul>
         </nav>
         <article>
