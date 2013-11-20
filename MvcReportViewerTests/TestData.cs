@@ -8,6 +8,12 @@ namespace MvcReportViewer.Tests
     {
         public static readonly string ReportName = "TestReport";
 
+        public static readonly string DefaultServer = "http://localhost/ReportServer_SQLEXPRESS";
+
+        public static readonly string DefaultUsername = "admin";
+
+        public static readonly string DefaultPassword = "password";
+
         public static readonly string Server = "DummyServer";
 
         public static readonly string Username = "root";
@@ -20,7 +26,14 @@ namespace MvcReportViewer.Tests
             {
                 { "Param1", "Test Value 1" },
                 { "Param2", "22" },
-                { "Param3", "25.5" }
+                { "Param3", "255" }
+            };
+
+        public static readonly Dictionary<string, object> ActualParameters = new Dictionary<string, object>
+            {
+                { "Param1", "Test Value 1" },
+                { "Param2", 22 },
+                { "Param3", 255 }
             };
 
         public static readonly string Style = "height: 100px; width: 100px;";

@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Specialized;
-using System.Text;
 
 namespace MvcReportViewer.Tests
 {
@@ -41,9 +40,9 @@ namespace MvcReportViewer.Tests
             var queryString = GetQueryString();
             var parameters = parser.Parse(queryString);
             Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
-            Assert.AreEqual("http://localhost/ReportServer_SQLEXPRESS", parameters.ReportServerUrl);
-            Assert.AreEqual("admin", parameters.Username);
-            Assert.AreEqual("password", parameters.Password);
+            Assert.AreEqual(TestData.DefaultServer, parameters.ReportServerUrl);
+            Assert.AreEqual(TestData.DefaultUsername, parameters.Username);
+            Assert.AreEqual(TestData.DefaultPassword, parameters.Password);
             Assert.IsTrue(parameters.ShowParameterPrompts);
             Assert.AreEqual(0, parameters.ReportParameters.Count);
         }
@@ -57,8 +56,8 @@ namespace MvcReportViewer.Tests
             var parameters = parser.Parse(queryString);
             Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
             Assert.AreEqual(TestData.Server, parameters.ReportServerUrl);
-            Assert.AreEqual("admin", parameters.Username);
-            Assert.AreEqual("password", parameters.Password);
+            Assert.AreEqual(TestData.DefaultUsername, parameters.Username);
+            Assert.AreEqual(TestData.DefaultPassword, parameters.Password);
             Assert.IsTrue(parameters.ShowParameterPrompts);
             Assert.AreEqual(0, parameters.ReportParameters.Count);
         }
@@ -140,7 +139,7 @@ namespace MvcReportViewer.Tests
             PrepareTestReportParameters(queryString);
             var parameters = parser.Parse(queryString);
             Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
-            var errors = ValidateReportParameters(parameters);
+            var errors = TestHelpers.ValidateReportParameters(parameters);
             if (!string.IsNullOrEmpty(errors))
             {
                 Assert.Fail(errors);
@@ -159,41 +158,6 @@ namespace MvcReportViewer.Tests
             {
                 queryString.Add(parameter.Key, parameter.Value);
             }
-        }
-
-        private string ValidateReportParameters(ReportViewerParameters parameters)
-        {
-            var reportParameters = parameters.ReportParameters;
-            if (reportParameters.Count != TestData.ExprectedParameters.Count)
-            {
-                return string.Format(
-                    "There are {0} report parameters, but should be {1}.", 
-                    reportParameters.Count,
-                    TestData.ExprectedParameters.Count);
-            }
-
-            var errors = new StringBuilder();
-            foreach (var expected in TestData.ExprectedParameters)
-            {
-                var key = expected.Key;
-                if (!reportParameters.ContainsKey(key))
-                {
-                    errors.AppendFormat("{0} is not found. ", key);
-                    continue;
-                }
-
-                var reportParameter = reportParameters[key].Values[0];
-                if (expected.Value != reportParameter)
-                {
-                    errors.AppendFormat(
-                        "{0}: expected {1}, but have {2}. ",
-                        key,
-                        expected.Value,
-                        reportParameters[key]);
-                }
-            }
-
-            return errors.ToString().Trim();
         }
     }
 }

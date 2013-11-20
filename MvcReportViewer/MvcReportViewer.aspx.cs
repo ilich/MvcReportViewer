@@ -25,24 +25,7 @@ namespace MvcReportViewer
 
             var parser = new ReportViewerParametersParser();
             var parameters = parser.Parse(Request.QueryString);
-
-            ReportViewer.ProcessingMode = ProcessingMode.Remote;
-            ReportViewer.ShowParameterPrompts = parameters.ShowParameterPrompts;
-
-            var serverReport = ReportViewer.ServerReport;
-            serverReport.ReportServerUrl = new Uri(parameters.ReportServerUrl);
-            serverReport.ReportPath = parameters.ReportPath;
-            if (!string.IsNullOrEmpty(parameters.Username))
-            {
-                serverReport.ReportServerCredentials = new ReportServerCredentials(
-                    parameters.Username,
-                    parameters.Password);
-            }
-
-            if (parameters.ReportParameters.Count > 0)
-            {
-                serverReport.SetParameters(parameters.ReportParameters.Values);
-            }
+            ReportViewer.Initialize(parameters);
         }
     }
 }
