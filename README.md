@@ -110,6 +110,24 @@ _**Fluent Interface Methods**_
 
 **Attributes(object htmlAttributes)** - Sets an object that contains the HTML attributes to set for the element.
 
+### Controller Extensions
+
+There is a possibility to download SSRS reports in MS Word, MS Excel, PDF or Image format directly from your controller. It is available via **Report** extension method for ASP.NET MVC **Controller** class. The method always returns an instance of **FileStreamResult** class.
+
+**FileStreamResult Report(ReportFormat reportFormat, string reportPath)**
+
+**FileStreamResult Report(ReportFormat reportFormat, string reportPath, object reportParameters)**
+
+**FileStreamResult Report(ReportFormat reportFormat, string reportPath, string reportServerUrl, string username = null, string password = null, object reportParameters = null)**
+
+The following code allows user to download the report in MS Excel format.
+
+<pre><code>public ActionResult DownloadExcel()
+{
+	return DownloadReport(ReportFormat.Excel);
+}</code></pre>
+ 
+
 License
 -------
 
