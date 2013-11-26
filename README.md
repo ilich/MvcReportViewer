@@ -114,19 +114,21 @@ _**Fluent Interface Methods**_
 
 There is a possibility to download SSRS reports in MS Word, MS Excel, PDF or Image format directly from your controller. It is available via **Report** extension method for ASP.NET MVC **Controller** class. The method always returns an instance of **FileStreamResult** class.
 
-**FileStreamResult Report(ReportFormat reportFormat, string reportPath)**
+1. **FileStreamResult Report(ReportFormat reportFormat, string reportPath)**
+2. **FileStreamResult Report(ReportFormat reportFormat, string reportPath, object reportParameters)**
+3. **FileStreamResult Report(ReportFormat reportFormat, string reportPath, string reportServerUrl, string username = null, string password = null, object reportParameters = null)**
 
-**FileStreamResult Report(ReportFormat reportFormat, string reportPath, object reportParameters)**
-
-**FileStreamResult Report(ReportFormat reportFormat, string reportPath, string reportServerUrl, string username = null, string password = null, object reportParameters = null)**
+Where *reportFormat* might be *ReportFormat.Excel*, *ReportFormat.Word*, *ReportFormat.PDF* or *ReportFormat.Image*.
 
 The following code allows user to download the report in MS Excel format.
 
 <pre><code>public ActionResult DownloadExcel()
 {
-	return DownloadReport(ReportFormat.Excel);
-}</code></pre>
- 
+    return this.Report(
+	    ReportFormat.Excel,
+		"/Reports/TestReport",
+		new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 });
+}</pre></code>
 
 License
 -------
