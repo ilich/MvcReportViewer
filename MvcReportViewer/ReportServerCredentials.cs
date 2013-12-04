@@ -1,9 +1,11 @@
-﻿using Microsoft.Reporting.WebForms;
+﻿using System;
+using Microsoft.Reporting.WebForms;
 using System.Net;
 using System.Security.Principal;
 
 namespace MvcReportViewer
 {
+    [Serializable]
     internal class ReportServerCredentials : IReportServerCredentials
     {
         private readonly string _username;
