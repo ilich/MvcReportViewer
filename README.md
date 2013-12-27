@@ -66,7 +66,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 *htmlAttributes* - An object that contains the HTML attributes to set for the element.
 
-**@Html.MvcReportViewer(string reportPath, string reportServerUrl = null, string username = null, string password = null, object reportParameters = null, bool? showParameterPrompts = null, object htmlAttributes = null)**
+**@Html.MvcReportViewer(string reportPath, string reportServerUrl = null, string username = null, string password = null, object reportParameters = null, bool? showParameterPrompts = null, object htmlAttributes = null, FormMethod method = FormMethod.Get)**
 
 *reportPath* - The path to the report on the server.
 
@@ -81,6 +81,8 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 *showParameterPrompts* - The value that indicates whether parameter prompts are displayed.
 
 *htmlAttributes* - An object that contains the HTML attributes to set for the element.
+
+*method* - Method for sending parametes to the iframe, either GET or POST.
 
 ### Fluent Interface
 
@@ -109,6 +111,8 @@ _**Fluent Interface Methods**_
 **ShowParameterPrompts(bool showParameterPrompts)** - Sets the value that indicates whether parameter prompts are displayed.
 
 **Attributes(object htmlAttributes)** - Sets an object that contains the HTML attributes to set for the element.
+
+**Method(FormMethod method)** - Sets the method for sending parameters to the iframe, either GET or POST. POST should be used to send long arguments, etc. Use GET otherwise.
 
 ### Controller Extensions
 

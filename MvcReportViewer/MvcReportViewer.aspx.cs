@@ -24,7 +24,7 @@ namespace MvcReportViewer
             }
 
             var parser = new ReportViewerParametersParser();
-            var parameters = parser.Parse(Request.QueryString);
+            var parameters = Request.Form.Count > 0 ? parser.Parse(Request.Form) : parser.Parse(Request.QueryString);
             ReportViewer.Initialize(parameters);
         }
     }

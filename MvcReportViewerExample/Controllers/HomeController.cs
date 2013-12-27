@@ -18,6 +18,11 @@ namespace MvcReportViewer.Example.Controllers
             return View();
         }
 
+        public ActionResult Post()
+        {
+            return View();
+        }
+
         public ActionResult DownloadExcel()
         {
             return DownloadReport(ReportFormat.Excel);

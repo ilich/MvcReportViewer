@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -10,6 +12,14 @@ namespace MvcReportViewer
     /// </summary>
     public class MvcReportViewerIframe : IMvcReportViewerOptions
     {
+        private const string JsPostForm = @"
+document.addEventListener('DOMContentLoaded', function(event) {{
+    var form = document.getElementById('{0}');
+    if (form) {{
+        form.submit();
+    }}
+}});
+";
         private string _reportPath;
 
         private string _reportServerUrl;
@@ -17,6 +27,8 @@ namespace MvcReportViewer
         private string _username;
 
         private string _password;
+
+        private FormMethod _method;
 
         private IDictionary<string, object> _reportParameters;
 
@@ -31,7 +43,7 @@ namespace MvcReportViewer
         /// </summary>
         /// <param name="reportPath">The path to the report on the server.</param>
         public MvcReportViewerIframe(string reportPath)
-            : this(reportPath, null, null, null, null, null, null)
+            : this(reportPath, null, null, null, null, null, null, FormMethod.Get)
         {
         }
 
@@ -43,7 +55,7 @@ namespace MvcReportViewer
         public MvcReportViewerIframe(
             string reportPath,
             IDictionary<string, object> htmlAttributes)
-            : this(reportPath, null, null, null, null, null, htmlAttributes)
+            : this(reportPath, null, null, null, null, null, htmlAttributes, FormMethod.Get)
         {
         }
 
@@ -57,7 +69,7 @@ namespace MvcReportViewer
             string reportPath,
             IDictionary<string, object> reportParameters,
             IDictionary<string, object> htmlAttributes)
-            : this(reportPath, null, null, null, reportParameters, null, htmlAttributes)
+            : this(reportPath, null, null, null, reportParameters, null, htmlAttributes, FormMethod.Get)
         {
         }
 
@@ -71,6 +83,7 @@ namespace MvcReportViewer
         /// <param name="reportParameters">The report parameter properties for the report.</param>
         /// <param name="showParameterPrompts">The value that indicates wether parameter prompts are dispalyed.</param>
         /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <param name="method">Method for sending parameters to the iframe, either GET or POST.</param>
         public MvcReportViewerIframe(
             string reportPath,
             string reportServerUrl,
@@ -78,7 +91,8 @@ namespace MvcReportViewer
             string password,
             IDictionary<string, object> reportParameters,
             bool? showParameterPrompts,
-            IDictionary<string, object> htmlAttributes)
+            IDictionary<string, object> htmlAttributes,
+            FormMethod method)
         {
             _reportPath = reportPath;
             _reportServerUrl = reportServerUrl;
@@ -87,6 +101,7 @@ namespace MvcReportViewer
             _showParameterPrompts = showParameterPrompts;
             _reportParameters = reportParameters;
             _htmlAttributes = htmlAttributes;
+            _method = method;
             _aspxViewer = ConfigurationManager.AppSettings[WebConfigSettings.AspxViewer];
             if (string.IsNullOrEmpty(_aspxViewer))
             {
@@ -113,6 +128,104 @@ namespace MvcReportViewer
         }
 
         private string RenderIframe()
+        {
+            switch (_method)
+            {
+                case FormMethod.Get:
+                    return GetIframeUsingGetMethod();
+                    
+                case FormMethod.Post:
+                    return GetIframeUsingPostMethod();
+            }
+            
+            throw new InvalidOperationException();
+        }
+
+        private string GetIframeUsingPostMethod()
+        {
+            var iframeId = GenerateId();
+            var formId = GenerateId();
+
+            // <form method="POST" action="/MvcReportViewer.aspx">...</form>
+            var form = new TagBuilder("form");
+            form.MergeAttribute("method", "POST");
+            form.MergeAttribute("action", _aspxViewer);
+            form.MergeAttribute("target", iframeId);
+            form.GenerateId(formId);
+            form.InnerHtml = BuildIframeFormFields();
+
+            // <iframe />
+            var iframe = new TagBuilder("iframe");
+            iframe.MergeAttributes(_htmlAttributes);
+            iframe.MergeAttribute("name", iframeId);
+            iframe.GenerateId(iframeId);
+            
+            // <script>...</script>
+            var script = new StringBuilder("<script>");
+            script.AppendFormat(JsPostForm, formId);
+            script.Append("</script>");
+
+            var html = new StringBuilder();
+            html.Append(form);
+            html.Append(iframe);
+            html.Append(script);
+         
+            return html.ToString();
+        }
+
+        private string GenerateId()
+        {
+            return "mvc-report-viewer-" + Guid.NewGuid().ToString("N");
+        }
+
+        private string BuildIframeFormFields()
+        {
+            var html = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(_reportPath))
+            {
+                html.Append(CreateHiddenField(UriParameters.ReportPath, _reportPath));
+            }
+
+            if (!string.IsNullOrEmpty(_reportServerUrl))
+            {
+                html.Append(CreateHiddenField(UriParameters.ReportServerUrl, _reportServerUrl));
+            }
+
+            if (!string.IsNullOrEmpty(_username) || !string.IsNullOrEmpty(_password))
+            {
+                html.Append(CreateHiddenField(UriParameters.Username, _username));
+                html.Append(CreateHiddenField(UriParameters.Password, _password));
+            }
+
+            if (_showParameterPrompts != null)
+            {
+                html.Append(CreateHiddenField(UriParameters.ShowParameterPrompts, _showParameterPrompts));
+            }
+
+            if (_reportParameters != null)
+            {
+                foreach (var parameter in _reportParameters)
+                {
+                    var value = parameter.Value == null ? string.Empty : parameter.Value.ToString();
+                    html.Append(CreateHiddenField(parameter.Key, value));
+                }
+            }
+
+            return html.ToString();
+        }
+
+        private string CreateHiddenField<T>(string name, T value)
+        {
+            var tag = new TagBuilder("input");
+            tag.MergeAttribute("type", "hidden");
+            tag.MergeAttribute("name", name);
+            tag.MergeAttribute("value", value.ToString());
+
+            return tag.ToString();
+        }
+
+        private string GetIframeUsingGetMethod()
         {
             var iframe = new TagBuilder("iframe");
             var uri = PrepareViewerUri();
@@ -241,6 +354,18 @@ namespace MvcReportViewer
                 null :
                 HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
             _htmlAttributes = attributes;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the method for sending parametes to the iframe, either GET or POST.
+        /// POST should be used to send long arguments, etc. Use GET otherwise.
+        /// </summary>
+        /// <param name="method">The HTTP method for sending parametes to the iframe, either GET or POST.</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        public IMvcReportViewerOptions Method(FormMethod method)
+        {
+            _method = method;
             return this;
         }
     }

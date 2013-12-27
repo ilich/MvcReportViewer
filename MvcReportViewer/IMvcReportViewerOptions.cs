@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using System.Web.Mvc;
 
 namespace MvcReportViewer
 {
@@ -52,5 +53,13 @@ namespace MvcReportViewer
         /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
         /// <returns>An instance of MvcViewerOptions class.</returns>
         IMvcReportViewerOptions Attributes(object htmlAttributes);
+
+        /// <summary>
+        /// Sets the method for sending parameters to the iframe, either GET or POST.
+        /// POST should be used to send long arguments, etc. Use GET otherwise.
+        /// </summary>
+        /// <param name="method">The HTTP method for sending parametes to the iframe, either GET or POST.</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        IMvcReportViewerOptions Method(FormMethod method);
     }
 }

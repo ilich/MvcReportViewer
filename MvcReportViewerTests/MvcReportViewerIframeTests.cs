@@ -16,9 +16,9 @@ namespace MvcReportViewer.Tests
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}", 
+                "{0}?{1}={2}",
                 TestData.ViewerUri,
-                UriParameters.ReportPath, 
+                UriParameters.ReportPath,
                 TestData.ReportName);
             Assert.AreEqual(expectedUrl, html.Attributes["src"].Value);
         }
@@ -49,7 +49,7 @@ namespace MvcReportViewer.Tests
             var expectedUrl = string.Format(
                 "{0}?{1}={2}&amp;{3}={4}",
                 TestData.ViewerUri,
-                UriParameters.ReportPath, 
+                UriParameters.ReportPath,
                 TestData.ReportName,
                 UriParameters.ReportServerUrl,
                 TestData.Server);
@@ -60,7 +60,7 @@ namespace MvcReportViewer.Tests
         public void Iframe_SrcReportServerCredentials()
         {
             var iframe = _htmlHelper.MvcReportViewer(
-                TestData.ReportName, 
+                TestData.ReportName,
                 TestData.Server,
                 TestData.Username,
                 TestData.Password);
@@ -158,6 +158,30 @@ namespace MvcReportViewer.Tests
                 TestData.ReportName);
             Assert.AreEqual(expectedUrl, html.Attributes["src"].Value);
         }
+        
+        [Test]
+        public void Iframe_TestPostMethod_HasIframe()
+        {
+            CheckPostGeneratedIframe("iframe");
+        }
 
-            }
+        [Test]
+        public void Iframe_TestPostMethod_HasForm()
+        {
+            CheckPostGeneratedIframe("form");
+        }
+
+        [Test]
+        public void Iframe_TestPostMethod_HasScript()
+        {
+            CheckPostGeneratedIframe("script");
+        }
+
+        private void CheckPostGeneratedIframe(string expectedTag)
+        {
+            var html = _htmlHelper.MvcReportViewer(TestData.ReportName, method: FormMethod.Post);
+            var hasTag = HasTag(html, expectedTag);
+            Assert.IsTrue(hasTag);
+        }
+    }
 }

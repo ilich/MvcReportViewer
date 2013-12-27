@@ -11,5 +11,13 @@ namespace MvcReportViewer.Tests
             doc.LoadHtml(html.ToHtmlString());
             return doc.DocumentNode.SelectSingleNode("//iframe");
         }
+
+        protected bool HasTag(IHtmlString html, string tag)
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html.ToHtmlString());
+            var xpath = "//" + tag;
+            return doc.DocumentNode.SelectSingleNode(xpath) != null;
+        }
     }
 }
