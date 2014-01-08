@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace MvcReportViewer
 {
@@ -41,6 +42,26 @@ namespace MvcReportViewer
             return new MvcReportViewerIframe(
                 reportPath,
                 HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters),
+                HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+        }
+
+        /// <summary>
+        /// Returns an HTML <b>iframe</b> rendering ASP.NET ReportViewer control with Remote Processing Mode.
+        /// </summary>
+        /// <param name="helper">The HTML helper instance that this method extends.</param>
+        /// <param name="reportPath">The path to the report on the server.</param>
+        /// <param name="reportParameters">The report parameter properties for the report.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <returns>An HTML <b>iframe</b> element.</returns>
+        public static MvcReportViewerIframe MvcReportViewer(
+            this HtmlHelper helper,
+            string reportPath,
+            IEnumerable<KeyValuePair<string, object>> reportParameters,
+            object htmlAttributes)
+        {
+            return new MvcReportViewerIframe(
+                reportPath,
+                reportParameters,
                 HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.IO;
 using System.Web.Mvc;
 using Microsoft.Reporting.WebForms;
@@ -29,6 +30,17 @@ namespace MvcReportViewer
             ReportFormat reportFormat,
             string reportPath,
             IDictionary<string, object> reportParameters)
+            : this(
+                reportFormat, 
+                reportPath, 
+                reportParameters != null ? reportParameters.ToList() : null)
+        {
+        }
+
+        public ReportRunner(
+            ReportFormat reportFormat,
+            string reportPath,
+            IEnumerable<KeyValuePair<string, object>> reportParameters)
             : this(reportFormat, reportPath, null, null, null, reportParameters)
         {
         }
@@ -40,6 +52,23 @@ namespace MvcReportViewer
             string username,
             string password,
             IDictionary<string, object> reportParameters)
+            : this(
+                reportFormat, 
+                reportPath, 
+                reportServerUrl, 
+                username, 
+                password, 
+                reportParameters != null ? reportParameters.ToList() : null)
+        {
+        }
+
+        public ReportRunner(
+            ReportFormat reportFormat,
+            string reportPath,
+            string reportServerUrl,
+            string username,
+            string password,
+            IEnumerable<KeyValuePair<string, object>> reportParameters)
         {
             _reportFormat = reportFormat;
             _viewerParameters.ReportPath = reportPath;
@@ -83,7 +112,7 @@ namespace MvcReportViewer
             return new FileStreamResult(output, mimeType);
         }
 
-        private void ParseParameters(IDictionary<string, object> reportParameters)
+        private void ParseParameters(IEnumerable<KeyValuePair<string, object>> reportParameters)
         {
             if (reportParameters == null)
             {
@@ -93,9 +122,16 @@ namespace MvcReportViewer
             foreach (var reportParameter in reportParameters)
             {
                 var parameterName = reportParameter.Key;
-                var parameter = new ReportParameter(parameterName);
-                parameter.Values.Add(reportParameter.Value.ToString());
-                _viewerParameters.ReportParameters.Add(parameterName, parameter);
+                if (_viewerParameters.ReportParameters.ContainsKey(parameterName))
+                {
+                    _viewerParameters.ReportParameters[parameterName].Values.Add(reportParameter.Value.ToString());
+                }
+                else
+                {
+                    var parameter = new ReportParameter(parameterName);
+                    parameter.Values.Add(reportParameter.Value.ToString());
+                    _viewerParameters.ReportParameters.Add(parameterName, parameter);
+                }
             }
         }
 

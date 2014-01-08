@@ -45,15 +45,18 @@ namespace MvcReportViewer
                 }
                 else
                 {
-                    if (parameters.ReportParameters.ContainsKey(key))
+                    foreach(var value in queryString.GetValues(key))
                     {
-                        parameters.ReportParameters[key].Values.Add(queryString[key]);
-                    }
-                    else
-                    {
-                        var reportParameter = new ReportParameter(key);
-                        reportParameter.Values.Add(queryString[key]);
-                        parameters.ReportParameters.Add(key, reportParameter);
+                        if (parameters.ReportParameters.ContainsKey(key))
+                        {
+                            parameters.ReportParameters[key].Values.Add(value);
+                        }
+                        else
+                        {
+                            var reportParameter = new ReportParameter(key);
+                            reportParameter.Values.Add(value);
+                            parameters.ReportParameters.Add(key, reportParameter);
+                        }
                     }
                 }
             }

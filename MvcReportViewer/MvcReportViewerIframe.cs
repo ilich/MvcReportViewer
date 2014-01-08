@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function(event) {{
 
         private FormMethod _method;
 
-        private IDictionary<string, object> _reportParameters;
+        private IList<KeyValuePair<string, object>> _reportParameters;
 
         private bool? _showParameterPrompts;
 
@@ -77,6 +78,20 @@ document.addEventListener('DOMContentLoaded', function(event) {{
         /// Creates an instance of MvcReportViewerIframe class.
         /// </summary>
         /// <param name="reportPath">The path to the report on the server.</param>
+        /// <param name="reportParameters">The report parameter properties for the report.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        public MvcReportViewerIframe(
+            string reportPath,
+            IEnumerable<KeyValuePair<string, object>> reportParameters,
+            IDictionary<string, object> htmlAttributes)
+            : this(reportPath, null, null, null, reportParameters, null, htmlAttributes, FormMethod.Get)
+        {
+        }
+
+        /// <summary>
+        /// Creates an instance of MvcReportViewerIframe class.
+        /// </summary>
+        /// <param name="reportPath">The path to the report on the server.</param>
         /// <param name="reportServerUrl">The URL for the report server.</param>
         /// <param name="username">The report server username.</param>
         /// <param name="password">The report server password.</param>
@@ -93,13 +108,45 @@ document.addEventListener('DOMContentLoaded', function(event) {{
             bool? showParameterPrompts,
             IDictionary<string, object> htmlAttributes,
             FormMethod method)
+            : this(
+                   reportPath, 
+                   reportServerUrl, 
+                   username, 
+                   password, 
+                   reportParameters != null ? reportParameters.ToList() : null, 
+                   showParameterPrompts, 
+                   htmlAttributes, 
+                   method)
+        {
+        }
+
+        /// <summary>
+        /// Creates an instance of MvcReportViewerIframe class.
+        /// </summary>
+        /// <param name="reportPath">The path to the report on the server.</param>
+        /// <param name="reportServerUrl">The URL for the report server.</param>
+        /// <param name="username">The report server username.</param>
+        /// <param name="password">The report server password.</param>
+        /// <param name="reportParameters">The report parameter properties for the report.</param>
+        /// <param name="showParameterPrompts">The value that indicates wether parameter prompts are dispalyed.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <param name="method">Method for sending parameters to the iframe, either GET or POST.</param>
+        public MvcReportViewerIframe(
+            string reportPath,
+            string reportServerUrl,
+            string username,
+            string password,
+            IEnumerable<KeyValuePair<string, object>> reportParameters,
+            bool? showParameterPrompts,
+            IDictionary<string, object> htmlAttributes,
+            FormMethod method)
         {
             _reportPath = reportPath;
             _reportServerUrl = reportServerUrl;
             _username = username;
             _password = password;
             _showParameterPrompts = showParameterPrompts;
-            _reportParameters = reportParameters;
+            _reportParameters = reportParameters != null ? reportParameters.ToList() : null;
             _htmlAttributes = htmlAttributes;
             _method = method;
             _aspxViewer = ConfigurationManager.AppSettings[WebConfigSettings.AspxViewer];
@@ -263,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function(event) {{
                 foreach (var parameter in _reportParameters)
                 {
                     var value = parameter.Value == null ? string.Empty : parameter.Value.ToString();
-                    query[parameter.Key] = value;
+                    query.Add(parameter.Key, value);
                 }
             }
 
@@ -328,7 +375,18 @@ document.addEventListener('DOMContentLoaded', function(event) {{
             var parameters = reportParameters == null ? 
                 null : 
                 HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters);
-            _reportParameters = parameters;
+            _reportParameters = parameters.ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the report parameter properties for the report.
+        /// </summary>
+        /// <param name="reportParameters">The report parameter properties for the report.</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        public IMvcReportViewerOptions ReportParameters(IEnumerable<KeyValuePair<string, object>> reportParameters)
+        {
+            _reportParameters = reportParameters.ToList();
             return this;
         }
 

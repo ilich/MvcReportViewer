@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using MvcReportViewer;
+using System.Collections.Generic;
 
 namespace MvcReportViewer.Example.Controllers
 {
@@ -23,6 +24,11 @@ namespace MvcReportViewer.Example.Controllers
             return View();
         }
 
+        public ActionResult Multiple()
+        {
+            return View();
+        }
+
         public ActionResult DownloadExcel()
         {
             return DownloadReport(ReportFormat.Excel);
@@ -30,7 +36,7 @@ namespace MvcReportViewer.Example.Controllers
 
         public ActionResult DownloadWord()
         {
-            return DownloadReport(ReportFormat.Word);
+            return DownloadReportMultipleValues(ReportFormat.Word);
         }
 
         public ActionResult DownloadPdf()
@@ -49,6 +55,21 @@ namespace MvcReportViewer.Example.Controllers
                 format,
                 ReportName,
                 new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 });
+        }
+
+        private ActionResult DownloadReportMultipleValues(ReportFormat format)
+        {
+            return this.Report(
+                format,
+                ReportName,
+                new List<KeyValuePair<string, object>>
+                {
+                    new KeyValuePair<string, object>("Parameter1", "Value 1"),
+                    new KeyValuePair<string, object>("Parameter1", "Value 2"),
+                    new KeyValuePair<string, object>("Parameter2", DateTime.Now),
+                    new KeyValuePair<string, object>("Parameter2", DateTime.Now.AddYears(10)),
+                    new KeyValuePair<string, object>("Parameter3", 12345)
+                });
         }
     }
 }

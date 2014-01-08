@@ -1,0 +1,37 @@
+﻿@using MvcReportViewer;
+@{
+    ViewBag.Title = "MvcReportViewer Multiple Report Parameters Example";
+}
+
+@section Code {
+    @@{
+        var parameters = new List<KeyValuePair<string, object>>
+        {
+            new KeyValuePair<string, object>("Parameter1", "Value 1"),
+            new KeyValuePair<string, object>("Parameter1", "Value 2"),
+            new KeyValuePair<string, object>("Parameter2", DateTime.Now),
+            new KeyValuePair<string, object>("Parameter2", DateTime.Now.AddYears(10)),
+            new KeyValuePair<string, object>("Parameter3", 12345)
+        };
+    }
+
+    @@Html.MvcReportViewerFluent("/TestReports/TestReport").ReportParameters(5parameters).Attributes(new { Height = 900, Width = 900, style = "border: none" })
+}
+
+@{
+    var parameters = new List<KeyValuePair<string, object>>
+    {
+        new KeyValuePair<string, object>("Parameter1", "Value 1"),
+        new KeyValuePair<string, object>("Parameter1", "Value 2"),
+        new KeyValuePair<string, object>("Parameter2", DateTime.Now),
+        new KeyValuePair<string, object>("Parameter2", DateTime.Now.AddYears(10)),
+        new KeyValuePair<string, object>("Parameter3", 12345)
+    };
+}
+
+@Html.MvcReportViewerFluent("/TestReports/TestReport").ReportParameters(parameters).Attributes(new { Height = 900, Width = 900, style = "border: none" })
+
+@Html.MvcReportViewer(
+    "/TestReports/TestReport",
+    parameters,
+    new { Height = 900, Width = 900, style = "border: none" })
