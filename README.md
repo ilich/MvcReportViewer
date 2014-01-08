@@ -66,7 +66,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 *htmlAttributes* - An object that contains the HTML attributes to set for the element.
 
-**@Html.MvcReportViewer(string reportPath, IEnumerable<KeyValuePair<string, object>> reportParameters, object htmlAttributes)**
+**@Html.MvcReportViewer(string reportPath, IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; reportParameters, object htmlAttributes)**
 
 *reportPath* - The path to the report on the server.
 
@@ -116,7 +116,7 @@ _**Fluent Interface Methods**_
 
 **ReportParameters(object reportParameters)** - Sets the report parameter properties for the report.
 
-**ReportParameters(IEnumerable<KeyValuePair<string, object>> reportParameters)** - Sets the report parameter properties for the report.
+**ReportParameters(IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; reportParameters)** - Sets the report parameter properties for the report.
 
 **ShowParameterPrompts(bool showParameterPrompts)** - Sets the value that indicates whether parameter prompts are displayed.
 
@@ -131,8 +131,8 @@ There is a possibility to download SSRS reports in MS Word, MS Excel, PDF or Ima
 1. **FileStreamResult Report(ReportFormat reportFormat, string reportPath)**
 2. **FileStreamResult Report(ReportFormat reportFormat, string reportPath, object reportParameters)**
 3. **FileStreamResult Report(ReportFormat reportFormat, string reportPath, string reportServerUrl, string username = null, string password = null, object reportParameters = null)**
-4. **FileStreamResult Report(this Controller controller, ReportFormat reportFormat, string reportPath, IEnumerable<KeyValuePair<string, object>> reportParameters)**
-5. **FileStreamResult Report(this Controller controller, ReportFormat reportFormat, string reportPath, string reportServerUrl, IEnumerable<KeyValuePair<string, object>> reportParameters, string username = null, string password = null)**
+4. **FileStreamResult Report(this Controller controller, ReportFormat reportFormat, string reportPath, IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; reportParameters)**
+5. **FileStreamResult Report(this Controller controller, ReportFormat reportFormat, string reportPath, string reportServerUrl, IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; reportParameters, string username = null, string password = null)**
 
 Where *reportFormat* might be *ReportFormat.Excel*, *ReportFormat.Word*, *ReportFormat.PDF* or *ReportFormat.Image*.
 
