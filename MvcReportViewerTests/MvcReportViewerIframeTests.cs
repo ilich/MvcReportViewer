@@ -119,7 +119,10 @@ namespace MvcReportViewer.Tests
                         Param2 = TestData.ExprectedParameters["Param2"],
                         Param3 = TestData.ExprectedParameters["Param3"]
                     },
-                TestData.ShowParameterPrompts,
+                new ControlSettings
+                    {
+                        ShowParameterPrompts = TestData.ShowParameterPromptsValue
+                    },
                 new { id = TestData.Id });
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
@@ -136,8 +139,8 @@ namespace MvcReportViewer.Tests
                 TestData.Username,
                 UriParameters.Password,
                 TestData.Password,
-                UriParameters.ShowParameterPrompts,
-                TestData.ShowParameterPrompts.ToString(),
+                TestData.ShowParameterPrompts,
+                TestData.ShowParameterPromptsValue,
                 TestData.ReportParametes);
             Assert.AreEqual(expectedUrl, html.Attributes["src"].Value);
         }

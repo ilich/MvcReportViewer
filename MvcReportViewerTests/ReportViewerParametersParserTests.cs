@@ -43,7 +43,7 @@ namespace MvcReportViewer.Tests
             Assert.AreEqual(TestData.DefaultServer, parameters.ReportServerUrl);
             Assert.AreEqual(TestData.DefaultUsername, parameters.Username);
             Assert.AreEqual(TestData.DefaultPassword, parameters.Password);
-            Assert.IsTrue(parameters.ShowParameterPrompts);
+            TestHelpers.PropertiesAreNull(parameters.ControlSettings);
             Assert.AreEqual(0, parameters.ReportParameters.Count);
         }
 
@@ -58,7 +58,7 @@ namespace MvcReportViewer.Tests
             Assert.AreEqual(TestData.Server, parameters.ReportServerUrl);
             Assert.AreEqual(TestData.DefaultUsername, parameters.Username);
             Assert.AreEqual(TestData.DefaultPassword, parameters.Password);
-            Assert.IsTrue(parameters.ShowParameterPrompts);
+            TestHelpers.PropertiesAreNull(parameters.ControlSettings);
             Assert.AreEqual(0, parameters.ReportParameters.Count);
         }
 
@@ -74,7 +74,7 @@ namespace MvcReportViewer.Tests
             Assert.AreEqual(TestData.Server, parameters.ReportServerUrl);
             Assert.AreEqual(TestData.Username, parameters.Username);
             Assert.AreEqual(string.Empty, parameters.Password);
-            Assert.IsTrue(parameters.ShowParameterPrompts);
+            TestHelpers.PropertiesAreNull(parameters.ControlSettings);
             Assert.AreEqual(0, parameters.ReportParameters.Count);
         }
 
@@ -91,7 +91,7 @@ namespace MvcReportViewer.Tests
             Assert.AreEqual(TestData.Server, parameters.ReportServerUrl);
             Assert.AreEqual(TestData.Username, parameters.Username);
             Assert.AreEqual(TestData.Password, parameters.Password);
-            Assert.IsTrue(parameters.ShowParameterPrompts);
+            TestHelpers.PropertiesAreNull(parameters.ControlSettings);
             Assert.AreEqual(0, parameters.ReportParameters.Count);
         }
 
@@ -103,31 +103,63 @@ namespace MvcReportViewer.Tests
             queryString.Add(UriParameters.ReportServerUrl, TestData.Server);
             queryString.Add(UriParameters.Username, TestData.Username);
             queryString.Add(UriParameters.Password, TestData.Password);
-            queryString.Add(UriParameters.ShowParameterPrompts, bool.FalseString);
-            var parameters = parser.Parse(queryString);
-            Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
-            Assert.AreEqual(TestData.Server, parameters.ReportServerUrl);
-            Assert.AreEqual(TestData.Username, parameters.Username);
-            Assert.AreEqual(TestData.Password, parameters.Password);
-            Assert.IsFalse(parameters.ShowParameterPrompts);
-            Assert.AreEqual(0, parameters.ReportParameters.Count);
-        }
 
-        [Test]
-        public void Parse_HasServerUsernamePasswordPromptsTrue_AllFromQueryString()
-        {
-            var parser = new ReportViewerParametersParser();
-            var queryString = GetQueryString();
-            queryString.Add(UriParameters.ReportServerUrl, TestData.Server);
-            queryString.Add(UriParameters.Username, TestData.Username);
-            queryString.Add(UriParameters.Password, TestData.Password);
-            queryString.Add(UriParameters.ShowParameterPrompts, TestData.ShowParameterPrompts.ToString());
+            // Set ReportViewer UI options
+            
+            queryString.Add(TestData.BackColor, TestData.BackColorArgbValue.ToString());
+            queryString.Add(TestData.ShowParameterPrompts, TestData.ShowParameterPromptsValue.ToString());
+            queryString.Add(TestData.ToolBarItemBorderStyle, TestData.ToolBarItemBorderStyleValue.ToString());
+            queryString.Add(TestData.ToolBarItemBorderWidth, TestData.ToolBarItemBorderWidthValue.ToString());
+            queryString.Add(TestData.ZoomMode, TestData.ZoomModeValue.ToString());
+            queryString.Add(TestData.ZoomPercent, TestData.ZoomPercentValue.ToString());
+            queryString.Add(TestData.HyperlinkTarget, TestData.HyperlinkTargetValue);
+            
             var parameters = parser.Parse(queryString);
             Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
             Assert.AreEqual(TestData.Server, parameters.ReportServerUrl);
             Assert.AreEqual(TestData.Username, parameters.Username);
             Assert.AreEqual(TestData.Password, parameters.Password);
-            Assert.AreEqual(TestData.ShowParameterPrompts, parameters.ShowParameterPrompts);
+            
+            // Validate ReportViewer UI options
+
+            TestHelpers.PropertiesAreNull(
+                parameters.ControlSettings,
+                "BackColor",
+                "ShowParameterPrompts",
+                "ToolBarItemBorderStyle",
+                "ToolBarItemBorderWidth",
+                "ZoomMode",
+                "ZoomPercent",
+                "HyperlinkTarget");
+
+            Assert.AreEqual(
+                TestData.BackColorValue.ToArgb(), 
+                parameters.ControlSettings.BackColor.Value.ToArgb());
+
+            Assert.AreEqual(
+                TestData.ShowParameterPromptsValue, 
+                parameters.ControlSettings.ShowParameterPrompts.Value);
+
+            Assert.AreEqual(
+                TestData.ToolBarItemBorderStyleValue, 
+                parameters.ControlSettings.ToolBarItemBorderStyle.Value);
+
+            Assert.AreEqual(
+                TestData.ToolBarItemBorderWidthValue,
+                parameters.ControlSettings.ToolBarItemBorderWidth.Value);
+
+            Assert.AreEqual(
+                TestData.ZoomModeValue,
+                parameters.ControlSettings.ZoomMode.Value);
+
+            Assert.AreEqual(
+                TestData.ZoomPercentValue,
+                parameters.ControlSettings.ZoomPercent.Value);
+
+            Assert.AreEqual(
+                TestData.HyperlinkTargetValue,
+                parameters.ControlSettings.HyperlinkTarget);
+
             Assert.AreEqual(0, parameters.ReportParameters.Count);
         }
 
