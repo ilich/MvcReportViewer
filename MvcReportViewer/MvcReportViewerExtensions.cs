@@ -74,7 +74,7 @@ namespace MvcReportViewer
         /// <param name="username">The report server username.</param>
         /// <param name="password">The report server password.</param>
         /// <param name="reportParameters">The report parameter properties for the report.</param>
-        /// <param name="showParameterPrompts">The value that indicates whether parameter prompts are displayed.</param>
+        /// <param name="controlSettings">The Report Viewer control's UI settings.</param>
         /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
         /// <param name="method">Method for sending parameters to the iframe, either GET or POST.</param>
         /// <returns>An HTML <b>iframe</b> element.</returns>
@@ -85,7 +85,7 @@ namespace MvcReportViewer
             string username = null,
             string password = null,
             object reportParameters = null,
-            bool? showParameterPrompts = null,
+            ControlSettings controlSettings = null,
             object htmlAttributes = null,
             FormMethod method = FormMethod.Get)
         {
@@ -95,7 +95,7 @@ namespace MvcReportViewer
                 username,
                 password,
                 HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters),
-                showParameterPrompts,
+                controlSettings,
                 HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes),
                 method);
         }

@@ -18,8 +18,8 @@ namespace MvcReportViewer
 
         public string ReportPath { get; set; }
 
-        public bool ShowParameterPrompts { get; set; }
-
         public Dictionary<string, ReportParameter> ReportParameters { get; set; }
+
+        public ControlSettings ControlSettings { get; set; }
     }
 }

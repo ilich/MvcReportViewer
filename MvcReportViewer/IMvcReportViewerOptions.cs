@@ -49,13 +49,6 @@ namespace MvcReportViewer
         IMvcReportViewerOptions ReportParameters(IEnumerable<KeyValuePair<string, object>> reportParameters);
 
         /// <summary>
-        /// Sets the value that indicates wether parameter prompts are dispalyed.
-        /// </summary>
-        /// <param name="showParameterPrompts">The value that indicates wether parameter prompts are dispalyed.</param>
-        /// <returns>An instance of MvcViewerOptions class.</returns>
-        IMvcReportViewerOptions ShowParameterPrompts(bool showParameterPrompts);
-
-        /// <summary>
         /// Sets an object that contains the HTML attributes to set for the element.
         /// </summary>
         /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
@@ -69,5 +62,12 @@ namespace MvcReportViewer
         /// <param name="method">The HTTP method for sending parametes to the iframe, either GET or POST.</param>
         /// <returns>An instance of MvcViewerOptions class.</returns>
         IMvcReportViewerOptions Method(FormMethod method);
+
+        /// <summary>
+        /// Sets ReportViewer control UI parameters
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        IMvcReportViewerOptions ControlSettings(ControlSettings settings);
     }
 }

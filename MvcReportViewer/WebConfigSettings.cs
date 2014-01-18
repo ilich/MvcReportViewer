@@ -8,8 +8,6 @@
 
         public static string Password = "MvcReportViewer.Password";
 
-        public static string ShowParameterPrompts = "MvcReportViewer.ShowParameterPrompts";
-
         public static string AspxViewer = "MvcReportViewer.AspxViewer";
     }
 }

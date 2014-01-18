@@ -14,8 +14,11 @@ namespace MvcReportViewer
                 throw new ArgumentNullException("queryString");
             }
 
+            var settinsManager = new ControlSettingsManager();
+
             var parameters = InitializeDefaults();
             ResetDefaultCredentials(queryString, parameters);
+            parameters.ControlSettings = settinsManager.Deserialize(queryString);
 
             foreach (var key in queryString.AllKeys)
             {
@@ -35,15 +38,7 @@ namespace MvcReportViewer
                 {
                     parameters.Password = queryString[key];
                 }
-                else if (key.EqualsIgnoreCase(UriParameters.ShowParameterPrompts))
-                {
-                    bool value;
-                    if (bool.TryParse(queryString[key], out value))
-                    {
-                        parameters.ShowParameterPrompts = value;
-                    }
-                }
-                else
+                else if (!settinsManager.IsControlSetting(key))
                 {
                     foreach(var value in queryString.GetValues(key))
                     {
@@ -93,13 +88,6 @@ namespace MvcReportViewer
                     Password = ConfigurationManager.AppSettings[WebConfigSettings.Password]
                 };
 
-            bool showPrompts;
-            if (!bool.TryParse(ConfigurationManager.AppSettings[WebConfigSettings.ShowParameterPrompts], out showPrompts))
-            {
-                showPrompts = false;
-            }
-
-            parameters.ShowParameterPrompts =  showPrompts;
             return parameters;
         }
     }

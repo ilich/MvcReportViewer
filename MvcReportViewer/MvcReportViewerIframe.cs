@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', function(event) {{
     }}
 }});
 ";
+        private readonly ControlSettingsManager _settingsManager = new ControlSettingsManager();
+        
         private string _reportPath;
 
         private string _reportServerUrl;
@@ -33,9 +35,9 @@ document.addEventListener('DOMContentLoaded', function(event) {{
 
         private IList<KeyValuePair<string, object>> _reportParameters;
 
-        private bool? _showParameterPrompts;
-
         private IDictionary<string, object> _htmlAttributes;
+
+        private ControlSettings _controlSettings;
 
         private readonly string _aspxViewer;
 
@@ -96,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function(event) {{
         /// <param name="username">The report server username.</param>
         /// <param name="password">The report server password.</param>
         /// <param name="reportParameters">The report parameter properties for the report.</param>
-        /// <param name="showParameterPrompts">The value that indicates wether parameter prompts are dispalyed.</param>
+        /// <param name="controlSettings">The Report Viewer control's UI settings.</param>
         /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
         /// <param name="method">Method for sending parameters to the iframe, either GET or POST.</param>
         public MvcReportViewerIframe(
@@ -105,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function(event) {{
             string username,
             string password,
             IDictionary<string, object> reportParameters,
-            bool? showParameterPrompts,
+            ControlSettings controlSettings,
             IDictionary<string, object> htmlAttributes,
             FormMethod method)
             : this(
@@ -114,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function(event) {{
                    username, 
                    password, 
                    reportParameters != null ? reportParameters.ToList() : null, 
-                   showParameterPrompts, 
+                   controlSettings, 
                    htmlAttributes, 
                    method)
         {
@@ -128,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function(event) {{
         /// <param name="username">The report server username.</param>
         /// <param name="password">The report server password.</param>
         /// <param name="reportParameters">The report parameter properties for the report.</param>
-        /// <param name="showParameterPrompts">The value that indicates wether parameter prompts are dispalyed.</param>
+        /// <param name="controlSettings">The Report Viewer control's UI settings.</param>
         /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
         /// <param name="method">Method for sending parameters to the iframe, either GET or POST.</param>
         public MvcReportViewerIframe(
@@ -137,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function(event) {{
             string username,
             string password,
             IEnumerable<KeyValuePair<string, object>> reportParameters,
-            bool? showParameterPrompts,
+            ControlSettings controlSettings,
             IDictionary<string, object> htmlAttributes,
             FormMethod method)
         {
@@ -145,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function(event) {{
             _reportServerUrl = reportServerUrl;
             _username = username;
             _password = password;
-            _showParameterPrompts = showParameterPrompts;
+            _controlSettings = controlSettings;
             _reportParameters = reportParameters != null ? reportParameters.ToList() : null;
             _htmlAttributes = htmlAttributes;
             _method = method;
@@ -245,11 +247,12 @@ document.addEventListener('DOMContentLoaded', function(event) {{
                 html.Append(CreateHiddenField(UriParameters.Password, _password));
             }
 
-            if (_showParameterPrompts != null)
+            var serializedSettings = _settingsManager.Serialize(_controlSettings);
+            foreach (var setting in serializedSettings)
             {
-                html.Append(CreateHiddenField(UriParameters.ShowParameterPrompts, _showParameterPrompts));
+                html.Append(CreateHiddenField(setting.Key, setting.Value));
             }
-
+        
             if (_reportParameters != null)
             {
                 foreach (var parameter in _reportParameters)
@@ -300,9 +303,10 @@ document.addEventListener('DOMContentLoaded', function(event) {{
                 query[UriParameters.Password] = _password;
             }
 
-            if (_showParameterPrompts != null)
+            var serializedSettings = _settingsManager.Serialize(_controlSettings);
+            foreach (var setting in serializedSettings)
             {
-                query[UriParameters.ShowParameterPrompts] = _showParameterPrompts.ToString();
+                query[setting.Key] = setting.Value;
             }
 
             if (_reportParameters != null)
@@ -372,10 +376,9 @@ document.addEventListener('DOMContentLoaded', function(event) {{
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions ReportParameters(object reportParameters)
         {
-            var parameters = reportParameters == null ? 
-                null : 
-                HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters);
-            _reportParameters = parameters.ToList();
+            _reportParameters = reportParameters == null
+                                    ? null
+                                    : HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters).ToList();
             return this;
         }
 
@@ -387,17 +390,6 @@ document.addEventListener('DOMContentLoaded', function(event) {{
         public IMvcReportViewerOptions ReportParameters(IEnumerable<KeyValuePair<string, object>> reportParameters)
         {
             _reportParameters = reportParameters.ToList();
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the value that indicates whether parameter prompts are displayed.
-        /// </summary>
-        /// <param name="showParameterPrompts">The value that indicates wether parameter prompts are dispalyed.</param>
-        /// <returns>An instance of MvcViewerOptions class.</returns>
-        public IMvcReportViewerOptions ShowParameterPrompts(bool showParameterPrompts)
-        {
-            _showParameterPrompts = showParameterPrompts;
             return this;
         }
 
@@ -424,6 +416,17 @@ document.addEventListener('DOMContentLoaded', function(event) {{
         public IMvcReportViewerOptions Method(FormMethod method)
         {
             _method = method;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets ReportViewer control UI parameters
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        public IMvcReportViewerOptions ControlSettings(ControlSettings settings)
+        {
+            _controlSettings = settings;
             return this;
         }
     }
