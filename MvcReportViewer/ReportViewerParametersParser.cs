@@ -40,17 +40,21 @@ namespace MvcReportViewer
                 }
                 else if (!settinsManager.IsControlSetting(key))
                 {
-                    foreach(var value in queryString.GetValues(key))
+                    var values = queryString.GetValues(key);
+                    if (values != null)
                     {
-                        if (parameters.ReportParameters.ContainsKey(key))
+                        foreach (var value in values)
                         {
-                            parameters.ReportParameters[key].Values.Add(value);
-                        }
-                        else
-                        {
-                            var reportParameter = new ReportParameter(key);
-                            reportParameter.Values.Add(value);
-                            parameters.ReportParameters.Add(key, reportParameter);
+                            if (parameters.ReportParameters.ContainsKey(key))
+                            {
+                                parameters.ReportParameters[key].Values.Add(value);
+                            }
+                            else
+                            {
+                                var reportParameter = new ReportParameter(key);
+                                reportParameter.Values.Add(value);
+                                parameters.ReportParameters.Add(key, reportParameter);
+                            }
                         }
                     }
                 }

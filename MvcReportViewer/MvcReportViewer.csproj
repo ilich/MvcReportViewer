@@ -72,6 +72,7 @@
   <ItemGroup>
     <Content Include="MvcReportViewer.aspx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>ASPXCodeBehind</SubType>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

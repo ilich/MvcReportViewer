@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-using MvcReportViewer;
 using System.Collections.Generic;
 
 namespace MvcReportViewer.Example.Controllers

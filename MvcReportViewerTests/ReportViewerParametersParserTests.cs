@@ -133,7 +133,7 @@ namespace MvcReportViewer.Tests
                 "HyperlinkTarget");
 
             Assert.AreEqual(
-                TestData.BackColorValue.ToArgb(), 
+                TestData.BackColorArgbValue, 
                 parameters.ControlSettings.BackColor.Value.ToArgb());
 
             Assert.AreEqual(

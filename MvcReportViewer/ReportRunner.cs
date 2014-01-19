@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Microsoft.Reporting.WebForms;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.IO;
 using System.Web.Mvc;
-using Microsoft.Reporting.WebForms;
 
 namespace MvcReportViewer
 {
