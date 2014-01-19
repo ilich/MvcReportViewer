@@ -32,7 +32,7 @@ namespace MvcReportViewer
             // Hide parameters prompt by default
             if (parameters == null || parameters.ShowParameterPrompts == null)
             {
-                reportViewer.ShowParameterPrompts = true;
+                reportViewer.ShowParameterPrompts = false;
                 return;
             }
 
