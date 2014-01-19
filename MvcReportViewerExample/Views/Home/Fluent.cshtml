@@ -1,9 +1,27 @@
-﻿@using MvcReportViewer;
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@using MvcReportViewer;
 @{
     ViewBag.Title = "MvcReportViewer Fluent Example";
 }
 
 @section Code {
-    @@Html.MvcReportViewerFluent("/TestReports/TestReport").ReportParameters(new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 }).Attributes(new { Height = 900, Width = 900, style = "border: none" })
+    @@{
+        var settings = new ControlSettings
+            {
+                ShowParameterPrompts = true,
+                ShowFindControls = true,
+                BackColor = Color.BurlyWood,
+            };
+    }
+    @@Html.MvcReportViewerFluent("/TestReports/TestReport").ReportParameters(new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 }).Attributes(new { Height = 900, Width = 900, style = "border: none" }).ControlSettings(settings)
 }
-@Html.MvcReportViewerFluent("/TestReports/TestReport").ReportParameters(new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 }).Attributes(new { Height = 900, Width = 900, style = "border: none" })
+@{
+    var settings = new ControlSettings
+        {
+            ShowParameterPrompts = true,
+            ShowFindControls = true,
+            BackColor = Color.BurlyWood,
+        };
+}
+@Html.MvcReportViewerFluent("/TestReports/TestReport").ReportParameters(new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 }).Attributes(new { Height = 900, Width = 900, style = "border: none" }).ControlSettings(settings)
