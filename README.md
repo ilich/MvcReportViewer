@@ -32,7 +32,6 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 &lt;add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" /&gt;
 &lt;add key="MvcReportViewer.Username" value="" /&gt;
 &lt;add key="MvcReportViewer.Password" value="" /&gt;
-&lt;add key="MvcReportViewer.ShowParameterPrompts" value="False" /&gt;
 </code></pre>
 
 **MvcReportViewer.AspxViewer** - Path to the Report Viewer page shown in the iframe. Its name is **MvcReportViewer.aspx** and it is in the application's root by default.
@@ -42,8 +41,6 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 **MvcReportViewer.Username** - Default SSRS username.
 
 **MvcReportViewer.Password** - Default SSRS password.
-
-**MvcReportViewer.ShowParameterPrompts** - Show report parameters bar if set to **True**.
 
 ### Basic Interface
 
@@ -74,7 +71,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 *htmlAttributes* - An object that contains the HTML attributes to set for the element.
 
-**@Html.MvcReportViewer(string reportPath, string reportServerUrl = null, string username = null, string password = null, object reportParameters = null, bool? showParameterPrompts = null, object htmlAttributes = null, FormMethod method = FormMethod.Get)**
+**@Html.MvcReportViewer(string reportPath, string reportServerUrl = null, string username = null, string password = null, object reportParameters = null, ControlSettings controlSettings = null, object htmlAttributes = null, FormMethod method = FormMethod.Get)**
 
 *reportPath* - The path to the report on the server.
 
@@ -86,7 +83,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 *reportParameters* - The report parameter properties for the report.
 
-*showParameterPrompts* - The value that indicates whether parameter prompts are displayed.
+*controlSettings* - The Report Viewer control's UI settings.
 
 *htmlAttributes* - An object that contains the HTML attributes to set for the element.
 
@@ -118,7 +115,7 @@ _**Fluent Interface Methods**_
 
 **ReportParameters(IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; reportParameters)** - Sets the report parameter properties for the report.
 
-**ShowParameterPrompts(bool showParameterPrompts)** - Sets the value that indicates whether parameter prompts are displayed.
+**ControlSettings(ControlSettings settings)** - Sets ReportViewer control UI parameters
 
 **Attributes(object htmlAttributes)** - Sets an object that contains the HTML attributes to set for the element.
 
