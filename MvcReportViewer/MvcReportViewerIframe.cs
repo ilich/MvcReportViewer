@@ -14,11 +14,8 @@ namespace MvcReportViewer
     public class MvcReportViewerIframe : IMvcReportViewerOptions
     {
         private const string JsPostForm = @"
-document.addEventListener('DOMContentLoaded', function(event) {{
-    var form = document.getElementById('{0}');
-    if (form) {{
-        form.submit();
-    }}
+$(document).ready(function () {{
+    $('#{0}').submit();
 }});
 ";
         private readonly ControlSettingsManager _settingsManager = new ControlSettingsManager();
