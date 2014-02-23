@@ -42,6 +42,10 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 **MvcReportViewer.Password** - Default SSRS password.
 
+* Add jQueyr v.1.11.* to your web-page if you are going to send report parameters using HTTP POST request.
+
+<pre><code>&lt;script src="http://code.jquery.com/jquery-1.11.0.min.js"&gt;&lt;/script&gt;</code></pre>
+
 ### Basic Interface
 
 <pre><code>@Html.MvcReportViewer(
