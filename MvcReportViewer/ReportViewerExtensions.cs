@@ -30,7 +30,7 @@ namespace MvcReportViewer
         private static void SetReportViewerSettings(ReportViewer reportViewer, ControlSettings parameters)
         {
             // Hide parameters prompt by default
-            if (parameters == null || parameters.ShowParameterPrompts == null)
+            if (parameters == null)
             {
                 reportViewer.ShowParameterPrompts = false;
                 return;
