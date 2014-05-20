@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace MvcReportViewer.Tests
@@ -113,11 +114,11 @@ namespace MvcReportViewer.Tests
                 TestData.Server,
                 TestData.Username,
                 TestData.Password,
-                new
+                new List<KeyValuePair<string, object>>
                     {
-                        Param1 = TestData.ExprectedParameters["Param1"],
-                        Param2 = TestData.ExprectedParameters["Param2"],
-                        Param3 = TestData.ExprectedParameters["Param3"]
+                        new KeyValuePair<string, object>("Param1", TestData.ExprectedParameters["Param1"]),
+                        new KeyValuePair<string, object>("Param2", TestData.ExprectedParameters["Param2"]),
+                        new KeyValuePair<string, object>("Param3", TestData.ExprectedParameters["Param3"]),
                     },
                 new ControlSettings
                     {

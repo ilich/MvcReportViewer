@@ -84,7 +84,7 @@ namespace MvcReportViewer
             string reportServerUrl = null,
             string username = null,
             string password = null,
-            object reportParameters = null,
+            IEnumerable<KeyValuePair<string, object>> reportParameters = null,
             ControlSettings controlSettings = null,
             object htmlAttributes = null,
             FormMethod method = FormMethod.Get)
@@ -94,7 +94,7 @@ namespace MvcReportViewer
                 reportServerUrl,
                 username,
                 password,
-                HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters),
+                reportParameters,
                 controlSettings,
                 HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes),
                 method);

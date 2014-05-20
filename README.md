@@ -75,7 +75,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 *htmlAttributes* - An object that contains the HTML attributes to set for the element.
 
-**@Html.MvcReportViewer(string reportPath, string reportServerUrl = null, string username = null, string password = null, object reportParameters = null, ControlSettings controlSettings = null, object htmlAttributes = null, FormMethod method = FormMethod.Get)**
+**@Html.MvcReportViewer(string reportPath, string reportServerUrl = null, string username = null, string password = null, IEnumerable<KeyValuePair<string, object>> reportParameters = null, ControlSettings controlSettings = null, object htmlAttributes = null, FormMethod method = FormMethod.Get)**
 
 *reportPath* - The path to the report on the server.
 
