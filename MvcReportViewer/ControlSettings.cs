@@ -206,5 +206,13 @@ namespace MvcReportViewer
         /// </summary>
         [UriParameter("_33")]
         public int? ZoomPercent { get; set; }
+
+        /// <summary>
+        /// Gets or sets a Boolean value that indicates whether to keep the user session from expiring as long as the Web page is displayed in the browser.
+        /// By default this property is set to false because of http://stackoverflow.com/questions/18491223/ssrs-why-do-ska-cookies-build-up-until-http-400-bad-request-request-too-long
+        /// issue. The issue has been fixed in SQL Server 2012 SP1 CU7.
+        /// </summary>
+        [UriParameter("_34")]
+        public bool? KeepSessionAlive { get; set; }
     }
 }

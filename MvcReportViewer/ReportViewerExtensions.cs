@@ -200,6 +200,8 @@ namespace MvcReportViewer
             {
                 reportViewer.ZoomPercent = parameters.ZoomPercent.Value;
             }
+
+            reportViewer.KeepSessionAlive = parameters.KeepSessionAlive ?? false;
         }
     }
 }

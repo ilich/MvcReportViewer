@@ -12,6 +12,7 @@
                 ShowParameterPrompts = true,
                 ShowFindControls = true,
                 BackColor = Color.BurlyWood,
+                KeepSessionAlive = true
             };
     }
     @@Html.MvcReportViewerFluent("/TestReports/TestReport").ReportParameters(new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 }).Attributes(new { Height = 900, Width = 900, style = "border: none" }).ControlSettings(settings)
@@ -22,6 +23,7 @@
             ShowParameterPrompts = true,
             ShowFindControls = true,
             BackColor = Color.BurlyWood,
+            KeepSessionAlive = true
         };
 }
 @Html.MvcReportViewerFluent("/TestReports/TestReport").ReportParameters(new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 }).Attributes(new { Height = 900, Width = 900, style = "border: none" }).ControlSettings(settings)
