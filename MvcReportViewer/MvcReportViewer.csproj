@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureReportServerCredentials.cs" />
     <Compile Include="ControlSettings.cs" />
     <Compile Include="ControlSettingsManager.cs" />
     <Compile Include="IMvcReportViewerOptions.cs" />

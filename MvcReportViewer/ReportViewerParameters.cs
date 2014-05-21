@@ -18,6 +18,8 @@ namespace MvcReportViewer
 
         public string ReportPath { get; set; }
 
+        public bool IsAzureSSRS { get; set; }
+
         public Dictionary<string, ReportParameter> ReportParameters { get; set; }
 
         public ControlSettings ControlSettings { get; set; }

@@ -9,5 +9,7 @@
         public static string Password = "MvcReportViewer.Password";
 
         public static string AspxViewer = "MvcReportViewer.AspxViewer";
+
+        public static string IsAzureSSRS = "MvcReportViewer.IsAzureSSRS";
     }
 }

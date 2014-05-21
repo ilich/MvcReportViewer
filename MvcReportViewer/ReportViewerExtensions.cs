@@ -14,9 +14,20 @@ namespace MvcReportViewer
             serverReport.ReportPath = parameters.ReportPath;
             if (!string.IsNullOrEmpty(parameters.Username))
             {
-                serverReport.ReportServerCredentials = new ReportServerCredentials(
-                    parameters.Username,
-                    parameters.Password);
+                if (parameters.IsAzureSSRS)
+                {
+                    var server = serverReport.ReportServerUrl.Host;
+                    serverReport.ReportServerCredentials = new AzureReportServerCredentials(
+                        parameters.Username,
+                        parameters.Password,
+                        server);
+                }
+                else
+                {
+                    serverReport.ReportServerCredentials = new ReportServerCredentials(
+                        parameters.Username,
+                        parameters.Password);
+                }
             }
 
             if (parameters.ReportParameters.Count > 0)

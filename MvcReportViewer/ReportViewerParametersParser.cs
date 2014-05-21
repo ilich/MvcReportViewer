@@ -85,11 +85,19 @@ namespace MvcReportViewer
 
         private ReportViewerParameters InitializeDefaults()
         {
+            var isAzureSSRS = ConfigurationManager.AppSettings[WebConfigSettings.IsAzureSSRS];
+            bool isAzureSSRSValue;
+            if (string.IsNullOrEmpty(isAzureSSRS) || !bool.TryParse(isAzureSSRS, out isAzureSSRSValue))
+            {
+                isAzureSSRSValue = false;
+            }
+            
             var parameters = new ReportViewerParameters
                 {
                     ReportServerUrl = ConfigurationManager.AppSettings[WebConfigSettings.Server],
                     Username = ConfigurationManager.AppSettings[WebConfigSettings.Username],
-                    Password = ConfigurationManager.AppSettings[WebConfigSettings.Password]
+                    Password = ConfigurationManager.AppSettings[WebConfigSettings.Password],
+                    IsAzureSSRS = isAzureSSRSValue
                 };
 
             return parameters;

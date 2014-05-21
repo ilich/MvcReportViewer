@@ -32,6 +32,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 &lt;add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" /&gt;
 &lt;add key="MvcReportViewer.Username" value="" /&gt;
 &lt;add key="MvcReportViewer.Password" value="" /&gt;
+&lt;add key="MvcReportViewer.IsAzureSSRS" value="false" /&gt;
 </code></pre>
 
 **MvcReportViewer.AspxViewer** - Path to the Report Viewer page shown in the iframe. Its name is **MvcReportViewer.aspx** and it is in the application's root by default.
@@ -41,6 +42,8 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 **MvcReportViewer.Username** - Default SSRS username.
 
 **MvcReportViewer.Password** - Default SSRS password.
+
+**MvcReportViewer.IsAzureSSRS** - Use SSRS service hosted on Windows Azure.
 
 * Add jQueyr v.1.11.* to your web-page if you are going to send report parameters using HTTP POST request.
 
