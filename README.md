@@ -51,6 +51,10 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 ### Basic Interface
 
+Reference **MvcReportViewer** in your view
+<pre><code>@using MvcReportViewer</code></pre>
+Then you can use our bultin HtmlHelpers as follows:
+
 <pre><code>@Html.MvcReportViewer(
     "/Reports/TestReport",
     new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 },
