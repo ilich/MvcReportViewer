@@ -14,9 +14,10 @@ namespace MvcReportViewer
     public class MvcReportViewerIframe : IMvcReportViewerOptions
     {
         private const string JsPostForm = @"
-$(document).ready(function () {{
-    $('#{0}').submit();
-}});
+var formElement{0} = document.getElementById('{0}');
+if (formElement{0}) {{
+    formElement{0}.submit();
+}}
 ";
         private readonly ControlSettingsManager _settingsManager = new ControlSettingsManager();
         
@@ -221,7 +222,7 @@ $(document).ready(function () {{
 
         private string GenerateId()
         {
-            return "mvc-report-viewer-" + Guid.NewGuid().ToString("N");
+            return "mvc_report_viewer_" + Guid.NewGuid().ToString("N");
         }
 
         private string BuildIframeFormFields()
