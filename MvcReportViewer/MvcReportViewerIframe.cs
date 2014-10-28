@@ -154,6 +154,12 @@ if (formElement{0}) {{
             {
                 throw new MvcReportViewerException("ASP.NET Web Forms viewer is not set. Make sure you have MvcReportViewer.AspxViewer in your Web.config.");
             }
+
+            _aspxViewer = _aspxViewer.Trim();
+            if (_aspxViewer.StartsWith("~"))
+            {
+                _aspxViewer = VirtualPathUtility.ToAbsolute(_aspxViewer);
+            }
         }
 
         /// <summary>
