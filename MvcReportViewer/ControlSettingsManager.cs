@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -75,6 +76,13 @@ namespace MvcReportViewer
 
         public ControlSettings Deserialize(NameValueCollection queryString)
         {
+            bool isEncrypted;
+            var encryptParametesConfig = ConfigurationManager.AppSettings[WebConfigSettings.EncryptParameters];
+            if (!bool.TryParse(encryptParametesConfig, out isEncrypted))
+            {
+                isEncrypted = false;
+            }
+
             var settings = new ControlSettings();
             if (queryString == null)
             {
@@ -86,6 +94,11 @@ namespace MvcReportViewer
             {
                 var property = UriParameters[setting];
                 var value = queryString[setting];
+                if (isEncrypted)
+                {
+                    value = SecurityUtil.Decrypt(value);
+                }
+
                 DeserializeValue(settings, property, value);
             }
 

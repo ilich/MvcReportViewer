@@ -14,6 +14,13 @@ namespace MvcReportViewer
                 throw new ArgumentNullException("queryString");
             }
 
+            bool isEncrypted;
+            var encryptParametesConfig = ConfigurationManager.AppSettings[WebConfigSettings.EncryptParameters];
+            if (!bool.TryParse(encryptParametesConfig, out isEncrypted))
+            {
+                isEncrypted = false;
+            }
+
             var settinsManager = new ControlSettingsManager();
 
             var parameters = InitializeDefaults();
@@ -22,21 +29,22 @@ namespace MvcReportViewer
 
             foreach (var key in queryString.AllKeys)
             {
+                var urlParam = queryString[key];
                 if (key.EqualsIgnoreCase(UriParameters.ReportPath))
                 {
-                    parameters.ReportPath = queryString[key];
+                    parameters.ReportPath = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
                 }
                 else if (key.EqualsIgnoreCase(UriParameters.ReportServerUrl))
                 {
-                    parameters.ReportServerUrl = queryString[key];
+                    parameters.ReportServerUrl = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
                 }
                 else if (key.EqualsIgnoreCase(UriParameters.Username))
                 {
-                    parameters.Username = queryString[key];
+                    parameters.Username = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
                 }
                 else if (key.EqualsIgnoreCase(UriParameters.Password))
                 {
-                    parameters.Password = queryString[key];
+                    parameters.Password = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
                 }
                 else if (!settinsManager.IsControlSetting(key))
                 {
@@ -45,14 +53,16 @@ namespace MvcReportViewer
                     {
                         foreach (var value in values)
                         {
+                            var realValue = isEncrypted ? SecurityUtil.Decrypt(value) : value;
+
                             if (parameters.ReportParameters.ContainsKey(key))
                             {
-                                parameters.ReportParameters[key].Values.Add(value);
+                                parameters.ReportParameters[key].Values.Add(realValue);
                             }
                             else
                             {
                                 var reportParameter = new ReportParameter(key);
-                                reportParameter.Values.Add(value);
+                                reportParameter.Values.Add(realValue);
                                 parameters.ReportParameters.Add(key, reportParameter);
                             }
                         }

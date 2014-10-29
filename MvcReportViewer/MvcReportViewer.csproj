@@ -92,6 +92,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportViewerParametersParser.cs" />
     <Compile Include="IgnoreCaseExtensions.cs" />
+    <Compile Include="SecurityUtil.cs" />
     <Compile Include="UriParameterAttribute.cs" />
     <Compile Include="UriParameters.cs" />
     <Compile Include="WebConfigSettings.cs" />

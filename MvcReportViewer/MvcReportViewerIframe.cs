@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace MvcReportViewer
 {
@@ -38,6 +39,8 @@ if (formElement{0}) {{
         private ControlSettings _controlSettings;
 
         private readonly string _aspxViewer;
+
+        private readonly bool _encryptParameters;
 
         /// <summary>
         /// Creates an instance of MvcReportViewerIframe class.
@@ -160,6 +163,12 @@ if (formElement{0}) {{
             {
                 _aspxViewer = VirtualPathUtility.ToAbsolute(_aspxViewer);
             }
+
+            var encryptParametesConfig = ConfigurationManager.AppSettings[WebConfigSettings.EncryptParameters];
+            if (!bool.TryParse(encryptParametesConfig, out _encryptParameters))
+            {
+                _encryptParameters = false;
+            }
         }
 
         /// <summary>
@@ -274,7 +283,14 @@ if (formElement{0}) {{
             var tag = new TagBuilder("input");
             tag.MergeAttribute("type", "hidden");
             tag.MergeAttribute("name", name);
-            tag.MergeAttribute("value", value.ToString());
+
+            var strValue = value.ToString();
+            if (_encryptParameters)
+            {
+                strValue = SecurityUtil.Encrypt(strValue);
+            }
+
+            tag.MergeAttribute("value", strValue);
 
             return tag.ToString();
         }
@@ -293,24 +309,24 @@ if (formElement{0}) {{
             var query = HttpUtility.ParseQueryString(string.Empty);
             if (!string.IsNullOrEmpty(_reportPath))
             {
-                query[UriParameters.ReportPath] = _reportPath;
+                query[UriParameters.ReportPath] = _encryptParameters ? SecurityUtil.Encrypt(_reportPath) : _reportPath;
             }
 
             if (!string.IsNullOrEmpty(_reportServerUrl))
             {
-                query[UriParameters.ReportServerUrl] = _reportServerUrl;
+                query[UriParameters.ReportServerUrl] = _encryptParameters ? SecurityUtil.Encrypt(_reportServerUrl) : _reportServerUrl;
             }
 
             if (!string.IsNullOrEmpty(_username) || !string.IsNullOrEmpty(_password))
             {
-                query[UriParameters.Username] = _username;
-                query[UriParameters.Password] = _password;
+                query[UriParameters.Username] = _encryptParameters ? SecurityUtil.Encrypt(_username) : _username;
+                query[UriParameters.Password] = _encryptParameters ? SecurityUtil.Encrypt(_password) : _password;
             }
 
             var serializedSettings = _settingsManager.Serialize(_controlSettings);
             foreach (var setting in serializedSettings)
             {
-                query[setting.Key] = setting.Value;
+                query[setting.Key] = _encryptParameters ? SecurityUtil.Encrypt(setting.Value) : setting.Value;
             }
 
             if (_reportParameters != null)
@@ -318,6 +334,11 @@ if (formElement{0}) {{
                 foreach (var parameter in _reportParameters)
                 {
                     var value = parameter.Value == null ? string.Empty : parameter.Value.ToString();
+                    if (_encryptParameters)
+                    {
+                        value = SecurityUtil.Encrypt(value);
+                    }
+
                     query.Add(parameter.Key, value);
                 }
             }

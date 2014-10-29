@@ -5,6 +5,7 @@
     <add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" />
     <add key="MvcReportViewer.Username" value="" />
     <add key="MvcReportViewer.Password" value="" />
+    <add key="MvcReportViewer.EncryptParameters" value="False"/>
   </appSettings>
   <system.web>
     <httpHandlers>
