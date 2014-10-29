@@ -32,6 +32,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 &lt;add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" /&gt;
 &lt;add key="MvcReportViewer.Username" value="" /&gt;
 &lt;add key="MvcReportViewer.Password" value="" /&gt;
+&lt;add key="MvcReportViewer.EncryptParameters" value="False" /&gt;
 &lt;add key="MvcReportViewer.IsAzureSSRS" value="false" /&gt;
 </code></pre>
 
@@ -42,6 +43,8 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 **MvcReportViewer.Username** - Default SSRS username.
 
 **MvcReportViewer.Password** - Default SSRS password.
+
+**MvcReportViewer.EncryptParameters** - Report Viewer parameters will be encrypted if it is set to True. It is False by default.
 
 **MvcReportViewer.IsAzureSSRS** - Use SSRS service hosted on Windows Azure.
 
