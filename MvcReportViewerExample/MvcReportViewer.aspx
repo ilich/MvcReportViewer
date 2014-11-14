@@ -5,6 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <meta http-equiv="x-ua-compatible" content="IE=9">
     <title></title>
 </head>
 <body>
