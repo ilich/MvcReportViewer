@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Configuration;
 using Microsoft.Reporting.WebForms;
+using System.Web;
 
 namespace MvcReportViewer
 {
@@ -14,14 +15,9 @@ namespace MvcReportViewer
                 throw new ArgumentNullException("queryString");
             }
 
-            bool isEncrypted;
-            var encryptParametesConfig = ConfigurationManager.AppSettings[WebConfigSettings.EncryptParameters];
-            if (!bool.TryParse(encryptParametesConfig, out isEncrypted))
-            {
-                isEncrypted = false;
-            }
+            var isEncrypted = CheckEncryption(ref queryString);
 
-            var settinsManager = new ControlSettingsManager();
+            var settinsManager = new ControlSettingsManager(isEncrypted);
 
             var parameters = InitializeDefaults();
             ResetDefaultCredentials(queryString, parameters);
@@ -81,6 +77,33 @@ namespace MvcReportViewer
             }
 
             return parameters;
+        }
+
+        private static bool CheckEncryption(ref NameValueCollection source)
+        {
+            bool isEncrypted;
+            var encryptParametesConfig = ConfigurationManager.AppSettings[WebConfigSettings.EncryptParameters];
+            if (!bool.TryParse(encryptParametesConfig, out isEncrypted))
+            {
+                isEncrypted = false;
+            }
+
+            // each parameter is encrypted when POST method is used
+            if (string.Compare(HttpContext.Current.Request.HttpMethod, "POST", true) == 0)
+            {
+                return isEncrypted;
+            }
+
+            if (!isEncrypted)
+            {
+                return isEncrypted;
+            }
+
+            var encrypted = source[UriParameters.Encrypted];
+            var decrypted = SecurityUtil.Decrypt(encrypted);
+            isEncrypted = false;
+            source = HttpUtility.ParseQueryString(decrypted);
+            return isEncrypted;
         }
 
         private static void ResetDefaultCredentials(NameValueCollection queryString, ReportViewerParameters parameters)

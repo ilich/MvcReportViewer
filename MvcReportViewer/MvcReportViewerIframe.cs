@@ -309,24 +309,24 @@ if (formElement{0}) {{
             var query = HttpUtility.ParseQueryString(string.Empty);
             if (!string.IsNullOrEmpty(_reportPath))
             {
-                query[UriParameters.ReportPath] = _encryptParameters ? SecurityUtil.Encrypt(_reportPath) : _reportPath;
+                query[UriParameters.ReportPath] = _reportPath;
             }
 
             if (!string.IsNullOrEmpty(_reportServerUrl))
             {
-                query[UriParameters.ReportServerUrl] = _encryptParameters ? SecurityUtil.Encrypt(_reportServerUrl) : _reportServerUrl;
+                query[UriParameters.ReportServerUrl] = _reportServerUrl;
             }
 
             if (!string.IsNullOrEmpty(_username) || !string.IsNullOrEmpty(_password))
             {
-                query[UriParameters.Username] = _encryptParameters ? SecurityUtil.Encrypt(_username) : _username;
-                query[UriParameters.Password] = _encryptParameters ? SecurityUtil.Encrypt(_password) : _password;
+                query[UriParameters.Username] = _username;
+                query[UriParameters.Password] = _password;
             }
 
             var serializedSettings = _settingsManager.Serialize(_controlSettings);
             foreach (var setting in serializedSettings)
             {
-                query[setting.Key] = _encryptParameters ? SecurityUtil.Encrypt(setting.Value) : setting.Value;
+                query[setting.Key] = setting.Value;
             }
 
             if (_reportParameters != null)
@@ -334,20 +334,23 @@ if (formElement{0}) {{
                 foreach (var parameter in _reportParameters)
                 {
                     var value = parameter.Value == null ? string.Empty : parameter.Value.ToString();
-                    if (_encryptParameters)
-                    {
-                        value = SecurityUtil.Encrypt(value);
-                    }
-
                     query.Add(parameter.Key, value);
                 }
             }
 
-            var uri = query.Count == 0 ? 
-                _aspxViewer : 
-                _aspxViewer + "?" + query;
+            string uri = _aspxViewer;
+            if (query.Count == 0)
+            {
+                return uri;
+            }
 
-            return uri;
+            if (!_encryptParameters)
+            {
+                return uri + "?" + query;
+            }
+
+            var encryptedQuery = UriParameters.Encrypted + "=" + SecurityUtil.Encrypt(query.ToString());
+            return uri + "?" + encryptedQuery;
         }
 
         /// <summary>

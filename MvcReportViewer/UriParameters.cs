@@ -9,5 +9,7 @@
         public static string Username = "_u";
 
         public static string Password = "_p";
+
+        public static string Encrypted = "__e";
     }
 }

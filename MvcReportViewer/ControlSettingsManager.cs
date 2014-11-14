@@ -17,6 +17,8 @@ namespace MvcReportViewer
 
         private static readonly Dictionary<PropertyInfo, string> Properties = new Dictionary<PropertyInfo, string>();
 
+        private readonly bool _isEncrypted;
+
         static ControlSettingsManager()
         {
             var type = typeof(ControlSettings);
@@ -30,6 +32,11 @@ namespace MvcReportViewer
                     Properties.Add(property, uriAttr.Name);
                 }
             }
+        }
+
+        public ControlSettingsManager(bool isEncrypted = false)
+        {
+            _isEncrypted = isEncrypted;
         }
 
         public IDictionary<string, string> Serialize(ControlSettings settings)
@@ -76,13 +83,6 @@ namespace MvcReportViewer
 
         public ControlSettings Deserialize(NameValueCollection queryString)
         {
-            bool isEncrypted;
-            var encryptParametesConfig = ConfigurationManager.AppSettings[WebConfigSettings.EncryptParameters];
-            if (!bool.TryParse(encryptParametesConfig, out isEncrypted))
-            {
-                isEncrypted = false;
-            }
-
             var settings = new ControlSettings();
             if (queryString == null)
             {
@@ -94,7 +94,7 @@ namespace MvcReportViewer
             {
                 var property = UriParameters[setting];
                 var value = queryString[setting];
-                if (isEncrypted)
+                if (_isEncrypted)
                 {
                     value = SecurityUtil.Decrypt(value);
                 }
