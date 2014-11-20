@@ -214,5 +214,23 @@ namespace MvcReportViewer
         /// </summary>
         [UriParameter("_34")]
         public bool? KeepSessionAlive { get; set; }
+
+        /// <summary>
+        /// Gets or sets a Boolean value that indicates whether the report is rendered asynchronously from the rest of the Web page when the Web page is being loaded.
+        /// </summary>
+        [UriParameter("_35")]
+        public bool? AsyncRendering { get; set; }
+
+        /// <summary>
+        /// Gets or sets the width of the control.
+        /// </summary>
+        [UriParameter("_36")]
+        public Unit? Width { get; set; }
+
+        /// <summary>
+        /// Gets or sets the height of the control. 
+        /// </summary>
+        [UriParameter("_37")]
+        public Unit? Height { get; set; }
     }
 }

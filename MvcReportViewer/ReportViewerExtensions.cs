@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Reporting.WebForms;
+using System.Web.UI.WebControls;
 
 namespace MvcReportViewer
 {
@@ -212,6 +213,13 @@ namespace MvcReportViewer
                 reportViewer.ZoomPercent = parameters.ZoomPercent.Value;
             }
 
+            if (parameters.AsyncRendering != null)
+            {
+                reportViewer.AsyncRendering = (bool)parameters.AsyncRendering;
+            }
+
+            reportViewer.Width = parameters.Width ?? new Unit("100%");
+            reportViewer.Height = parameters.Height ?? new Unit("100%");
             reportViewer.KeepSessionAlive = parameters.KeepSessionAlive ?? false;
         }
     }
