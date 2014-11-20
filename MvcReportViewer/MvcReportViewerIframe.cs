@@ -270,7 +270,12 @@ if (formElement{0}) {{
             {
                 foreach (var parameter in _reportParameters)
                 {
-                    var value = parameter.Value == null ? string.Empty : parameter.Value.ToString();
+                    if (parameter.Value == null)
+                    {
+                        continue;
+                    }
+
+                    var value = parameter.Value.ToString();
                     html.Append(CreateHiddenField(parameter.Key, value));
                 }
             }
@@ -333,7 +338,12 @@ if (formElement{0}) {{
             {
                 foreach (var parameter in _reportParameters)
                 {
-                    var value = parameter.Value == null ? string.Empty : parameter.Value.ToString();
+                    if (parameter.Value == null)
+                    {
+                        continue;
+                    }
+
+                    var value = parameter.Value.ToString();
                     query.Add(parameter.Key, value);
                 }
             }
