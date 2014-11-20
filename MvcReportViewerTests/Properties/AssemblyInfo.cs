@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MvcReportViewer")]
-[assembly: AssemblyCopyright("Copyright © Ilya Verbitskiy 2013-2014")]
+[assembly: AssemblyCopyright("Copyright © Ilya Verbitskiy 2013-2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,4 +33,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.4.*")]
-[assembly: AssemblyFileVersion("0.4.2.0")]
+[assembly: AssemblyFileVersion("0.4.3.0")]
