@@ -5,15 +5,46 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <meta http-equiv="x-ua-compatible" content="IE=9">
     <title></title>
 </head>
 <body>
     <form id="reportForm" runat="server">
     <div>
         <asp:ScriptManager runat="server"></asp:ScriptManager>
-        <rsweb:ReportViewer ID="ReportViewer" runat="server"></rsweb:ReportViewer>
+        <rsweb:ReportViewer ID="ReportViewer" ClientIDMode="Predictable" runat="server"></rsweb:ReportViewer>
     </div>
     </form>
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript">
+        // Detect is current browser is IE (MSIE is not used since IE 11)
+        var isIE = /MSIE/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent);
+
+        if (hasUserSetHeight && isIE) {
+            Sys.Application.add_load(function () {
+                var reportViewer = $find("ReportViewer");
+                reportViewer.add_propertyChanged(viewerPropertyChanged);
+            });
+
+            function viewerPropertyChanged(sender, e) {
+                var viewer = $find("ReportViewer");
+
+                if (e.get_propertyName() === "isLoading" && !viewer.get_isLoading()) {
+                    var reportViewerHeight = $('#ReportViewer').height();
+                    var $uiRows = $('#ReportViewer_fixedTable > tbody > tr');
+                    var controlsHeight = 0;
+                    $uiRows.each(function (i, el) {
+                        if (i != $uiRows.length - 1) {
+                            controlsHeight += $(el).height();
+                        }
+                    });
+
+                    var contentAreaHeight = reportViewerHeight - controlsHeight;
+                    $('#VisibleReportContentReportViewer_ctl09').height(contentAreaHeight);
+                }
+            }
+        }
+    </script>
 </body>
 </html>
