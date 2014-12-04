@@ -144,6 +144,12 @@ if (formElement{0}) {{
             IDictionary<string, object> htmlAttributes,
             FormMethod method)
         {
+            var javaScriptApi = ConfigurationManager.AppSettings[WebConfigSettings.JavaScriptApi];
+            if (string.IsNullOrEmpty(javaScriptApi))
+            {
+                throw new MvcReportViewerException("MvcReportViewer.js location is not found. Make sure you have MvcReportViewer.AspxViewerJavaScript in your Web.config.");
+            }
+
             _reportPath = reportPath;
             _reportServerUrl = reportServerUrl;
             _username = username;

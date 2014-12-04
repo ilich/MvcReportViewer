@@ -6,6 +6,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 </head>
 <body>
     <form id="reportForm" runat="server">
@@ -15,36 +17,43 @@
     </div>
     </form>
 
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script type="text/javascript">
-        // Detect is current browser is IE (MSIE is not used since IE 11)
-        var isIE = /MSIE/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent);
-
-        if (hasUserSetHeight && isIE) {
-            Sys.Application.add_load(function () {
-                var reportViewer = $find("ReportViewer");
-                reportViewer.add_propertyChanged(viewerPropertyChanged);
-            });
-
-            function viewerPropertyChanged(sender, e) {
-                var viewer = $find("ReportViewer");
-
-                if (e.get_propertyName() === "isLoading" && !viewer.get_isLoading()) {
-                    var reportViewerHeight = $('#ReportViewer').height();
-                    var $uiRows = $('#ReportViewer_fixedTable > tbody > tr');
-                    var controlsHeight = 0;
-                    $uiRows.each(function (i, el) {
-                        if (i != $uiRows.length - 1) {
-                            controlsHeight += $(el).height();
-                        }
-                    });
-
-                    var contentAreaHeight = reportViewerHeight - controlsHeight;
-                    $('#VisibleReportContentReportViewer_ctl09').height(contentAreaHeight);
-                }
-            }
-        }
+    <script type="text/html" id="non-ie-print-button">
+        <table style="width: 6px; display: inline;" cellspacing="0" cellpadding="0" toolbarspacer="true">
+            <tbody>
+                <tr>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="" style="font-family: Verdana; font-size: 8pt; vertical-align: top; display: inline;">
+            <table style="display: inline;" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td height="28">
+                            <div>
+                                <div style="border: 1px solid transparent; border-image: none; cursor: default; background-color: transparent;">
+                                    <table title="Print">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <input 
+                                                        id="print-button"
+                                                        title="Print" 
+                                                        style="width: 16px; height: 16px;" 
+                                                        type="image" 
+                                                        alt="Print" 
+                                                        src="/Reserved.ReportViewerWebControl.axd?OpType=Resource&amp;Version=11.0.3442.2&amp;Name=Microsoft.Reporting.WebForms.Icons.Print.gif">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </script>
 </body>
 </html>

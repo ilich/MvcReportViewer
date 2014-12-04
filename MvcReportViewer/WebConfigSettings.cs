@@ -13,5 +13,7 @@
         public static string IsAzureSSRS = "MvcReportViewer.IsAzureSSRS";
 
         public static string EncryptParameters = "MvcReportViewer.EncryptParameters";
+
+        public static string JavaScriptApi = "MvcReportViewer.AspxViewerJavaScript";
     }
 }

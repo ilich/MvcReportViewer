@@ -118,6 +118,7 @@
     <Content Include="Content\styles.css" />
     <Content Include="Global.asax" />
     <Content Include="MvcReportViewer.aspx" />
+    <Content Include="Scripts\MvcReportViewer.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
