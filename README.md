@@ -29,6 +29,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 <pre><code>&lt;!-- Required by Microsoft ReportViewer control --&gt;
 &lt;add key="MvcReportViewer.AspxViewer" value="/MvcReportViewer.aspx" /&gt;
+&lt;add key="MvcReportViewer.AspxViewerJavaScript" value="~/Scripts/MvcReportViewer.js" /&gt;
 &lt;add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" /&gt;
 &lt;add key="MvcReportViewer.Username" value="" /&gt;
 &lt;add key="MvcReportViewer.Password" value="" /&gt;
@@ -37,6 +38,8 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 </code></pre>
 
 **MvcReportViewer.AspxViewer** - Path to the Report Viewer page shown in the iframe. Its name is **MvcReportViewer.aspx** and it is in the application's root by default.
+
+**MvcReportViewer.AspxViewerJavaScript** - Path to Report Viewer JavaScript code which adds additional features to Report Viewer control (e.g. printing support for non-IE browsers, etc.)
 
 **MvcReportViewer.ReportServerUrl** - Default SSRS URL.
 
