@@ -27,17 +27,35 @@ namespace MvcReportViewer
                 return;
             }
 
-            var parser = new ReportViewerParametersParser();
-            var parameters = Request.Form.Count > 0 ? parser.Parse(Request.Form) : parser.Parse(Request.QueryString);
-            
-            var hasHeightChangedScript = string.Format(
-                IsHeightChangedJS,
-                parameters.ControlSettings.Height == null ? "false" : "true");
-            ClientScript.RegisterStartupScript(GetType(), "IsHeightChangedJS", hasHeightChangedScript);
+            try
+            {
+                var parser = new ReportViewerParametersParser();
+                var parameters = Request.Form.Count > 0 ? parser.Parse(Request.Form) : parser.Parse(Request.QueryString);
 
-            ReportViewer.Initialize(parameters);
+                var hasHeightChangedScript = string.Format(
+                    IsHeightChangedJS,
+                    parameters.ControlSettings.Height == null ? "false" : "true");
+                ClientScript.RegisterStartupScript(GetType(), "IsHeightChangedJS", hasHeightChangedScript);
 
-            RegisterJavaScriptApi();
+                ReportViewer.ReportError += OnReportError;
+                ReportViewer.Initialize(parameters);
+
+                RegisterJavaScriptApi();
+            }
+            catch(Exception e)
+            {
+                var result = RedirectToErrorPage(e);
+                if (!result)
+                {
+                    throw;
+                }
+            }
+        }
+
+        private void OnReportError(object sender, ReportErrorEventArgs e)
+        {
+            RedirectToErrorPage(e.Exception);
+            e.Handled = true;
         }
 
         private void RegisterJavaScriptApi()
@@ -54,6 +72,30 @@ namespace MvcReportViewer
             }
 
             ClientScript.RegisterClientScriptInclude("JavaScriptAPI", javaScriptApi);
+        }
+
+
+
+        private bool RedirectToErrorPage(Exception exception)
+        {
+            Trace.Warn("MvcReportViewer", exception.Message);
+
+            var errorPage = ConfigurationManager.AppSettings[WebConfigSettings.ErrorPage];
+            var showErrorPage = ConfigurationManager.AppSettings[WebConfigSettings.ShowErrorPage];
+            bool isErrorPageShown;
+
+            if (!bool.TryParse(showErrorPage, out isErrorPageShown))
+            {
+                return false;
+            }
+
+            if (!isErrorPageShown || string.IsNullOrEmpty(errorPage))
+            {
+                return false;
+            }
+
+            Response.Redirect(errorPage);
+            return true;
         }
     }
 }

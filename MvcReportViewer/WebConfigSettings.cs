@@ -15,5 +15,9 @@
         public static string EncryptParameters = "MvcReportViewer.EncryptParameters";
 
         public static string JavaScriptApi = "MvcReportViewer.AspxViewerJavaScript";
+
+        public static string ErrorPage = "MvcReportViewer.ErrorPage";
+
+        public static string ShowErrorPage = "MvcReportViewer.ShowErrorPage";
     }
 }
