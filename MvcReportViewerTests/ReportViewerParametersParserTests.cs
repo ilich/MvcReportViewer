@@ -1,12 +1,27 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Specialized;
+using System.Web;
 
 namespace MvcReportViewer.Tests
 {
     [TestFixture]
     public class ReportViewerParametersParserTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            HttpContext.Current = new HttpContext(
+                new HttpRequest(null, "http://tempuri.org", null),
+                new HttpResponse(null));
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            HttpContext.Current = null;
+        }
+
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Parse_NullQueryString_RaisedArgumentNullException()
