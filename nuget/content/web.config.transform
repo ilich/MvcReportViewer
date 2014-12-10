@@ -2,6 +2,9 @@
   <appSettings>
     <!-- Required by Microsoft ReportViewer control -->
     <add key="MvcReportViewer.AspxViewer" value="~/MvcReportViewer.aspx" />
+    <add key="MvcReportViewer.AspxViewerJavaScript" value="~/Scripts/MvcReportViewer.js"/>
+    <add key="MvcReportViewer.ErrorPage" value="~/MvcReportViewerErrorPage.html"/>
+    <add key="MvcReportViewer.ShowErrorPage" value="True"/>
     <add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" />
     <add key="MvcReportViewer.Username" value="" />
     <add key="MvcReportViewer.Password" value="" />
