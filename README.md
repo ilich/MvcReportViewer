@@ -4,7 +4,7 @@ MvcReportViewer HTML Helper
 Why?
 ----
 
-SQL Server Reporting Services is rich and popular reporting solution that you have free with SQL Server. It is widely used in the industry: from small family businesses running on SQL Server 2008/2012 express to huge corporations with SQL Server clusters.
+SQL Server Reporting Services is rich and popular reporting solution that you have for free with SQL Server. It is widely used in the industry: from small family businesses running on SQL Server 2008/2012 express to huge corporations with SQL Server clusters.
 
 There is one issue with the solution. Microsoft has not release SSRS viewer for ASP.NET MVC yet. That is why people usually mixing modern ASP.NET MVC enterprise applications with ASP.NET Web Forms pages to view report.
 
@@ -30,6 +30,8 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 <pre><code>&lt;!-- Required by Microsoft ReportViewer control --&gt;
 &lt;add key="MvcReportViewer.AspxViewer" value="/MvcReportViewer.aspx" /&gt;
 &lt;add key="MvcReportViewer.AspxViewerJavaScript" value="~/Scripts/MvcReportViewer.js" /&gt;
+&lt;add key="MvcReportViewer.ErrorPage" value="~/MvcReportViewerErrorPage.html"/&gt;
+&lt;add key="MvcReportViewer.ShowErrorPage" value="True"/&gt;
 &lt;add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" /&gt;
 &lt;add key="MvcReportViewer.Username" value="" /&gt;
 &lt;add key="MvcReportViewer.Password" value="" /&gt;
@@ -41,6 +43,10 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 **MvcReportViewer.AspxViewerJavaScript** - Path to Report Viewer JavaScript code which adds additional features to Report Viewer control (e.g. printing support for non-IE browsers, etc.)
 
+**MvcReportViewer.ErrorPage** - Path to Report Viewer Error page which is shown if an exception occurs. The exception is logged using [ASP.NET Trace functionality](http://msdn.microsoft.com/en-us/library/bb386420%28v=vs.100%29.aspx).
+
+**MvcReportViewer.ShowErrorPage** - Enable/Disable custom error page.
+
 **MvcReportViewer.ReportServerUrl** - Default SSRS URL.
 
 **MvcReportViewer.Username** - Default SSRS username.
@@ -50,10 +56,6 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 **MvcReportViewer.EncryptParameters** - Report Viewer parameters will be encrypted if it is set to True. It is False by default.
 
 **MvcReportViewer.IsAzureSSRS** - Use SSRS service hosted on Windows Azure.
-
-* Add jQueyr v.1.11.* to your web-page if you are going to send report parameters using HTTP POST request.
-
-<pre><code>&lt;script src="http://code.jquery.com/jquery-1.11.0.min.js"&gt;&lt;/script&gt;</code></pre>
 
 ### Basic Interface
 
