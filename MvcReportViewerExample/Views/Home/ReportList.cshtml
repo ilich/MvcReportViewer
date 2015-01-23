@@ -1,0 +1,119 @@
+﻿@using System.Configuration
+@using System.Net.Mime
+@using MvcReportViewer
+<section>
+    <article class="main">
+        <h2>Reports</h2>
+        <div class="dd" id="nestable">
+            <ol class="dd-list">
+                @foreach (var dto in ReportHierarchy.CatalogEntries.Where(x => x.ParentId == 0))
+                {
+                    @AddChildren(dto)
+                }
+            </ol>
+        </div>
+    </article>
+    <article class="sidebar">
+        <h2 id="ReportName"></h2>
+        <div id="ReportOutput" class="report"></div>
+    </article>
+</section>
+
+@helper AddChildren(CatalogEntry dto)
+{
+    var children = ReportHierarchy.CatalogEntries.Where(x => x.ParentId == dto.Id);
+
+    <li class="dd-item" data-id="@dto.Id">
+        @{
+            if (!dto.IsReport)
+            {
+                <div class="dd-handle">@dto.ItemName</div>
+            }
+            else
+            {
+                var fullPath = @dto.FullPath.Replace("/", ".");
+                <div id="@fullPath" class="dd-handle dd-select">@dto.ItemName</div>
+            }
+
+            if (children.Count() > 0)
+            {
+                <ol class="dd-list">
+                    @foreach (var child in children)
+                    {
+                        @AddChildren(child);
+                    }
+                </ol>
+            }
+        }
+    </li>
+}
+
+<script>
+    var iframe = "";
+
+    $(function() {
+
+        initNestable();
+        disableDragAndDrop();
+        initReportViewer();
+
+    });
+
+    function initNestable() {
+        $(".dd").nestable();
+        $("button[data-action='collapse']").click();
+    }
+
+    function disableDragAndDrop() {
+        $(".dd-handle").mousedown(function(e) {
+            e.handled = true;
+            return false;
+        });
+
+        $(".dd-handle").bind("touchstart", function(e) {
+            e.handled = true;
+            return false;
+        });
+    }
+
+    function initReportViewer() {
+        $('.dd-select').click(function(e) {
+
+            // reformat report path for SSRS
+            var reportPath = "/" + this.id.replace(".", "/");
+            reportPath = reportPath.replace(".", "/");
+
+            if (this.innerText !== "") {
+                document.getElementById("ReportName").innerHTML = this.innerText;
+
+                // Call Helper method to get encrypted query string and place result on page
+                iframe = createMvcReportViewQueryString(reportPath);
+                document.getElementById("ReportOutput").innerHTML = iframe;
+            }
+            return false;
+        });
+    }
+
+    function createMvcReportViewQueryString(reportPath) {
+        var queryString = "No QueryString";
+
+        $.ajax({
+            async: false,
+            cache: false,
+            url: "~/../GetMvcReportViewerQueryString",
+            data: {
+                queryString: reportPath
+            },
+            success: function (data) {
+                // Get correct position for viewer
+                queryString = data.replace("/MvcReportViewer","/../MvcReportViewer");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                //some errror, some show err msg to user 
+                document.getElementById("ReportOutput").innerHTML = xhr.responseText;
+            }
+        });
+
+        return queryString;
+    }
+</script>

@@ -1,16 +1,17 @@
-﻿@using MvcReportViewer;
+﻿@using System.Configuration
+@using MvcReportViewer;
 @{
     ViewBag.Title = "MvcReportViewer Example";
 }
 
 @section Code {
     @@Html.MvcReportViewer(
-        "/TestReports/TestReport",
+        ConfigurationManager.AppSettings[WebConfigSettings.TestReportName],
         new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345, Parameter4 = DateTime.UtcNow },
         new { Height = 900, Width = 900, style = "border: none" })
 }
 
 @Html.MvcReportViewer(
-    "/TestReports/TestReport",
+    ConfigurationManager.AppSettings[WebConfigSettings.TestReportName],
     new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345, Parameter4 = DateTime.UtcNow },
     new { Height = 900, Width = 900, style = "border: none" })

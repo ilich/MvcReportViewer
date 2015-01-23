@@ -1,6 +1,6 @@
 ﻿namespace MvcReportViewer
 {
-    internal static class WebConfigSettings
+    public static class WebConfigSettings
     {
         public static string Server = "MvcReportViewer.ReportServerUrl";
 
@@ -19,5 +19,11 @@
         public static string ErrorPage = "MvcReportViewer.ErrorPage";
 
         public static string ShowErrorPage = "MvcReportViewer.ShowErrorPage";
+
+        public static string TestReportName = "MvcReportViewer.TestReportName";
+
+        public static string ReportServiceUrl = "MvcReportViewer.ReportServiceUrl";
+
+        public static string SsrsReportRoot = "MvcReportViewer.SsrsReportRoot";
     }
 }
