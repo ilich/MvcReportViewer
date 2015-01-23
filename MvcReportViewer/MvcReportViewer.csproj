@@ -84,6 +84,7 @@
     <Compile Include="MvcReportViewerExtensions.cs" />
     <Compile Include="MvcReportViewerIframe.cs" />
     <Compile Include="ReportFormat.cs" />
+    <Compile Include="ReportHierarchy.cs" />
     <Compile Include="ReportRunner.cs" />
     <Compile Include="ReportRunnerExtensions.cs" />
     <Compile Include="ReportServerCredentials.cs" />

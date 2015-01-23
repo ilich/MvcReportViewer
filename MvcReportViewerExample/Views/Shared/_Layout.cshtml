@@ -1,33 +1,42 @@
 ﻿<!DOCTYPE html>
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width" />
-        <link href="~/Content/styles.css" rel="stylesheet" />
-        <title>@ViewBag.Title</title>
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    </head>
-    <body>
-        <nav>
-            <ul>
-                <li>@Html.ActionLink("Basic Interface", "Index", "Home")</li>
-                <li>@Html.ActionLink("Fluent Interface", "Fluent", "Home")</li>
-                <li>@Html.ActionLink("Post Report Parameters", "Post", "Home")</li>
-                <li>@Html.ActionLink("Multiple Report Parameters", "Multiple", "Home")</li>
-                <li>@Html.ActionLink("Excel Report", "DownloadExcel", "Home")</li>
-                <li>@Html.ActionLink("Word Report (Multiple Values)", "DownloadWord", "Home")</li>
-                <li>@Html.ActionLink("PDF Report", "DownloadPdf", "Home")</li>
-                <li>@Html.ActionLink("Image Report", "DownloadImage", "Home")</li>
-            </ul>
-        </nav>
-        <article>
-            <section>
-                <pre>
+<!--[if lt IE 7]> <html lang="en" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html lang="en" class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html lang="en" class="lt-ie9"> <![endif]-->
+<!--[if IE 9]>    <html lang="en" class="ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <link href="~/Content/styles.css" rel="stylesheet" />
+
+    <title>@ViewBag.Title</title>
+    <script src="/Scripts/jquery-2.1.3.js"></script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Basic Interface", "Index", "Home")</li>
+            <li>@Html.ActionLink("Fluent Interface", "Fluent", "Home")</li>
+            <li>@Html.ActionLink("Post Report Parameters", "Post", "Home")</li>
+            <li>@Html.ActionLink("Multiple Report Parameters", "Multiple", "Home")</li>
+            <li>@Html.ActionLink("Excel Report", "DownloadExcel", "Home")</li>
+            <li>@Html.ActionLink("Word Report (Multiple Values)", "DownloadWord", "Home")</li>
+            <li>@Html.ActionLink("PDF Report", "DownloadPdf", "Home")</li>
+            <li>@Html.ActionLink("Image Report", "DownloadImage", "Home")</li>
+            <li>@Html.ActionLink("Report List", "ReportList", "Home")</li>
+        </ul>
+    </nav>
+    <article>
+        <section>
+            <pre>
                     @RenderSection("Code", false)
                 </pre>
-            </section>
-            <section>
-                @RenderBody()
-            </section>
-        </article>
-    </body>
+        </section>
+        <section>
+            @RenderBody()
+        </section>
+    </article>
+</body>
 </html>
