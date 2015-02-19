@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer;
+@{
+    ViewBag.Title = "MvcReportViewer Example";
+}
+
+@section Code {
+    @@Html.MvcReportViewer(
+            Server.MapPath("~/Reports/LocalReport.rdlc"),
+            new { IsLocal = true },
+            new { Height = 900, Width = 900, style = "border: none" })
+}
+
+@Html.MvcReportViewer(
+    Server.MapPath("~/Reports/LocalReport.rdlc"),
+    new { IsLocal = true },
+    new { Height = 900, Width = 900, style = "border: none" })

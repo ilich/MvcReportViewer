@@ -21,7 +21,7 @@ if (formElement{0}) {{
 }}
 ";
         private readonly ControlSettingsManager _settingsManager = new ControlSettingsManager();
-        
+
         private string _reportPath;
 
         private string _reportServerUrl;
@@ -41,6 +41,8 @@ if (formElement{0}) {{
         private readonly string _aspxViewer;
 
         private readonly bool _encryptParameters;
+
+        private readonly string _localHostKey = "IsLocal";
 
         /// <summary>
         /// Creates an instance of MvcReportViewerIframe class.
@@ -112,13 +114,13 @@ if (formElement{0}) {{
             IDictionary<string, object> htmlAttributes,
             FormMethod method)
             : this(
-                   reportPath, 
-                   reportServerUrl, 
-                   username, 
-                   password, 
-                   reportParameters != null ? reportParameters.ToList() : null, 
-                   controlSettings, 
-                   htmlAttributes, 
+                   reportPath,
+                   reportServerUrl,
+                   username,
+                   password,
+                   reportParameters != null ? reportParameters.ToList() : null,
+                   controlSettings,
+                   htmlAttributes,
                    method)
         {
         }
@@ -201,11 +203,11 @@ if (formElement{0}) {{
             {
                 case FormMethod.Get:
                     return GetIframeUsingGetMethod();
-                    
+
                 case FormMethod.Post:
                     return GetIframeUsingPostMethod();
             }
-            
+
             throw new InvalidOperationException();
         }
 
@@ -227,7 +229,7 @@ if (formElement{0}) {{
             iframe.MergeAttributes(_htmlAttributes);
             iframe.MergeAttribute("name", iframeId);
             iframe.GenerateId(iframeId);
-            
+
             // <script>...</script>
             var script = new StringBuilder("<script>");
             script.AppendFormat(JsPostForm, formId);
@@ -237,7 +239,7 @@ if (formElement{0}) {{
             html.Append(form);
             html.Append(iframe);
             html.Append(script);
-         
+
             return html.ToString();
         }
 
@@ -271,7 +273,7 @@ if (formElement{0}) {{
             {
                 html.Append(CreateHiddenField(setting.Key, setting.Value));
             }
-        
+
             if (_reportParameters != null)
             {
                 foreach (var parameter in _reportParameters)
@@ -282,7 +284,7 @@ if (formElement{0}) {{
                     }
 
                     var value = parameter.Value.ToString();
-                    html.Append(CreateHiddenField(parameter.Key, value));
+                    html.Append(CreateHiddenField((_localHostKey.EqualsIgnoreCase(parameter.Key) ? UriParameters.Local : parameter.Key), value));
                 }
             }
 
@@ -348,9 +350,10 @@ if (formElement{0}) {{
                     {
                         continue;
                     }
-
+                     
                     var value = parameter.Value.ToString();
-                    query.Add(parameter.Key, value);
+                    query.Add((_localHostKey.EqualsIgnoreCase(parameter.Key) ? UriParameters.Local : parameter.Key), value);
+                    
                 }
             }
 

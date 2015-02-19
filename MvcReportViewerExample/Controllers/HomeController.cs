@@ -13,6 +13,11 @@ namespace MvcReportViewer.Example.Controllers
             return View();
         }
 
+        public ActionResult Local()
+        {
+            return View();
+        }
+
         public ActionResult Fluent()
         {
             return View();

@@ -11,5 +11,7 @@
         public static string Password = "_p";
 
         public static string Encrypted = "__e";
+
+        public static string Local = "__l";
     }
 }

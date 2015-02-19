@@ -8,8 +8,20 @@ namespace MvcReportViewer
     {
         public static void Initialize(this ReportViewer reportViewer, ReportViewerParameters parameters)
         {
-            reportViewer.ProcessingMode = ProcessingMode.Remote;
+            if (parameters.IsLocal)
+            {               
+                LocalReports(reportViewer, parameters);
+            }
+            else
+            {                
+                ServerReports(reportViewer, parameters);
+            }
+            SetReportViewerSettings(reportViewer, parameters.ControlSettings);
+        }
 
+        private static void ServerReports(ReportViewer reportViewer, ReportViewerParameters parameters)
+        {
+            reportViewer.ProcessingMode = ProcessingMode.Remote;
             var serverReport = reportViewer.ServerReport;
             serverReport.ReportServerUrl = new Uri(parameters.ReportServerUrl);
             serverReport.ReportPath = parameters.ReportPath;
@@ -35,8 +47,17 @@ namespace MvcReportViewer
             {
                 serverReport.SetParameters(parameters.ReportParameters.Values);
             }
+        }
 
-            SetReportViewerSettings(reportViewer, parameters.ControlSettings);
+        private static void LocalReports(ReportViewer reportViewer, ReportViewerParameters parameters)
+        {
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            var localReport = reportViewer.LocalReport;
+            localReport.ReportPath = parameters.ReportPath;
+            if (parameters.ReportParameters.Count > 0)
+            {
+                localReport.SetParameters(parameters.ReportParameters.Values);
+            }
         }
 
         private static void SetReportViewerSettings(ReportViewer reportViewer, ControlSettings parameters)
