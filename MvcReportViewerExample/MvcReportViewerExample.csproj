@@ -120,6 +120,7 @@
     <Content Include="MvcReportViewer.aspx" />
     <Content Include="MvcReportViewerErrorPage.html" />
     <Content Include="Scripts\MvcReportViewer.js" />
+    <Content Include="Scripts\url.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

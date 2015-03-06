@@ -6,5 +6,11 @@
 <body>
     <h1>Service unavailable!</h1>
     <p>The server is temporarily unable to service your request due to maintenance downtime or capacity problems. Please try again later. </p>
+    <script src="Scripts/url.js"></script>
+    <script>
+        var error = decodeURIComponent(url('?error')),
+            errorType = decodeURIComponent(url('?errorType'));
+        console.warn(errorType + ': ' + error);
+    </script>
 </body>
 </html>
