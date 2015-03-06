@@ -134,6 +134,8 @@ _**Fluent Interface Methods**_
 
 **ReportParameters(IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; reportParameters)** - Sets the report parameter properties for the report.
 
+**ReportParameters(IEnumerable&lt;ReportParameter&gt; reportParameters)** - Sets the report parameter properties for the report.
+
 **ControlSettings(ControlSettings settings)** - Sets ReportViewer control UI parameters
 
 **Attributes(object htmlAttributes)** - Sets an object that contains the HTML attributes to set for the element.
