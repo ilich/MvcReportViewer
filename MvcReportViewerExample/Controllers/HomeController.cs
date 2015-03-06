@@ -28,6 +28,11 @@ namespace MvcReportViewer.Example.Controllers
             return View();
         }
 
+        public ActionResult VisibilityCheck()
+        {
+            return View();
+        }
+
         public ActionResult DownloadExcel()
         {
             return DownloadReport(ReportFormat.Excel);

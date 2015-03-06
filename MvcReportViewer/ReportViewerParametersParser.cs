@@ -50,16 +50,20 @@ namespace MvcReportViewer
                         foreach (var value in values)
                         {
                             var realValue = isEncrypted ? SecurityUtil.Decrypt(value) : value;
+                            var parsedKey = ParseKey(key);
+                            var realKey = parsedKey.Item1;
+                            var isVisible = parsedKey.Item2;
 
-                            if (parameters.ReportParameters.ContainsKey(key))
+                            if (parameters.ReportParameters.ContainsKey(realKey))
                             {
-                                parameters.ReportParameters[key].Values.Add(realValue);
+                                parameters.ReportParameters[realKey].Values.Add(realValue);
                             }
                             else
                             {
-                                var reportParameter = new ReportParameter(key);
+                                var reportParameter = new ReportParameter(realKey);
+                                reportParameter.Visible = isVisible;
                                 reportParameter.Values.Add(realValue);
-                                parameters.ReportParameters.Add(key, reportParameter);
+                                parameters.ReportParameters.Add(realKey, reportParameter);
                             }
                         }
                     }
@@ -77,6 +81,23 @@ namespace MvcReportViewer
             }
 
             return parameters;
+        }
+
+        private static Tuple<string, bool> ParseKey(string key)
+        {
+            if (!key.Contains(MvcReportViewerIframe.VisibilitySeparator))
+            {
+                return new Tuple<string, bool>(key, true);
+            }
+
+            var parts = key.Split(new[] { MvcReportViewerIframe.VisibilitySeparator }, StringSplitOptions.RemoveEmptyEntries);
+            bool isVisible;
+            if (parts.Length != 2 || !bool.TryParse(parts[1], out isVisible))
+            {
+                return new Tuple<string, bool>(key, true);
+            }
+
+            return new Tuple<string, bool>(parts[0], isVisible);
         }
 
         private static bool CheckEncryption(ref NameValueCollection source)

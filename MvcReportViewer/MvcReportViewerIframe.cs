@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Microsoft.Reporting.WebForms;
 
 namespace MvcReportViewer
 {
@@ -14,6 +15,8 @@ namespace MvcReportViewer
     /// </summary>
     public class MvcReportViewerIframe : IMvcReportViewerOptions
     {
+        internal static readonly string VisibilitySeparator = "~~~";
+
         private const string JsPostForm = @"
 var formElement{0} = document.getElementById('{0}');
 if (formElement{0}) {{
@@ -433,7 +436,34 @@ if (formElement{0}) {{
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions ReportParameters(IEnumerable<KeyValuePair<string, object>> reportParameters)
         {
+            if (reportParameters == null)
+            {
+                return this;
+            }
+
             _reportParameters = reportParameters.ToList();
+            return this;
+        }
+
+        /// <summary>
+        ///  Sets the report parameter properties for the report.
+        /// </summary>
+        /// <param name="reportParameters">The report parameter properties for the report.</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        public IMvcReportViewerOptions ReportParameters(IEnumerable<ReportParameter> reportParameters)
+        {
+            if (reportParameters == null)
+            {
+                return this;
+            }
+
+            _reportParameters = reportParameters.SelectMany(
+                p => p.Values
+                      .Cast<object>()
+                      .Select(pv => new KeyValuePair<string, object>(
+                          string.Format("{0}{1}{2}", p.Name, VisibilitySeparator, p.Visible),
+                          pv))).ToList();
+
             return this;
         }
 

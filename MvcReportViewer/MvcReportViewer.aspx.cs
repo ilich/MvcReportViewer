@@ -17,10 +17,10 @@ namespace MvcReportViewer
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            ShopReport();
+            ShowReport();
         }
 
-        private void ShopReport()
+        private void ShowReport()
         {
             if (IsPostBack)
             {

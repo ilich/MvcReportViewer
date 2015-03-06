@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Reporting.WebForms;
 
 namespace MvcReportViewer
 {
@@ -47,6 +48,13 @@ namespace MvcReportViewer
         /// <param name="reportParameters">The report parameter properties for the report.</param>
         /// <returns>An instance of MvcViewerOptions class.</returns>
         IMvcReportViewerOptions ReportParameters(IEnumerable<KeyValuePair<string, object>> reportParameters);
+
+        /// <summary>
+        ///  Sets the report parameter properties for the report.
+        /// </summary>
+        /// <param name="reportParameters">The report parameter properties for the report.</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        IMvcReportViewerOptions ReportParameters(IEnumerable<ReportParameter> reportParameters);
 
         /// <summary>
         /// Sets an object that contains the HTML attributes to set for the element.
