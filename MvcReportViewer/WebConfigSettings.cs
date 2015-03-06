@@ -19,5 +19,7 @@
         public static string ErrorPage = "MvcReportViewer.ErrorPage";
 
         public static string ShowErrorPage = "MvcReportViewer.ShowErrorPage";
+
+        public static string IsLocal = "MvcReportViewer.IsLocal";
     }
 }

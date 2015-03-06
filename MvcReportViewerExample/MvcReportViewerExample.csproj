@@ -163,6 +163,12 @@
   <ItemGroup>
     <Content Include="Views\Home\Multiple.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\LocalReport.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Local.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -179,7 +185,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>56060</DevelopmentServerPort>
+          <DevelopmentServerPort>62461</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:61710/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

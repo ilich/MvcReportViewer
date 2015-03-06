@@ -42,6 +42,14 @@ namespace MvcReportViewer
                 {
                     parameters.Password = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
                 }
+                else if (key.EqualsIgnoreCase(UriParameters.Local)) {
+                    var isLocalStringValue = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
+                    bool isLocalValue;
+                    if(Boolean.TryParse(isLocalStringValue, out isLocalValue))
+                    {
+                        parameters.IsLocal = isLocalValue;
+                    }
+                }
                 else if (!settinsManager.IsControlSetting(key))
                 {
                     var values = queryString.GetValues(key);
@@ -124,13 +132,21 @@ namespace MvcReportViewer
             {
                 isAzureSSRSValue = false;
             }
-            
+
+            var isLocal = ConfigurationManager.AppSettings[WebConfigSettings.IsLocal];
+            bool isLocalValue;
+            if (string.IsNullOrEmpty(isLocal) || !bool.TryParse(isLocal, out isLocalValue))
+            {
+                isLocalValue = false;
+            }
+
             var parameters = new ReportViewerParameters
                 {
                     ReportServerUrl = ConfigurationManager.AppSettings[WebConfigSettings.Server],
                     Username = ConfigurationManager.AppSettings[WebConfigSettings.Username],
                     Password = ConfigurationManager.AppSettings[WebConfigSettings.Password],
-                    IsAzureSSRS = isAzureSSRSValue
+                    IsAzureSSRS = isAzureSSRSValue,
+                    IsLocal = isLocalValue
                 };
 
             return parameters;
