@@ -116,6 +116,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\LocalReportsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -143,9 +144,7 @@
     </Content>
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -178,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_Data\Reports\Products.rdlc" />
+    <EmbeddedResource Include="App_Data\Reports\Cities.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Reports\DatabaseDataSet.xsc">
@@ -191,6 +191,7 @@
     <Content Include="App_Data\Reports\DatabaseDataSet.xss">
       <DependentUpon>DatabaseDataSet.xsd</DependentUpon>
     </Content>
+    <Content Include="Views\Home\LocalReports.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

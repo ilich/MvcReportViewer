@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Reporting.WebForms;
 using System.Web.UI.WebControls;
+using System.Configuration;
 
 namespace MvcReportViewer
 {
@@ -8,8 +9,69 @@ namespace MvcReportViewer
     {
         public static void Initialize(this ReportViewer reportViewer, ReportViewerParameters parameters)
         {
-            reportViewer.ProcessingMode = ProcessingMode.Remote;
+            if (parameters.ProcessingMode == ProcessingMode.Remote)
+            {
+                SetupRemoteProcessing(reportViewer, parameters);
+            }
+            else
+            {
+                SetupLocalProcessing(reportViewer, parameters);
+            }
 
+            SetReportViewerSettings(reportViewer, parameters.ControlSettings);
+        }
+
+        private static void SetupLocalProcessing(ReportViewer reportViewer, ReportViewerParameters parameters)
+        {
+            if (parameters.ControlId == null)
+            {
+                throw new MvcReportViewerException("MvcReportViewer control ID is missing");
+            }
+
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            var localReport = reportViewer.LocalReport;
+            localReport.ReportPath = parameters.ReportPath;
+
+            if (parameters.ReportParameters.Count > 0)
+            {
+                localReport.SetParameters(parameters.ReportParameters.Values);
+            }
+
+            var dataSourceProvider = GetLocalReportDataProvider();
+            var dataSources = dataSourceProvider.Get((Guid)parameters.ControlId);
+            localReport.DataSources.Clear();
+            foreach(var dataSource in dataSources)
+            {
+                localReport.DataSources.Add(dataSource);
+            }
+        }
+
+        private static ILocalReportDataSourceProvider GetLocalReportDataProvider()
+        {
+            var providerTypeName = ConfigurationManager.AppSettings[WebConfigSettings.LocalDataSourceProvider];
+            if (string.IsNullOrEmpty(providerTypeName))
+            {
+                throw new MvcReportViewerException(
+                    string.Format("{0} configuration is not found in the Web.config", WebConfigSettings.LocalDataSourceProvider));
+            }
+
+            try
+            {
+                var providerType = Type.GetType(providerTypeName);
+                var provider = (ILocalReportDataSourceProvider)Activator.CreateInstance(providerType);
+                return provider;
+            }
+            catch (Exception err)
+            {
+                throw new MvcReportViewerException(
+                    string.Format("{0} configuration in the Web.config is not correct", WebConfigSettings.LocalDataSourceProvider),
+                    err);
+            }
+        }
+
+        private static void SetupRemoteProcessing(ReportViewer reportViewer, ReportViewerParameters parameters)
+        {
+            reportViewer.ProcessingMode = ProcessingMode.Remote;
             var serverReport = reportViewer.ServerReport;
             serverReport.ReportServerUrl = new Uri(parameters.ReportServerUrl);
             serverReport.ReportPath = parameters.ReportPath;
@@ -35,8 +97,6 @@ namespace MvcReportViewer
             {
                 serverReport.SetParameters(parameters.ReportParameters.Values);
             }
-
-            SetReportViewerSettings(reportViewer, parameters.ControlSettings);
         }
 
         private static void SetReportViewerSettings(ReportViewer reportViewer, ControlSettings parameters)

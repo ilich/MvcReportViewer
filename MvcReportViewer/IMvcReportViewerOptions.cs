@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Reporting.WebForms;
@@ -72,10 +73,25 @@ namespace MvcReportViewer
         IMvcReportViewerOptions Method(FormMethod method);
 
         /// <summary>
-        /// Sets ReportViewer control UI parameters
+        /// Sets ReportViewer control UI parameters.
         /// </summary>
         /// <param name="settings"></param>
         /// <returns>An instance of MvcViewerOptions class.</returns>
         IMvcReportViewerOptions ControlSettings(ControlSettings settings);
+
+        /// <summary>
+        /// Sets ReportViewer report processing mode.
+        /// </summary>
+        /// <param name="mode">Processing Mode (Local or Remote).</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        IMvcReportViewerOptions ProcessingMode(ProcessingMode mode);
+
+        /// <summary>
+        /// Registers local data source.
+        /// </summary>
+        /// <param name="dataSourceName">Report data source name.</param>
+        /// <param name="dataTable">The data.</param>
+        /// <returns></returns>
+        IMvcReportViewerOptions LocalDataSource(string dataSourceName, DataTable dataTable);
     }
 }

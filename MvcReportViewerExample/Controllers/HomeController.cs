@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Collections.Generic;
+using System.Data;
+using MvcReportViewer.Example.Models;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace MvcReportViewer.Example.Controllers
 {
@@ -74,6 +78,36 @@ namespace MvcReportViewer.Example.Controllers
                     new KeyValuePair<string, object>("Parameter2", DateTime.Now.AddYears(10)),
                     new KeyValuePair<string, object>("Parameter3", 12345)
                 });
+        }
+
+        public ActionResult LocalReports()
+        {
+            var model = new LocalReportsModel
+            {
+                Products = GetDataTable("select * from dbo.Products"),
+                Cities = GetDataTable("select * from dbo.Cities"),
+                FilteredCities = GetDataTable("select * from dbo.Cities where Id < 3")
+            };
+
+            return View(model);
+        }
+
+        private DataTable GetDataTable(string sql)
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["Products"].ConnectionString;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = sql;
+                    using (var adapter = new SqlDataAdapter(command))
+                    {
+                        DataTable table = new DataTable();
+                        adapter.Fill(table);
+                        return table;
+                    }
+                }
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace MvcReportViewer
@@ -101,7 +102,7 @@ namespace MvcReportViewer
         }
 
         /// <summary>
-        /// Returns fluent interface to HTML <b>iframe</b> rendering ASP.NET ReportViewer control with Remote Processing Mode.
+        /// Returns fluent interface to HTML <b>iframe</b> rendering ASP.NET ReportViewer control.
         /// </summary>
         /// <param name="helper">The HTML helper instance that this method extends.</param>
         /// <param name="reportPath">The path to the report on the server.</param>
@@ -111,6 +112,23 @@ namespace MvcReportViewer
             string reportPath)
         {
             return new MvcReportViewerIframe(reportPath);
+        }
+
+        /// <summary>
+        /// Returns fluent interface to HTML <b>iframe</b> rendering ASP.NET ReportViewer control. 
+        /// IMPORTANT: Unit-tests only!
+        /// </summary>
+        /// <param name="helper">The HTML helper instance that this method extends.</param>
+        /// <param name="reportPath">The path to the report on the server.</param>
+        /// <returns>Fluent interface HTML <b>iframe</b> element.</returns>
+        internal static IMvcReportViewerOptions MvcReportViewerFluent(
+            this HtmlHelper helper,
+            string reportPath,
+            Guid controlId)
+        {
+            var iframe = new MvcReportViewerIframe(reportPath);
+            iframe.ControlId = controlId;
+            return iframe;
         }
     }
 }

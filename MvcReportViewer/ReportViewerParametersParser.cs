@@ -30,6 +30,16 @@ namespace MvcReportViewer
                 {
                     parameters.ReportPath = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
                 }
+                else if (key.EqualsIgnoreCase(UriParameters.ControlId))
+                {
+                    var parameter = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
+                    parameters.ControlId = Guid.Parse(parameter);
+                }
+                else if (key.EqualsIgnoreCase(UriParameters.ProcessingMode))
+                {
+                    var parameter = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
+                    parameters.ProcessingMode = (ProcessingMode)Enum.Parse(typeof(ProcessingMode), parameter);
+                }
                 else if (key.EqualsIgnoreCase(UriParameters.ReportServerUrl))
                 {
                     parameters.ReportServerUrl = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;

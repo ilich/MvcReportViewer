@@ -74,8 +74,6 @@ namespace MvcReportViewer
             ClientScript.RegisterClientScriptInclude("JavaScriptAPI", javaScriptApi);
         }
 
-
-
         private bool RedirectToErrorPage(Exception exception)
         {
             Trace.Warn("MvcReportViewer", exception.Message);

@@ -75,6 +75,7 @@
     <Compile Include="AzureReportServerCredentials.cs" />
     <Compile Include="ControlSettings.cs" />
     <Compile Include="ControlSettingsManager.cs" />
+    <Compile Include="ILocalReportDataSourceProvider.cs" />
     <Compile Include="IMvcReportViewerOptions.cs" />
     <Compile Include="MvcReportViewer.aspx.cs">
       <DependentUpon>MvcReportViewer.aspx</DependentUpon>
@@ -93,6 +94,7 @@
     <Compile Include="ReportViewerParametersParser.cs" />
     <Compile Include="IgnoreCaseExtensions.cs" />
     <Compile Include="SecurityUtil.cs" />
+    <Compile Include="SessionLocalDataSourceProvider.cs" />
     <Compile Include="UriParameterAttribute.cs" />
     <Compile Include="UriParameters.cs" />
     <Compile Include="WebConfigSettings.cs" />

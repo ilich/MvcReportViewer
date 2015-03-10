@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -24,7 +25,7 @@ if (formElement{0}) {{
 }}
 ";
         private readonly ControlSettingsManager _settingsManager = new ControlSettingsManager();
-        
+
         private string _reportPath;
 
         private string _reportServerUrl;
@@ -34,6 +35,8 @@ if (formElement{0}) {{
         private string _password;
 
         private FormMethod _method;
+
+        private ProcessingMode _processingMode = Microsoft.Reporting.WebForms.ProcessingMode.Remote;
 
         private IList<KeyValuePair<string, object>> _reportParameters;
 
@@ -178,6 +181,14 @@ if (formElement{0}) {{
             {
                 _encryptParameters = false;
             }
+
+            ControlId = Guid.NewGuid();
+        }
+
+        internal Guid ControlId
+        {
+            get;
+            set;
         }
 
         /// <summary>
@@ -253,6 +264,9 @@ if (formElement{0}) {{
         {
             var html = new StringBuilder();
 
+            html.Append(CreateHiddenField(UriParameters.ControlId, ControlId));
+            html.Append(CreateHiddenField(UriParameters.ProcessingMode, _processingMode));
+
             if (!string.IsNullOrEmpty(_reportPath))
             {
                 html.Append(CreateHiddenField(UriParameters.ReportPath, _reportPath));
@@ -321,6 +335,8 @@ if (formElement{0}) {{
         private string PrepareViewerUri()
         {
             var query = HttpUtility.ParseQueryString(string.Empty);
+            query[UriParameters.ControlId] = ControlId.ToString();
+            query[UriParameters.ProcessingMode] = _processingMode.ToString();
             if (!string.IsNullOrEmpty(_reportPath))
             {
                 query[UriParameters.ReportPath] = _reportPath;
@@ -501,6 +517,51 @@ if (formElement{0}) {{
         public IMvcReportViewerOptions ControlSettings(ControlSettings settings)
         {
             _controlSettings = settings;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets ReportViewer report processing mode.
+        /// </summary>
+        /// <param name="mode">Processing Mode (Local or Remote).</param>
+        /// <returns>An instance of MvcViewerOptions class.</returns>
+        public IMvcReportViewerOptions ProcessingMode(ProcessingMode mode)
+        {
+            _processingMode = mode;
+            return this;
+        }
+
+        /// <summary>
+        /// Registers local data source.
+        /// </summary>
+        /// <param name="dataSourceName">Report data source name.</param>
+        /// <param name="dataTable">The data.</param>
+        /// <returns></returns>
+        public IMvcReportViewerOptions LocalDataSource(string dataSourceName, DataTable dataTable)
+        {
+            var providerTypeName = ConfigurationManager.AppSettings[WebConfigSettings.LocalDataSourceProvider];
+            if (string.IsNullOrEmpty(providerTypeName))
+            {
+                throw new MvcReportViewerException(
+                    string.Format("{0} configuration is not found in the Web.config", WebConfigSettings.LocalDataSourceProvider));
+            }
+
+            ILocalReportDataSourceProvider provider = null;
+            try
+            {
+                var providerType = Type.GetType(providerTypeName);
+                provider = (ILocalReportDataSourceProvider)Activator.CreateInstance(providerType);
+            }
+            catch(Exception err)
+            {
+                throw new MvcReportViewerException(
+                    string.Format("{0} configuration in the Web.config is not correct", WebConfigSettings.LocalDataSourceProvider),
+                    err);
+            }
+
+            var dataSource = new ReportDataSource(dataSourceName, dataTable);
+            provider.Add(ControlId, dataSource);
+
             return this;
         }
     }

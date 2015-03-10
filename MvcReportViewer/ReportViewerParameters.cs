@@ -1,5 +1,6 @@
 ﻿using Microsoft.Reporting.WebForms;
 using System.Collections.Generic;
+using System;
 
 namespace MvcReportViewer
 {
@@ -17,6 +18,10 @@ namespace MvcReportViewer
         public string Password { get; set; }
 
         public string ReportPath { get; set; }
+
+        public Guid? ControlId { get; set; }
+
+        public ProcessingMode ProcessingMode { get; set; }
 
         public bool IsAzureSSRS { get; set; }
 
