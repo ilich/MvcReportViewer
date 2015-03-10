@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System;
 
 namespace MvcReportViewer.Tests
 {
@@ -13,11 +14,13 @@ namespace MvcReportViewer.Tests
         public void Iframe_SrcOnly()
         {
             var iframe = _htmlHelper.MvcReportViewer(TestData.ReportName);
+            iframe.ControlId = Guid.Empty;
+
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}",
+                "{0}&amp;{1}={2}",
                 TestData.ViewerUri,
                 UriParameters.ReportPath,
                 TestData.ReportName);
@@ -28,12 +31,14 @@ namespace MvcReportViewer.Tests
         public void Iframe_HeightWidthSrc()
         {
             var iframe = _htmlHelper.MvcReportViewer(TestData.ReportName, new { style = TestData.Style });
+            iframe.ControlId = Guid.Empty;
+
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(2, html.Attributes.Count);
             Assert.AreEqual(TestData.Style, html.Attributes["style"].Value);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}",
+                "{0}&amp;{1}={2}",
                 TestData.ViewerUri,
                 UriParameters.ReportPath,
                 TestData.ReportName);
@@ -44,11 +49,13 @@ namespace MvcReportViewer.Tests
         public void Iframe_SrcReportServer()
         {
             var iframe = _htmlHelper.MvcReportViewer(TestData.ReportName, TestData.Server);
+            iframe.ControlId = Guid.Empty;
+
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}&amp;{3}={4}",
+                "{0}&amp;{1}={2}&amp;{3}={4}",
                 TestData.ViewerUri,
                 UriParameters.ReportPath,
                 TestData.ReportName,
@@ -65,11 +72,13 @@ namespace MvcReportViewer.Tests
                 TestData.Server,
                 TestData.Username,
                 TestData.Password);
+            iframe.ControlId = Guid.Empty;
+
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}&amp;{3}={4}&amp;{5}={6}&amp;{7}={8}",
+                "{0}&amp;{1}={2}&amp;{3}={4}&amp;{5}={6}&amp;{7}={8}",
                 TestData.ViewerUri,
                 UriParameters.ReportPath,
                 TestData.ReportName,
@@ -94,11 +103,13 @@ namespace MvcReportViewer.Tests
                         Param3 = TestData.ExprectedParameters["Param3"]
                     },
                 null);
+            iframe.ControlId = Guid.Empty;
+
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(1, html.Attributes.Count);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}&amp;{3}",
+                "{0}&amp;{1}={2}&amp;{3}",
                 TestData.ViewerUri,
                 UriParameters.ReportPath,
                 TestData.ReportName,
@@ -125,12 +136,14 @@ namespace MvcReportViewer.Tests
                         ShowParameterPrompts = TestData.ShowParameterPromptsValue
                     },
                 new { id = TestData.Id });
+            iframe.ControlId = Guid.Empty;
+
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(2, html.Attributes.Count);
             Assert.AreEqual(TestData.Id, html.Attributes["id"].Value);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}&amp;{3}={4}&amp;{5}={6}&amp;{7}={8}&amp;{9}={10}&amp;{11}",
+                "{0}&amp;{1}={2}&amp;{3}={4}&amp;{5}={6}&amp;{7}={8}&amp;{9}={10}&amp;{11}",
                 TestData.ViewerUri,
                 UriParameters.ReportPath,
                 TestData.ReportName,
@@ -150,13 +163,15 @@ namespace MvcReportViewer.Tests
         public void Iframe_SrcClassId()
         {
             var iframe = _htmlHelper.MvcReportViewer(TestData.ReportName, new { @class = TestData.CssClass, id = TestData.Id });
+            iframe.ControlId = Guid.Empty;
+
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
             Assert.AreEqual(3, html.Attributes.Count);
             Assert.AreEqual(TestData.CssClass, html.Attributes["class"].Value);
             Assert.AreEqual(TestData.Id, html.Attributes["id"].Value);
             var expectedUrl = string.Format(
-                "{0}?{1}={2}",
+                "{0}&amp;{1}={2}",
                 TestData.ViewerUri,
                 UriParameters.ReportPath,
                 TestData.ReportName);

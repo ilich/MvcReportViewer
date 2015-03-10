@@ -77,7 +77,9 @@ namespace MvcReportViewer.Tests
 
         public static readonly string Id = "dummy-id";
 
-        public static readonly string ViewerUri = "/MvcReportViewer.aspx";
+        public static readonly string ViewerUriLocal = "/MvcReportViewer.aspx?_id=00000000-0000-0000-0000-000000000000&amp;_m=Local";
+
+        public static readonly string ViewerUri = "/MvcReportViewer.aspx?_id=00000000-0000-0000-0000-000000000000&amp;_m=Remote";
 
         public static readonly string ReportParametes = string.Join(
             "&amp;", 
