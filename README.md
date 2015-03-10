@@ -58,7 +58,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 **MvcReportViewer.IsAzureSSRS** - Use SSRS service hosted on Windows Azure.
 
-**MvcReportViewer.LocalDataSourceProvider*** - Local Report Data Source provider. The provider has to implement ILocalReportDataSourceProvider interface.
+**MvcReportViewer.LocalDataSourceProvider** - Local Report Data Source provider. The provider has to implement ILocalReportDataSourceProvider interface.
 
 ### Basic Interface
 
@@ -147,7 +147,7 @@ _**Fluent Interface Methods**_
 
 **ProcessingMode(ProcessingMode mode)** - Sets ReportViewer report processing mode. Default processing mode is ProcessingMode.Remote.
 
-**LocalDataSource(string dataSourceName, DataTable dataTable);** - Registers local report data source. The default local data source provider (MvcReportViewer.SessionLocalDataSourceProvider) stores data in user session.
+**LocalDataSource(string dataSourceName, DataTable dataTable)** - Registers local report data source. The default local data source provider (MvcReportViewer.SessionLocalDataSourceProvider) stores data in user session.
 
 ### Controller Extensions
 
