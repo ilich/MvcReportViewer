@@ -80,7 +80,8 @@ namespace MvcReportViewer
                 }
             }
 
-            if (string.IsNullOrEmpty(parameters.ReportServerUrl))
+            if (parameters.ProcessingMode == ProcessingMode.Remote 
+                && string.IsNullOrEmpty(parameters.ReportServerUrl))
             {
                 throw new MvcReportViewerException("Report Server is not specified.");
             }
