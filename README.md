@@ -37,6 +37,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 &lt;add key="MvcReportViewer.Password" value="" /&gt;
 &lt;add key="MvcReportViewer.EncryptParameters" value="False" /&gt;
 &lt;add key="MvcReportViewer.IsAzureSSRS" value="false" /&gt;
+&lt;add key="MvcReportViewer.LocalDataSourceProvider" value="MvcReportViewer.SessionLocalDataSourceProvider, MvcReportViewer" /&gt;
 </code></pre>
 
 **MvcReportViewer.AspxViewer** - Path to the Report Viewer page shown in the iframe. Its name is **MvcReportViewer.aspx** and it is in the application's root by default.
@@ -56,6 +57,8 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 **MvcReportViewer.EncryptParameters** - Report Viewer parameters will be encrypted if it is set to True. It is False by default.
 
 **MvcReportViewer.IsAzureSSRS** - Use SSRS service hosted on Windows Azure.
+
+**MvcReportViewer.LocalDataSourceProvider*** - Local Report Data Source provider. The provider has to implement ILocalReportDataSourceProvider interface.
 
 ### Basic Interface
 
@@ -141,6 +144,10 @@ _**Fluent Interface Methods**_
 **Attributes(object htmlAttributes)** - Sets an object that contains the HTML attributes to set for the element.
 
 **Method(FormMethod method)** - Sets the method for sending parameters to the iframe, either GET or POST. POST should be used to send long arguments, etc. Use GET otherwise.
+
+**ProcessingMode(ProcessingMode mode)** - Sets ReportViewer report processing mode. Default processing mode is ProcessingMode.Remote.
+
+**LocalDataSource(string dataSourceName, DataTable dataTable);** - Registers local report data source. The default local data source provider (MvcReportViewer.SessionLocalDataSourceProvider) stores data in user session.
 
 ### Controller Extensions
 
