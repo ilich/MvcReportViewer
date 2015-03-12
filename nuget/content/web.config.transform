@@ -9,6 +9,7 @@
     <add key="MvcReportViewer.Username" value="" />
     <add key="MvcReportViewer.Password" value="" />
     <add key="MvcReportViewer.EncryptParameters" value="False"/>
+    <add key="MvcReportViewer.LocalDataSourceProvider" value="MvcReportViewer.SessionLocalDataSourceProvider, MvcReportViewer" />
   </appSettings>
   <system.web>
     <httpHandlers>
