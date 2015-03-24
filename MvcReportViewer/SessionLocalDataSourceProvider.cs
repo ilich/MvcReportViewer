@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -20,26 +21,42 @@ namespace MvcReportViewer
             }
 
             var key = GetSessionValueKey(reportControlId);
-            var dataSources = _session[key] as List<ReportDataSource>;
+            var dataSources = _session[key] as List<ReportDataSourceWrapper>;
             if (dataSources == null)
             {
-                dataSources = new List<ReportDataSource>();
+                dataSources = new List<ReportDataSourceWrapper>();
             }
 
-            dataSources.Add(dataSource);
+            dataSources.Add(
+                new ReportDataSourceWrapper
+                {
+                    Name = dataSource.Name,
+                    Value = (DataTable)dataSource.Value
+                });
+
             _session[key] = dataSources;
         }
 
         public IEnumerable<ReportDataSource> Get(Guid reportControlId)
         {
             var key = GetSessionValueKey(reportControlId);
-            var dataSources = _session[key] as List<ReportDataSource>;
-            return dataSources ?? new List<ReportDataSource>();
+            var dataSources = _session[key] as List<ReportDataSourceWrapper>;
+            return dataSources == null
+                ? new List<ReportDataSource>()
+                : dataSources.Select(s => new ReportDataSource(s.Name, s.Value));
         }
 
         private static string GetSessionValueKey(Guid reportControlId)
         {
             return string.Format("MvcReportViewer_Local_{0}", reportControlId);
+        }
+
+        [Serializable]
+        public class ReportDataSourceWrapper
+        {
+            public string Name { get; set; }
+
+            public DataTable Value { get; set; }
         }
     }
 }
