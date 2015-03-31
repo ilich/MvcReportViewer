@@ -5,12 +5,15 @@ using System.Data;
 using MvcReportViewer.Example.Models;
 using System.Configuration;
 using System.Data.SqlClient;
+using Microsoft.Reporting.WebForms;
 
 namespace MvcReportViewer.Example.Controllers
 {
     public class HomeController : Controller
     {
-        private const string ReportName = "/TestReports/TestReport";
+        private const string RemoteReportName = "/TestReports/TestReport";
+
+        private const string LocalReportName = "App_Data/Reports/Products.rdlc";
 
         public ActionResult Index()
         {
@@ -39,7 +42,7 @@ namespace MvcReportViewer.Example.Controllers
 
         public ActionResult DownloadExcel()
         {
-            return DownloadReport(ReportFormat.Excel);
+            return DownloadReport(ReportFormat.Excel, true);
         }
 
         public ActionResult DownloadWord()
@@ -49,27 +52,39 @@ namespace MvcReportViewer.Example.Controllers
 
         public ActionResult DownloadPdf()
         {
-            return DownloadReport(ReportFormat.PDF);
+            return DownloadReport(ReportFormat.PDF, false);
         }
 
-        public ActionResult DownloadImage()
+        private ActionResult DownloadReport(ReportFormat format, bool isLocalReport)
         {
-            return DownloadReport(ReportFormat.Image);
-        }
-
-        private ActionResult DownloadReport(ReportFormat format)
-        {
-            return this.Report(
-                format,
-                ReportName,
-                new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 });
+            if (isLocalReport)
+            {
+                return this.Report(
+                    format,
+                    LocalReportName,
+                    new { Parameter1 = "Test", Parameter2 = 123 },
+                    ProcessingMode.Local,
+                    new Dictionary<string, DataTable>
+                    {
+                        { "Products", GetProducts() },
+                        { "Cities", GetCities() }
+                    });
+            }
+            else
+            {
+                return this.Report(
+                    format,
+                    RemoteReportName,
+                    new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 });
+            }
+            
         }
 
         private ActionResult DownloadReportMultipleValues(ReportFormat format)
         {
             return this.Report(
                 format,
-                ReportName,
+                RemoteReportName,
                 new List<KeyValuePair<string, object>>
                 {
                     new KeyValuePair<string, object>("Parameter1", "Value 1"),
@@ -84,12 +99,22 @@ namespace MvcReportViewer.Example.Controllers
         {
             var model = new LocalReportsModel
             {
-                Products = GetDataTable("select * from dbo.Products"),
-                Cities = GetDataTable("select * from dbo.Cities"),
+                Products = GetProducts(),
+                Cities = GetCities(),
                 FilteredCities = GetDataTable("select * from dbo.Cities where Id < 3")
             };
 
             return View(model);
+        }
+
+        private DataTable GetProducts()
+        {
+            return GetDataTable("select * from dbo.Products");
+        }
+
+        private DataTable GetCities()
+        {
+            return GetDataTable("select * from dbo.Cities");
         }
 
         private DataTable GetDataTable(string sql)

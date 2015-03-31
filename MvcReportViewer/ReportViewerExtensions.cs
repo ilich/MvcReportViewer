@@ -23,11 +23,6 @@ namespace MvcReportViewer
 
         private static void SetupLocalProcessing(ReportViewer reportViewer, ReportViewerParameters parameters)
         {
-            if (parameters.ControlId == null)
-            {
-                throw new MvcReportViewerException("MvcReportViewer control ID is missing");
-            }
-
             reportViewer.ProcessingMode = ProcessingMode.Local;
             var localReport = reportViewer.LocalReport;
             localReport.ReportPath = parameters.ReportPath;
@@ -37,13 +32,24 @@ namespace MvcReportViewer
                 localReport.SetParameters(parameters.ReportParameters.Values);
             }
 
-            var dataSourceProvider = GetLocalReportDataProvider();
-            var dataSources = dataSourceProvider.Get((Guid)parameters.ControlId);
-            localReport.DataSources.Clear();
-            foreach(var dataSource in dataSources)
+            // If parameters.LocalReportDataSources then we should get report data source
+            // from local data source provider.
+            if (parameters.LocalReportDataSources == null)
             {
-                localReport.DataSources.Add(dataSource);
+                if (parameters.ControlId == null)
+                {
+                    throw new MvcReportViewerException("MvcReportViewer control ID is missing");
+                }
+
+                var dataSourceProvider = GetLocalReportDataProvider();
+                var dataSources = dataSourceProvider.Get((Guid)parameters.ControlId);
+                localReport.DataSources.Clear();
+                foreach (var dataSource in dataSources)
+                {
+                    localReport.DataSources.Add(dataSource);
+                }
             }
+            
         }
 
         private static ILocalReportDataSourceProvider GetLocalReportDataProvider()

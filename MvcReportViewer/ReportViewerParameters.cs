@@ -1,6 +1,7 @@
 ﻿using Microsoft.Reporting.WebForms;
 using System.Collections.Generic;
 using System;
+using System.Data;
 
 namespace MvcReportViewer
 {
@@ -25,7 +26,9 @@ namespace MvcReportViewer
 
         public bool IsAzureSSRS { get; set; }
 
-        public Dictionary<string, ReportParameter> ReportParameters { get; set; }
+        public IDictionary<string, ReportParameter> ReportParameters { get; set; }
+
+        public IDictionary<string, DataTable> LocalReportDataSources { get; set; }
 
         public ControlSettings ControlSettings { get; set; }
     }

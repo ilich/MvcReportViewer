@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Web.Mvc;
+using Microsoft.Reporting.WebForms;
 
 namespace MvcReportViewer
 {
@@ -11,13 +13,17 @@ namespace MvcReportViewer
         /// <param name="controller">The Controller instance that this method extends.</param>
         /// <param name="reportFormat">Report Viewer Web Control supported format (Excel, Word, PDF or Image)</param>
         /// <param name="reportPath">The path to the report on the server.</param>
+        /// <param name="mode">Report processing mode: remote or local.</param>
+        /// <param name="localReportDataSources">Local report data sources</param>
         /// <returns>The file-content result object.</returns>
         public static FileStreamResult Report(
             this Controller controller, 
             ReportFormat reportFormat, 
-            string reportPath)
+            string reportPath,
+            ProcessingMode mode = ProcessingMode.Remote,
+            IDictionary<string, DataTable> localReportDataSources = null)
         {
-            var reportRunner = new ReportRunner(reportFormat, reportPath);
+            var reportRunner = new ReportRunner(reportFormat, reportPath, mode, localReportDataSources);
             return reportRunner.Run();
         }
 
@@ -28,17 +34,23 @@ namespace MvcReportViewer
         /// <param name="reportFormat">Report Viewer Web Control supported format (Excel, Word, PDF or Image)</param>
         /// <param name="reportPath">The path to the report on the server.</param>
         /// <param name="reportParameters">The report parameter properties for the report.</param>
+        /// <param name="mode">Report processing mode: remote or local.</param>
+        /// <param name="localReportDataSources">Local report data sources</param>
         /// <returns>The file-content result object.</returns>
         public static FileStreamResult Report(
             this Controller controller,
             ReportFormat reportFormat,
             string reportPath,
-            object reportParameters)
+            object reportParameters,
+            ProcessingMode mode = ProcessingMode.Remote,
+            IDictionary<string, DataTable> localReportDataSources = null)
         {
             var reportRunner = new ReportRunner(
                 reportFormat, 
                 reportPath, 
-                HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters));
+                HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters),
+                mode,
+                localReportDataSources);
 
             return reportRunner.Run();
         }
@@ -50,17 +62,23 @@ namespace MvcReportViewer
         /// <param name="reportFormat">Report Viewer Web Control supported format (Excel, Word, PDF or Image)</param>
         /// <param name="reportPath">The path to the report on the server.</param>
         /// <param name="reportParameters">The report parameter properties for the report.</param>
+        /// <param name="mode">Report processing mode: remote or local.</param>
+        /// <param name="localReportDataSources">Local report data sources</param>
         /// <returns>The file-content result object.</returns>
         public static FileStreamResult Report(
             this Controller controller,
             ReportFormat reportFormat,
             string reportPath,
-            IEnumerable<KeyValuePair<string, object>> reportParameters)
+            IEnumerable<KeyValuePair<string, object>> reportParameters,
+            ProcessingMode mode = ProcessingMode.Remote,
+            IDictionary<string, DataTable> localReportDataSources = null)
         {
             var reportRunner = new ReportRunner(
                 reportFormat,
                 reportPath,
-                reportParameters);
+                reportParameters,
+                mode,
+                localReportDataSources);
 
             return reportRunner.Run();
         }
@@ -75,6 +93,8 @@ namespace MvcReportViewer
         /// <param name="username">The report server username.</param>
         /// <param name="password">The report server password.</param>
         /// <param name="reportParameters">The report parameter properties for the report.</param>
+        /// <param name="mode">Report processing mode: remote or local.</param>
+        /// <param name="localReportDataSources">Local report data sources</param>
         /// <returns>The file-content result object.</returns>
         public static FileStreamResult Report(
             this Controller controller,
@@ -83,7 +103,9 @@ namespace MvcReportViewer
             string reportServerUrl,
             string username = null,
             string password = null,
-            object reportParameters = null)
+            object reportParameters = null,
+            ProcessingMode mode = ProcessingMode.Remote,
+            IDictionary<string, DataTable> localReportDataSources = null)
         {
             var reportRunner = new ReportRunner(
                 reportFormat,
@@ -91,7 +113,9 @@ namespace MvcReportViewer
                 reportServerUrl,
                 username,
                 password,
-                HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters));
+                HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters),
+                mode,
+                localReportDataSources);
 
             return reportRunner.Run();
         }
@@ -106,6 +130,8 @@ namespace MvcReportViewer
         /// <param name="reportParameters">The report parameter properties for the report.</param>
         /// <param name="username">The report server username.</param>
         /// <param name="password">The report server password.</param>
+        /// <param name="mode">Report processing mode: remote or local.</param>
+        /// <param name="localReportDataSources">Local report data sources</param>
         /// <returns>The file-content result object.</returns>
         public static FileStreamResult Report(
             this Controller controller,
@@ -114,7 +140,9 @@ namespace MvcReportViewer
             string reportServerUrl,
             IEnumerable<KeyValuePair<string, object>> reportParameters,
             string username = null,
-            string password = null)
+            string password = null,
+            ProcessingMode mode = ProcessingMode.Remote,
+            IDictionary<string, DataTable> localReportDataSources = null)
         {
             var reportRunner = new ReportRunner(
                 reportFormat,
@@ -122,7 +150,9 @@ namespace MvcReportViewer
                 reportServerUrl,
                 username,
                 password,
-                reportParameters);
+                reportParameters,
+                mode,
+                localReportDataSources);
 
             return reportRunner.Run();
         }
