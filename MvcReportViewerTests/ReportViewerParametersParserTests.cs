@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Web;
+using Microsoft.Reporting.WebForms;
 
 namespace MvcReportViewer.Tests
 {
@@ -195,7 +196,11 @@ namespace MvcReportViewer.Tests
 
         private NameValueCollection GetQueryString()
         {
-            var queryString = new NameValueCollection { { UriParameters.ReportPath, TestData.ReportName } };
+            var queryString = new NameValueCollection { 
+                { UriParameters.ReportPath, TestData.ReportName },
+                { UriParameters.ProcessingMode, ProcessingMode.Remote.ToString() }
+            };
+
             return queryString;
         }
 
