@@ -69,6 +69,7 @@ namespace MvcReportViewer
             IEnumerable<KeyValuePair<string, object>> reportParameters)
         {
             _reportFormat = reportFormat;
+            _viewerParameters.ProcessingMode = ProcessingMode.Remote;
             _viewerParameters.ReportPath = reportPath;
             _viewerParameters.ReportServerUrl = reportServerUrl ?? _viewerParameters.ReportServerUrl;
             if (username != null || password != null)
