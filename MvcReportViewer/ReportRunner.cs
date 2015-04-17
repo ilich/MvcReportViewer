@@ -14,7 +14,8 @@ namespace MvcReportViewer
             {
                 ReportServerUrl = ConfigurationManager.AppSettings[WebConfigSettings.Server],
                 Username = ConfigurationManager.AppSettings[WebConfigSettings.Username],
-                Password = ConfigurationManager.AppSettings[WebConfigSettings.Password]
+                Password = ConfigurationManager.AppSettings[WebConfigSettings.Password],
+                IsReportRunnerExecution = true
             };
 
         private readonly ReportFormat _reportFormat;

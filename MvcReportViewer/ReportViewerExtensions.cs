@@ -33,8 +33,8 @@ namespace MvcReportViewer
             }
 
             // If parameters.LocalReportDataSources then we should get report data source
-            // from local data source provider.
-            if (parameters.LocalReportDataSources == null)
+            // from local data source provider (ignore it for Report Runner)
+            if (parameters.LocalReportDataSources == null && !parameters.IsReportRunnerExecution)
             {
                 if (parameters.ControlId == null)
                 {
