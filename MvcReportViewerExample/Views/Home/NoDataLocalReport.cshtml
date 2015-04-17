@@ -1,0 +1,15 @@
+﻿@using Microsoft.Reporting.WebForms;
+@using MvcReportViewer;
+
+@{
+    ViewBag.Title = "Local Reports - No Data Source";
+}
+
+@section Code {
+    @@Html.MvcReportViewerFluent("App_Data/Reports/NoDataReport.rdlc")
+    .ProcessingMode(ProcessingMode.Local)
+    .ReportParameters(new { TodayDate = DateTime.Now })
+    .Attributes(new { Height = 900, Width = 900, style = "border: none" })
+}
+
+@Html.MvcReportViewerFluent("App_Data/Reports/NoDataReport.rdlc").ProcessingMode(ProcessingMode.Local).ReportParameters(new { TodayDate = DateTime.Now }).Attributes(new { Height = 900, Width = 900, style = "border: none" })

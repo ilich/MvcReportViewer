@@ -12,8 +12,8 @@ namespace MvcReportViewer.Example.Controllers
     public class HomeController : Controller
     {
         private const string RemoteReportName = "/TestReports/TestReport";
-
         private const string LocalReportName = "App_Data/Reports/Products.rdlc";
+        private const string LocalNoDataReportName = "App_Data/Reports/NoDataReport.rdlc";
 
         public ActionResult Index()
         {
@@ -38,6 +38,20 @@ namespace MvcReportViewer.Example.Controllers
         public ActionResult VisibilityCheck()
         {
             return View();
+        }
+
+        public ActionResult NoDataLocalReport()
+        {
+            return View();
+        }
+
+        public ActionResult DownloadPdfLocalNoData()
+        {
+            return this.Report(
+                ReportFormat.PDF,
+                LocalNoDataReportName,
+                new { TodayDate = DateTime.Now },
+                ProcessingMode.Local);
         }
 
         public ActionResult DownloadExcel()

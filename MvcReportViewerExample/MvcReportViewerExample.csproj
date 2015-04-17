@@ -178,6 +178,7 @@
   <ItemGroup>
     <EmbeddedResource Include="App_Data\Reports\Products.rdlc" />
     <EmbeddedResource Include="App_Data\Reports\Cities.rdlc" />
+    <EmbeddedResource Include="App_Data\Reports\NoDataReport.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Reports\DatabaseDataSet.xsc">
@@ -192,6 +193,7 @@
       <DependentUpon>DatabaseDataSet.xsd</DependentUpon>
     </Content>
     <Content Include="Views\Home\LocalReports.cshtml" />
+    <Content Include="Views\Home\NoDataLocalReport.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
