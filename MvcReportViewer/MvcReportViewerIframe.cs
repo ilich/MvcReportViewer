@@ -539,26 +539,7 @@ if (formElement{0}) {{
         /// <returns></returns>
         public IMvcReportViewerOptions LocalDataSource(string dataSourceName, DataTable dataTable)
         {
-            var providerTypeName = ConfigurationManager.AppSettings[WebConfigSettings.LocalDataSourceProvider];
-            if (string.IsNullOrEmpty(providerTypeName))
-            {
-                throw new MvcReportViewerException(
-                    string.Format("{0} configuration is not found in the Web.config", WebConfigSettings.LocalDataSourceProvider));
-            }
-
-            ILocalReportDataSourceProvider provider = null;
-            try
-            {
-                var providerType = Type.GetType(providerTypeName);
-                provider = (ILocalReportDataSourceProvider)Activator.CreateInstance(providerType);
-            }
-            catch(Exception err)
-            {
-                throw new MvcReportViewerException(
-                    string.Format("{0} configuration in the Web.config is not correct", WebConfigSettings.LocalDataSourceProvider),
-                    err);
-            }
-
+            var provider = LocalReportDataSourceProviderFactory.Current.Create();
             var dataSource = new ReportDataSource(dataSourceName, dataTable);
             provider.Add(ControlId, dataSource);
 
