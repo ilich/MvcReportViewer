@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BF8D2B0B-EFD0-44A6-B6E1-A3215B4C477B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MvcReportViewer</RootNamespace>
+    <AssemblyName>MvcReportViewer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\Microsoft.ReportViewer.WebForms.DLL</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.40804.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\MvcReportViewer\AzureReportServerCredentials.cs">
+      <Link>AzureReportServerCredentials.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\ControlSettings.cs">
+      <Link>ControlSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\ControlSettingsManager.cs">
+      <Link>ControlSettingsManager.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\IgnoreCaseExtensions.cs">
+      <Link>IgnoreCaseExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\ILocalReportDataSourceProvider.cs">
+      <Link>ILocalReportDataSourceProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\IMvcReportViewerOptions.cs">
+      <Link>IMvcReportViewerOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\LocalReportDataSourceProviderFactory.cs">
+      <Link>LocalReportDataSourceProviderFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\MvcReportViewer.aspx.cs">
+      <Link>MvcReportViewer.aspx.cs</Link>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\MvcReportViewerException.cs">
+      <Link>MvcReportViewerException.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\MvcReportViewerExtensions.cs">
+      <Link>MvcReportViewerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\MvcReportViewerIframe.cs">
+      <Link>MvcReportViewerIframe.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\ReportFormat.cs">
+      <Link>ReportFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\ReportRunner.cs">
+      <Link>ReportRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\ReportRunnerExtensions.cs">
+      <Link>ReportRunnerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\ReportServerCredentials.cs">
+      <Link>ReportServerCredentials.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\ReportViewerExtensions.cs">
+      <Link>ReportViewerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\ReportViewerParameters.cs">
+      <Link>ReportViewerParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\ReportViewerParametersParser.cs">
+      <Link>ReportViewerParametersParser.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\SecurityUtil.cs">
+      <Link>SecurityUtil.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\SessionLocalDataSourceProvider.cs">
+      <Link>SessionLocalDataSourceProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\UriParameterAttribute.cs">
+      <Link>UriParameterAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\UriParameters.cs">
+      <Link>UriParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\WebConfigSettings.cs">
+      <Link>WebConfigSettings.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\MvcReportViewer\MvcReportViewer.aspx">
+      <Link>MvcReportViewer.aspx</Link>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
