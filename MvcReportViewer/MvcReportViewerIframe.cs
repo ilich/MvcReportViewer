@@ -298,7 +298,7 @@ if (formElement{0}) {{
                         continue;
                     }
 
-                    var value = parameter.Value.ToString();
+                    var value = ConvertValueToString(parameter.Value);
                     html.Append(CreateHiddenField(parameter.Key, value));
                 }
             }
@@ -368,7 +368,7 @@ if (formElement{0}) {{
                         continue;
                     }
 
-                    var value = parameter.Value.ToString();
+                    var value = ConvertValueToString(parameter.Value);
                     query.Add(parameter.Key, value);
                 }
             }
@@ -386,6 +386,11 @@ if (formElement{0}) {{
 
             var encryptedQuery = UriParameters.Encrypted + "=" + SecurityUtil.Encrypt(query.ToString());
             return uri + "?" + encryptedQuery;
+        }
+
+        private string ConvertValueToString(object value)
+        {
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}", value);
         }
 
         /// <summary>
