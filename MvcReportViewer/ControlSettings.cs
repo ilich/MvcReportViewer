@@ -232,5 +232,11 @@ namespace MvcReportViewer
         /// </summary>
         [UriParameter("_37")]
         public Unit? Height { get; set; }
+
+        /// <summary>
+        /// Enable using external images. 
+        /// </summary>
+        [UriParameter("_38")]
+        public bool? EnableExternalImages { get; set; }
     }
 }
