@@ -46,7 +46,8 @@ namespace MvcReportViewer.Example.App_Start
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 // Register local report data provider
-                kernel.Bind<ILocalReportDataSourceProvider>().To<SessionLocalDataSourceProvider>();
+                // kernel.Bind<ILocalReportDataSourceProvider>().To<SessionLocalDataSourceProvider>();
+                kernel.Bind<ILocalReportDataSourceProvider>().To<SqlLocalDataSourceProvider>();
 
                 RegisterServices(kernel);
                 return kernel;

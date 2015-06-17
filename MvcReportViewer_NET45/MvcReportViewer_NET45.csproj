@@ -81,6 +81,9 @@
     <Compile Include="..\MvcReportViewer\AzureReportServerCredentials.cs">
       <Link>AzureReportServerCredentials.cs</Link>
     </Compile>
+    <Compile Include="..\MvcReportViewer\BaseLocalDataSourceProvider.cs">
+      <Link>BaseLocalDataSourceProvider.cs</Link>
+    </Compile>
     <Compile Include="..\MvcReportViewer\ControlSettings.cs">
       <Link>ControlSettings.cs</Link>
     </Compile>
@@ -141,6 +144,9 @@
     </Compile>
     <Compile Include="..\MvcReportViewer\SessionLocalDataSourceProvider.cs">
       <Link>SessionLocalDataSourceProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\SqlLocalDataSourceProvider.cs">
+      <Link>SqlLocalDataSourceProvider.cs</Link>
     </Compile>
     <Compile Include="..\MvcReportViewer\UriParameterAttribute.cs">
       <Link>UriParameterAttribute.cs</Link>

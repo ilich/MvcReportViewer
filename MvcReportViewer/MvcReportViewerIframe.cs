@@ -550,5 +550,19 @@ if (formElement{0}) {{
 
             return this;
         }
+
+        /// <summary>
+        /// Registers custom local data source, e.g. SQL query
+        /// </summary>
+        /// <param name="dataSourceName">Report data source name.</param>
+        /// <param name="dataSource">The data.</param>
+        /// <returns></returns>
+        public IMvcReportViewerOptions LocalDataSource<T>(string dataSourceName, T dataSource)
+        {
+            var provider = LocalReportDataSourceProviderFactory.Current.Create();
+            provider.Add(ControlId, dataSourceName, dataSource);
+
+            return this;
+        }
     }
 }

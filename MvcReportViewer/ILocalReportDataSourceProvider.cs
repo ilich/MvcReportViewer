@@ -10,6 +10,14 @@ namespace MvcReportViewer
     public interface ILocalReportDataSourceProvider
     {
         /// <summary>
+        /// Saves report custom data source, e.g. SQL query, etc.
+        /// </summary>
+        /// <param name="reportControlId">Internal MvcReportViewer instance ID.</param>
+        /// <param name="dataSourceName">Data Source Name.</param>
+        /// <param name="dataSource">Custom Data Source.</param>
+        void Add<T>(Guid reportControlId, string dataSourceName, T dataSource);
+
+        /// <summary>
         /// Saves report data source.
         /// </summary>
         /// <param name="reportControlId">Internal MvcReportViewer instance ID.</param>

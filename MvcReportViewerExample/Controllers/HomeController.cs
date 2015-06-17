@@ -84,14 +84,11 @@ namespace MvcReportViewer.Example.Controllers
                         { "Cities", GetCities() }
                     });
             }
-            else
-            {
-                return this.Report(
-                    format,
-                    RemoteReportName,
-                    new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 });
-            }
-            
+
+            return this.Report(
+                format,
+                RemoteReportName,
+                new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 });
         }
 
         private ActionResult DownloadReportMultipleValues(ReportFormat format)
@@ -111,15 +108,17 @@ namespace MvcReportViewer.Example.Controllers
 
         public ActionResult LocalReports()
         {
-            var model = new LocalReportsModel
+            var model = new SqlLocalReportsModel
             {
-                Products = GetProducts(),
-                Cities = GetCities(),
-                FilteredCities = GetDataTable("select * from dbo.Cities where Id < 3")
+                Products = "select * from dbo.Products",
+                Cities = "select * from dbo.Cities",
+                FilteredCities = "select * from dbo.Cities where Id < 3"
             };
 
             return View(model);
         }
+
+        #region Helper Methods for SessionLocalDataSourceProvider examples
 
         private DataTable GetProducts()
         {
@@ -141,12 +140,14 @@ namespace MvcReportViewer.Example.Controllers
                     command.CommandText = sql;
                     using (var adapter = new SqlDataAdapter(command))
                     {
-                        DataTable table = new DataTable();
+                        var table = new DataTable();
                         adapter.Fill(table);
                         return table;
                     }
                 }
             }
         }
+
+        #endregion
     }
 }

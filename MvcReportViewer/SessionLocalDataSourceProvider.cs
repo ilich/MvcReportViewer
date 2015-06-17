@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.SessionState;
 using Microsoft.Reporting.WebForms;
 
 namespace MvcReportViewer
 {
-    public class SessionLocalDataSourceProvider : ILocalReportDataSourceProvider
+    public class SessionLocalDataSourceProvider : BaseLocalDataSourceProvider, ILocalReportDataSourceProvider
     {
         private readonly HttpSessionState _session = HttpContext.Current.Session;
+
+        public void Add<T>(Guid reportControlId, string dataSourceName, T dataSource)
+        {
+            throw new NotSupportedException();
+        }
 
         public void Add(Guid reportControlId, ReportDataSource dataSource)
         {
@@ -22,10 +26,7 @@ namespace MvcReportViewer
 
             var key = GetSessionValueKey(reportControlId);
             var dataSources = _session[key] as List<ReportDataSourceWrapper>;
-            if (dataSources == null)
-            {
-                dataSources = new List<ReportDataSourceWrapper>();
-            }
+            dataSources = dataSources ?? new List<ReportDataSourceWrapper>();
 
             dataSources.Add(
                 new ReportDataSourceWrapper
@@ -46,13 +47,8 @@ namespace MvcReportViewer
                 : dataSources.Select(s => new ReportDataSource(s.Name, s.Value));
         }
 
-        private static string GetSessionValueKey(Guid reportControlId)
-        {
-            return string.Format("MvcReportViewer_Local_{0}", reportControlId);
-        }
-
         [Serializable]
-        public class ReportDataSourceWrapper
+        private class ReportDataSourceWrapper
         {
             public string Name { get; set; }
 

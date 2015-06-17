@@ -147,7 +147,9 @@ _**Fluent Interface Methods**_
 
 **ProcessingMode(ProcessingMode mode)** - Sets ReportViewer report processing mode. Default processing mode is ProcessingMode.Remote.
 
-**LocalDataSource(string dataSourceName, DataTable dataTable)** - Registers local report data source. The default local data source provider (MvcReportViewer.SessionLocalDataSourceProvider) stores data in user session.
+**LocalDataSource<T>(string dataSourceName, T dataSource)** - Registers local report data source.
+
+**LocalDataSource(string dataSourceName, DataTable dataTable)** - Registers local report data source. The default local data source provider (MvcReportViewer.SessionLocalDataSourceProvider) stores data in user session. There is also MvcReportViewer.SqlLocalDataSourceProvider provider which stores SQL queries. You have to add SqlLocalDataSourceProvider.ConnectionString application configuration to your Web.config file to be able to use this provider. The configuration values is your connection string name. Please check MvcReportViewer example for further information.
 
 ### Controller Extensions
 
