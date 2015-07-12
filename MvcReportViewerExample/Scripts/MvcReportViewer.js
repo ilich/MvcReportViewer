@@ -39,7 +39,7 @@
         if (!isIE) {
             var buttonHtml = $('#non-ie-print-button').html();
             $('#ReportViewer_ctl05 > div').append(buttonHtml);
-            $('#print-button').click(function (e) {
+            $('#PrintButton').click(function (e) {
                 e.preventDefault();
                 printReport();
             })
