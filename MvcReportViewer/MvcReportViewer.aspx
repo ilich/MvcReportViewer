@@ -42,7 +42,7 @@
                                                         style="width: 16px; height: 16px;" 
                                                         type="image" 
                                                         alt="Print" 
-                                                        src="/Reserved.ReportViewerWebControl.axd?OpType=Resource&amp;Version=11.0.3442.2&amp;Name=Microsoft.Reporting.WebForms.Icons.Print.gif">
+                                                        src="<%= ResolveUrl("~/Reserved.ReportViewerWebControl.axd?OpType=Resource&amp;Version=11.0.3442.2&amp;Name=Microsoft.Reporting.WebForms.Icons.Print.gif")%>">
                                                 </td>
                                             </tr>
                                         </tbody>
