@@ -181,12 +181,12 @@ namespace MvcReportViewer
                 var parameterName = reportParameter.Key;
                 if (_viewerParameters.ReportParameters.ContainsKey(parameterName))
                 {
-                    _viewerParameters.ReportParameters[parameterName].Values.Add(reportParameter.Value.ToString());
+                    _viewerParameters.ReportParameters[parameterName].Values.Add(reportParameter.Value?.ToString());
                 }
                 else
                 {
                     var parameter = new ReportParameter(parameterName);
-                    parameter.Values.Add(reportParameter.Value.ToString());
+                    parameter.Values.Add(reportParameter.Value?.ToString());
                     _viewerParameters.ReportParameters.Add(parameterName, parameter);
                 }
             }
