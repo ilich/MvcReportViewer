@@ -92,11 +92,7 @@ namespace MvcReportViewer
                 return false;
             }
 
-            string errorUrl = string.Format(
-                "{0}?error={1}&errorType={2}",
-                errorPage,
-                exception.Message,
-                exception.GetType().FullName);
+            var errorUrl = $"{errorPage}?error={Server.UrlEncode(exception.Message)}&errorType={Server.UrlEncode(exception.GetType().FullName)}";
 
             Response.Redirect(errorUrl);
             return true;
