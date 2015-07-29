@@ -42,9 +42,7 @@ namespace MvcReportViewer
         {
             var key = GetSessionValueKey(reportControlId);
             var dataSources = _session[key] as List<ReportDataSourceWrapper>;
-            return dataSources == null
-                ? new List<ReportDataSource>()
-                : dataSources.Select(s => new ReportDataSource(s.Name, s.Value));
+            return dataSources?.Select(s => new ReportDataSource(s.Name, s.Value)) ?? new List<ReportDataSource>();
         }
 
         [Serializable]

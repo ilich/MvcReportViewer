@@ -10,7 +10,7 @@
 
         public static readonly string AspxViewer = "MvcReportViewer.AspxViewer";
 
-        public static readonly string IsAzureSSRS = "MvcReportViewer.IsAzureSSRS";
+        public static readonly string IsAzureSsrs = "MvcReportViewer.IsAzureSSRS";
 
         public static readonly string EncryptParameters = "MvcReportViewer.EncryptParameters";
 

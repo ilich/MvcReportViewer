@@ -6,7 +6,7 @@ namespace MvcReportViewer
 {
     public class LocalReportDataSourceProviderFactory
     {
-        private static object syncRoot = new object();
+        private static readonly object SyncRoot = new object();
 
         private static LocalReportDataSourceProviderFactory _factory;
 
@@ -14,17 +14,16 @@ namespace MvcReportViewer
         {
             get
             {
-                if (_factory == null)
+                if (_factory != null)
                 {
-                    var resolver = DependencyResolver.Current;
-                    lock(syncRoot)
-                    {
-                        _factory = resolver.GetService<LocalReportDataSourceProviderFactory>();
-                        if (_factory == null)
-                        {
-                            _factory = new LocalReportDataSourceProviderFactory();
-                        }
-                    }
+                    return _factory;
+                }
+
+                var resolver = DependencyResolver.Current;
+                lock(SyncRoot)
+                {
+                    _factory = resolver.GetService<LocalReportDataSourceProviderFactory>() ??
+                               new LocalReportDataSourceProviderFactory();
                 }
 
                 return _factory;
@@ -46,12 +45,17 @@ namespace MvcReportViewer
             if (string.IsNullOrEmpty(providerTypeName))
             {
                 throw new MvcReportViewerException(
-                    string.Format("{0} configuration is not found in the Web.config", WebConfigSettings.LocalDataSourceProvider));
+                    $"{WebConfigSettings.LocalDataSourceProvider} configuration is not found in the Web.config");
             }
 
             try
             {
                 var providerType = Type.GetType(providerTypeName);
+                if (providerType == null)
+                {
+                    throw new InvalidOperationException($"Cannot find {providerTypeName} type");    
+                }
+
                 provider = (ILocalReportDataSourceProvider)Activator.CreateInstance(providerType);
 
                 return provider;
@@ -59,7 +63,7 @@ namespace MvcReportViewer
             catch (Exception err)
             {
                 throw new MvcReportViewerException(
-                    string.Format("{0} configuration in the Web.config is not correct", WebConfigSettings.LocalDataSourceProvider),
+                    $"{WebConfigSettings.LocalDataSourceProvider} configuration in the Web.config is not correct",
                     err);
             }
         }

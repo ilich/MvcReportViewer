@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Web.Security;
 
@@ -28,6 +26,11 @@ namespace MvcReportViewer
 #else
             var bytes = MachineKey.Decode(encrypted, MachineKeyProtection.Encryption);
 #endif
+            if (bytes == null)
+            {
+                throw new InvalidOperationException("Data cannot be decrypted using Machine Key");    
+            }
+
             var value = Encoding.Unicode.GetString(bytes);
             return value;
         }

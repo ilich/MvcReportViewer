@@ -1,5 +1,4 @@
 ﻿using Microsoft.Reporting.WebForms;
-using System;
 using System.Net;
 using System.Security.Principal;
 
@@ -32,14 +31,8 @@ namespace MvcReportViewer
             return true;
         }
 
-        public WindowsIdentity ImpersonationUser
-        {
-            get { return null; }
-        }
+        public WindowsIdentity ImpersonationUser => null;
 
-        public ICredentials NetworkCredentials
-        {
-            get { return null; }
-        }
+        public ICredentials NetworkCredentials => null;
     }
 }

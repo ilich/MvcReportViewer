@@ -6,7 +6,7 @@ namespace MvcReportViewer
     {
         protected virtual string GetSessionValueKey(Guid reportControlId)
         {
-            return string.Format("MvcReportViewer_Local_{0}", reportControlId);
+            return $"MvcReportViewer_Local_{reportControlId}";
         }
     }
 }

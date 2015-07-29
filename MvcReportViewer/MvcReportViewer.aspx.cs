@@ -11,7 +11,7 @@ namespace MvcReportViewer
     /// </summary>
     public class MvcReportViewer : Page
     {
-        private const string IsHeightChangedJS = "<script type='text/javascript'>window.hasUserSetHeight = {0};</script>";
+        private const string IsHeightChangedJs = "<script type='text/javascript'>window.hasUserSetHeight = {0};</script>";
 
         protected ReportViewer ReportViewer;
 
@@ -33,7 +33,7 @@ namespace MvcReportViewer
                 var parameters = Request.Form.Count > 0 ? parser.Parse(Request.Form) : parser.Parse(Request.QueryString);
 
                 var hasHeightChangedScript = string.Format(
-                    IsHeightChangedJS,
+                    IsHeightChangedJs,
                     parameters.ControlSettings.Height == null ? "false" : "true");
                 ClientScript.RegisterStartupScript(GetType(), "IsHeightChangedJS", hasHeightChangedScript);
 

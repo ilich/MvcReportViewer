@@ -26,7 +26,7 @@ namespace MvcReportViewer
             var localReport = reportViewer.LocalReport;
             localReport.ReportPath = parameters.ReportPath;
 
-            if(parameters.ControlSettings != null &&  parameters.ControlSettings.EnableExternalImages != null && parameters.ControlSettings.EnableExternalImages.Value)
+            if(parameters.ControlSettings?.EnableExternalImages != null && parameters.ControlSettings.EnableExternalImages.Value)
                 localReport.EnableExternalImages = true;
 
             if (parameters.ReportParameters.Count > 0)
@@ -62,7 +62,7 @@ namespace MvcReportViewer
             serverReport.ReportPath = parameters.ReportPath;
             if (!string.IsNullOrEmpty(parameters.Username))
             {
-                if (parameters.IsAzureSSRS)
+                if (parameters.IsAzureSsrs)
                 {
                     var server = serverReport.ReportServerUrl.Host;
                     serverReport.ReportServerCredentials = new AzureReportServerCredentials(

@@ -48,7 +48,7 @@ namespace MvcReportViewer.Example.Controllers
         public ActionResult DownloadPdfLocalNoData()
         {
             return this.Report(
-                ReportFormat.PDF,
+                ReportFormat.Pdf,
                 LocalNoDataReportName,
                 new { TodayDate = DateTime.Now },
                 ProcessingMode.Local);
@@ -66,7 +66,7 @@ namespace MvcReportViewer.Example.Controllers
 
         public ActionResult DownloadPdf()
         {
-            return DownloadReport(ReportFormat.PDF, false);
+            return DownloadReport(ReportFormat.Pdf, false);
         }
 
         private ActionResult DownloadReport(ReportFormat format, bool isLocalReport)

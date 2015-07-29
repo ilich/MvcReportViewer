@@ -4,7 +4,7 @@
     {
         Excel,
         Word,
-        PDF,
+        Pdf,
         Image
     }
 }

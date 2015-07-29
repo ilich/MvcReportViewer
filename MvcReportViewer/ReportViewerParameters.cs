@@ -24,7 +24,7 @@ namespace MvcReportViewer
 
         public ProcessingMode ProcessingMode { get; set; }
 
-        public bool IsAzureSSRS { get; set; }
+        public bool IsAzureSsrs { get; set; }
 
         public IDictionary<string, ReportParameter> ReportParameters { get; set; }
 

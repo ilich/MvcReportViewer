@@ -12,7 +12,7 @@ namespace MvcReportViewer
         {
             if (queryString == null)
             {
-                throw new ArgumentNullException("queryString");
+                throw new ArgumentNullException(nameof(queryString));
             }
 
             var isEncrypted = CheckEncryption(ref queryString);
@@ -70,8 +70,7 @@ namespace MvcReportViewer
                             }
                             else
                             {
-                                var reportParameter = new ReportParameter(realKey);
-                                reportParameter.Visible = isVisible;
+                                var reportParameter = new ReportParameter(realKey) {Visible = isVisible};
                                 reportParameter.Values.Add(realValue);
                                 parameters.ReportParameters.Add(realKey, reportParameter);
                             }
@@ -121,21 +120,20 @@ namespace MvcReportViewer
             }
 
             // each parameter is encrypted when POST method is used
-            if (string.Compare(HttpContext.Current.Request.HttpMethod, "POST", true) == 0)
+            if (string.Compare(HttpContext.Current.Request.HttpMethod, "POST", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 return isEncrypted;
             }
 
             if (!isEncrypted)
             {
-                return isEncrypted;
+                return false;
             }
 
             var encrypted = source[UriParameters.Encrypted];
             var decrypted = SecurityUtil.Decrypt(encrypted);
-            isEncrypted = false;
             source = HttpUtility.ParseQueryString(decrypted);
-            return isEncrypted;
+            return false;                                       // Return false here because we have already decrypted query string
         }
 
         private static void ResetDefaultCredentials(NameValueCollection queryString, ReportViewerParameters parameters)
@@ -150,11 +148,11 @@ namespace MvcReportViewer
 
         private ReportViewerParameters InitializeDefaults()
         {
-            var isAzureSSRS = ConfigurationManager.AppSettings[WebConfigSettings.IsAzureSSRS];
-            bool isAzureSSRSValue;
-            if (string.IsNullOrEmpty(isAzureSSRS) || !bool.TryParse(isAzureSSRS, out isAzureSSRSValue))
+            var isAzureSsrs = ConfigurationManager.AppSettings[WebConfigSettings.IsAzureSsrs];
+            bool isAzureSsrsValue;
+            if (string.IsNullOrEmpty(isAzureSsrs) || !bool.TryParse(isAzureSsrs, out isAzureSsrsValue))
             {
-                isAzureSSRSValue = false;
+                isAzureSsrsValue = false;
             }
             
             var parameters = new ReportViewerParameters
@@ -162,7 +160,7 @@ namespace MvcReportViewer
                     ReportServerUrl = ConfigurationManager.AppSettings[WebConfigSettings.Server],
                     Username = ConfigurationManager.AppSettings[WebConfigSettings.Username],
                     Password = ConfigurationManager.AppSettings[WebConfigSettings.Password],
-                    IsAzureSSRS = isAzureSSRSValue
+                    IsAzureSsrs = isAzureSsrsValue
                 };
 
             return parameters;

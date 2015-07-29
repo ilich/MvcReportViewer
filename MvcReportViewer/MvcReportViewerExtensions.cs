@@ -120,14 +120,14 @@ namespace MvcReportViewer
         /// </summary>
         /// <param name="helper">The HTML helper instance that this method extends.</param>
         /// <param name="reportPath">The path to the report on the server.</param>
+        /// <param name="controlId">MvcReportViewer control ID</param>
         /// <returns>Fluent interface HTML <b>iframe</b> element.</returns>
         internal static IMvcReportViewerOptions MvcReportViewerFluent(
             this HtmlHelper helper,
             string reportPath,
             Guid controlId)
         {
-            var iframe = new MvcReportViewerIframe(reportPath);
-            iframe.ControlId = controlId;
+            var iframe = new MvcReportViewerIframe(reportPath) {ControlId = controlId};
             return iframe;
         }
     }

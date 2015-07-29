@@ -18,18 +18,9 @@ namespace MvcReportViewer
             _password = password;
         }
 
-        public WindowsIdentity ImpersonationUser
-        {
-            get { return null; }
-        }
+        public WindowsIdentity ImpersonationUser => null;
 
-        public ICredentials NetworkCredentials
-        {
-            get
-            {
-                return new NetworkCredential(_username, _password);
-            }
-        }
+        public ICredentials NetworkCredentials => new NetworkCredential(_username, _password);
 
         public bool GetFormsCredentials(out Cookie authCookie, out string userName, out string password, out string authority)
         {

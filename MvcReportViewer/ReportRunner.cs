@@ -18,8 +18,6 @@ namespace MvcReportViewer
                 IsReportRunnerExecution = true
             };
 
-        private readonly ReportFormat _reportFormat;
-
         public ReportRunner(
             ReportFormat reportFormat,
             string reportPath,
@@ -38,7 +36,7 @@ namespace MvcReportViewer
             : this(
                 reportFormat, 
                 reportPath, 
-                reportParameters != null ? reportParameters.ToList() : null,
+                reportParameters?.ToList(),
                 mode,
                 localReportDataSources)
         {
@@ -69,7 +67,7 @@ namespace MvcReportViewer
                 reportServerUrl, 
                 username, 
                 password, 
-                reportParameters != null ? reportParameters.ToList() : null,
+                reportParameters?.ToList(),
                 mode,
                 localReportDataSources)
         {
@@ -85,7 +83,7 @@ namespace MvcReportViewer
             ProcessingMode mode = ProcessingMode.Remote,
             IDictionary<string, DataTable> localReportDataSources = null)
         {
-            _reportFormat = reportFormat;
+            ReportFormat = reportFormat;
 
             _viewerParameters.ProcessingMode = mode;
             if (mode == ProcessingMode.Local && localReportDataSources != null)
@@ -105,16 +103,10 @@ namespace MvcReportViewer
         }
 
         // The property is only used for unit-testing
-        internal ReportViewerParameters ViewerParameters
-        {
-            get { return _viewerParameters; }
-        }
+        internal ReportViewerParameters ViewerParameters => _viewerParameters;
 
         // The property is only used for unit-testing
-        internal ReportFormat ReportFormat
-        {
-            get { return _reportFormat; }
-        }
+        internal ReportFormat ReportFormat { get; }
 
         public FileStreamResult Run()
         {
