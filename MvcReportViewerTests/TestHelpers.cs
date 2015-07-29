@@ -41,10 +41,7 @@ namespace MvcReportViewer.Tests
             var reportParameters = parameters.ReportParameters;
             if (reportParameters.Count != TestData.ExprectedParameters.Count)
             {
-                return string.Format(
-                    "There are {0} report parameters, but should be {1}.",
-                    reportParameters.Count,
-                    TestData.ExprectedParameters.Count);
+                return $"There are {reportParameters.Count} report parameters, but should be {TestData.ExprectedParameters.Count}.";
             }
 
             var errors = new StringBuilder();

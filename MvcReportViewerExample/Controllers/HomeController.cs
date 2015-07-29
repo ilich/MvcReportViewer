@@ -120,17 +120,17 @@ namespace MvcReportViewer.Example.Controllers
 
         #region Helper Methods for SessionLocalDataSourceProvider examples
 
-        private DataTable GetProducts()
+        private static DataTable GetProducts()
         {
             return GetDataTable("select * from dbo.Products");
         }
 
-        private DataTable GetCities()
+        private static DataTable GetCities()
         {
             return GetDataTable("select * from dbo.Cities");
         }
 
-        private DataTable GetDataTable(string sql)
+        private static DataTable GetDataTable(string sql)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["Products"].ConnectionString;
             using (var connection = new SqlConnection(connectionString))
