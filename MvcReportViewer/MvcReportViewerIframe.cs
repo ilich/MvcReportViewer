@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -6,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using Microsoft.Reporting.WebForms;
 
 namespace MvcReportViewer
@@ -122,7 +122,7 @@ if (formElement{0}) {{
                    reportServerUrl, 
                    username, 
                    password, 
-                   reportParameters != null ? reportParameters.ToList() : null, 
+                   reportParameters?.ToList(), 
                    controlSettings, 
                    htmlAttributes, 
                    method)
@@ -161,7 +161,7 @@ if (formElement{0}) {{
             _username = username;
             _password = password;
             _controlSettings = controlSettings;
-            _reportParameters = reportParameters != null ? reportParameters.ToList() : null;
+            _reportParameters = reportParameters?.ToList();
             _htmlAttributes = htmlAttributes;
             _method = method;
             _aspxViewer = ConfigurationManager.AppSettings[WebConfigSettings.AspxViewer];
@@ -298,8 +298,20 @@ if (formElement{0}) {{
                         continue;
                     }
 
-                    var value = ConvertValueToString(parameter.Value);
-                    html.Append(CreateHiddenField(parameter.Key, value));
+                    var multiple = parameter.Value as IEnumerable;
+                    if (parameter.Value is string || multiple == null)
+                    {
+                        var value = ConvertValueToString(parameter.Value);
+                        html.Append(CreateHiddenField(parameter.Key, value));
+                    }
+                    else
+                    {
+                        foreach (var v in multiple)
+                        {
+                            var value = ConvertValueToString(v);
+                            html.Append(CreateHiddenField(parameter.Key, value));
+                        }
+                    }
                 }
             }
 
@@ -368,8 +380,20 @@ if (formElement{0}) {{
                         continue;
                     }
 
-                    var value = ConvertValueToString(parameter.Value);
-                    query.Add(parameter.Key, value);
+                    var multiple = parameter.Value as IEnumerable;
+                    if (parameter.Value is string || multiple == null)
+                    {
+                        var value = ConvertValueToString(parameter.Value);
+                        query.Add(parameter.Key, value);
+                    }
+                    else
+                    {
+                        foreach (var v in multiple)
+                        {
+                            var value = ConvertValueToString(v);
+                            query.Add(parameter.Key, value);
+                        }
+                    }
                 }
             }
 
@@ -482,7 +506,7 @@ if (formElement{0}) {{
                 p => p.Values
                       .Cast<object>()
                       .Select(pv => new KeyValuePair<string, object>(
-                          string.Format("{0}{1}{2}", p.Name, VisibilitySeparator, p.Visible),
+                          $"{p.Name}{VisibilitySeparator}{p.Visible}",
                           pv))).ToList();
 
             return this;
