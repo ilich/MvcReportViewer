@@ -56,12 +56,12 @@ namespace MvcReportViewer.Example.Controllers
 
         public ActionResult DownloadExcel()
         {
-            return DownloadReport(ReportFormat.Excel, true);
+            return DownloadReport(ReportFormat.Excel, true, "Report.xls");
         }
 
         public ActionResult DownloadWord()
         {
-            return DownloadReportMultipleValues(ReportFormat.Word);
+            return DownloadReportMultipleValues(ReportFormat.Word, "Report.doc");
         }
 
         public ActionResult DownloadPdf()
@@ -69,7 +69,7 @@ namespace MvcReportViewer.Example.Controllers
             return DownloadReport(ReportFormat.Pdf, false);
         }
 
-        private ActionResult DownloadReport(ReportFormat format, bool isLocalReport)
+        private ActionResult DownloadReport(ReportFormat format, bool isLocalReport, string filename = null)
         {
             if (isLocalReport)
             {
@@ -82,16 +82,18 @@ namespace MvcReportViewer.Example.Controllers
                     {
                         { "Products", GetProducts() },
                         { "Cities", GetCities() }
-                    });
+                    },
+                    filename);
             }
 
             return this.Report(
                 format,
                 RemoteReportName,
-                new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 });
+                new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 },
+                filename: filename);
         }
 
-        private ActionResult DownloadReportMultipleValues(ReportFormat format)
+        private ActionResult DownloadReportMultipleValues(ReportFormat format, string filename = null)
         {
             return this.Report(
                 format,
@@ -103,7 +105,8 @@ namespace MvcReportViewer.Example.Controllers
                     new KeyValuePair<string, object>("Parameter2", DateTime.Now),
                     new KeyValuePair<string, object>("Parameter2", DateTime.Now.AddYears(10)),
                     new KeyValuePair<string, object>("Parameter3", 12345)
-                });
+                },
+                filename: filename);
         }
 
         public ActionResult LocalReports()

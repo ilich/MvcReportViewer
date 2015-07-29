@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Data;
 using System.IO;
+using System.Web;
 
 namespace MvcReportViewer
 {
@@ -18,12 +19,15 @@ namespace MvcReportViewer
                 IsReportRunnerExecution = true
             };
 
+        private readonly string _filename;
+
         public ReportRunner(
             ReportFormat reportFormat,
             string reportPath,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, DataTable> localReportDataSources = null)
-            : this(reportFormat, reportPath, null, null, null, null, mode, localReportDataSources)
+            IDictionary<string, DataTable> localReportDataSources = null,
+            string filename = null)
+            : this(reportFormat, reportPath, null, null, null, null, mode, localReportDataSources, filename)
         {
         }
 
@@ -32,13 +36,15 @@ namespace MvcReportViewer
             string reportPath,
             IDictionary<string, object> reportParameters,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, DataTable> localReportDataSources = null)
+            IDictionary<string, DataTable> localReportDataSources = null,
+            string filename = null)
             : this(
                 reportFormat, 
                 reportPath, 
                 reportParameters?.ToList(),
                 mode,
-                localReportDataSources)
+                localReportDataSources,
+                filename)
         {
         }
 
@@ -47,8 +53,9 @@ namespace MvcReportViewer
             string reportPath,
             IEnumerable<KeyValuePair<string, object>> reportParameters,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, DataTable> localReportDataSources = null)
-            : this(reportFormat, reportPath, null, null, null, reportParameters, mode, localReportDataSources)
+            IDictionary<string, DataTable> localReportDataSources = null,
+            string filename = null)
+            : this(reportFormat, reportPath, null, null, null, reportParameters, mode, localReportDataSources, filename)
         {
         }
 
@@ -60,7 +67,8 @@ namespace MvcReportViewer
             string password,
             IDictionary<string, object> reportParameters,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, DataTable> localReportDataSources = null)
+            IDictionary<string, DataTable> localReportDataSources = null,
+            string filename = null)
             : this(
                 reportFormat, 
                 reportPath, 
@@ -69,7 +77,8 @@ namespace MvcReportViewer
                 password, 
                 reportParameters?.ToList(),
                 mode,
-                localReportDataSources)
+                localReportDataSources,
+                filename)
         {
         }
 
@@ -81,9 +90,11 @@ namespace MvcReportViewer
             string password,
             IEnumerable<KeyValuePair<string, object>> reportParameters,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, DataTable> localReportDataSources = null)
+            IDictionary<string, DataTable> localReportDataSources = null,
+            string filename = null)
         {
             ReportFormat = reportFormat;
+            _filename = filename;
 
             _viewerParameters.ProcessingMode = mode;
             if (mode == ProcessingMode.Local && localReportDataSources != null)
@@ -156,6 +167,13 @@ namespace MvcReportViewer
                     out warnings);
 
                 output = new MemoryStream(report);
+            }
+
+            if (!string.IsNullOrEmpty(_filename))
+            {
+                var response = HttpContext.Current.Response;
+                response.ContentType = mimeType;
+                response.AddHeader("Content-Disposition", $"attachment; filename={_filename}");
             }
 
             return new FileStreamResult(output, mimeType);

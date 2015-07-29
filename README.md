@@ -155,11 +155,11 @@ _**Fluent Interface Methods**_
 
 There is a possibility to download SSRS reports in MS Word, MS Excel, PDF or Image format directly from your controller. It is available via **Report** extension method for ASP.NET MVC **Controller** class. The method always returns an instance of **FileStreamResult** class.
 
-1. **FileStreamResult Report(ReportFormat reportFormat, string reportPath)**
-2. **FileStreamResult Report(ReportFormat reportFormat, string reportPath, object reportParameters)**
-3. **FileStreamResult Report(ReportFormat reportFormat, string reportPath, string reportServerUrl, string username = null, string password = null, object reportParameters = null)**
-4. **FileStreamResult Report(this Controller controller, ReportFormat reportFormat, string reportPath, IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; reportParameters)**
-5. **FileStreamResult Report(this Controller controller, ReportFormat reportFormat, string reportPath, string reportServerUrl, IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; reportParameters, string username = null, string password = null)**
+1. **FileStreamResult Report(ReportFormat reportFormat, string reportPath, ProcessingMode mode = ProcessingMode.Remote, IDictionary&lt;string, DataTable&gt localReportDataSources = null, string filename = null)**
+2. **FileStreamResult Report(ReportFormat reportFormat, string reportPath, object reportParameters, ProcessingMode mode = ProcessingMode.Remote, IDictionary&lt;string, DataTable&gt localReportDataSources = null, string filename = null)**
+3. **FileStreamResult Report(ReportFormat reportFormat, string reportPath, string reportServerUrl, string username = null, string password = null, object reportParameters = null, ProcessingMode mode = ProcessingMode.Remote, IDictionary&lt;string, DataTable&gt localReportDataSources = null, string filename = null)**
+4. **FileStreamResult Report(this Controller controller, ReportFormat reportFormat, string reportPath, IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; reportParameters, ProcessingMode mode = ProcessingMode.Remote, IDictionary&lt;string, DataTable&gt localReportDataSources = null, string filename = null)**
+5. **FileStreamResult Report(this Controller controller, ReportFormat reportFormat, string reportPath, string reportServerUrl, IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; reportParameters, string username = null, string password = null, ProcessingMode mode = ProcessingMode.Remote, IDictionary&lt;string, DataTable&gt localReportDataSources = null, string filename = null)**
 
 Where *reportFormat* might be *ReportFormat.Excel*, *ReportFormat.Word*, *ReportFormat.PDF* or *ReportFormat.Image*.
 
