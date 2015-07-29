@@ -10,10 +10,10 @@
     @@{
         var parameters = new List<ReportParameter>()
         {
-            new ReportParameter("Parameter1", new string[] { "Value 1", "Value 2" }, true),
-            new ReportParameter("Parameter2", new string[] { "1/1/2010", "2/2/2015" }, false),
-            new ReportParameter("Parameter3", "12345", false),
-            new ReportParameter("Parameter4", "6/20/2014", true)
+            new ReportParameter("Parameter1", new [] { "Value 1", "Value 2" }, true),
+            new ReportParameter("Parameter2", new [] { "1/1/2010", "2/2/2015" }, false),
+            new ReportParameter("Parameter3", new [] { "12345", "9876", "123" }, true),
+            new ReportParameter("Parameter4", "6/20/2014", false)
         };
     }
 
@@ -23,10 +23,10 @@
 @{
     var parameters = new List<ReportParameter>()
     {
-        new ReportParameter("Parameter1", new string[] { "Value 1", "Value 2" }, true),
-        new ReportParameter("Parameter2", new string[] { "1/1/2010", "2/2/2015" }, false),
-        new ReportParameter("Parameter3", "12345", false),
-        new ReportParameter("Parameter4", "6/20/2014", true)
+        new ReportParameter("Parameter1", new [] { "Value 1", "Value 2" }, true),
+        new ReportParameter("Parameter2", new [] { "1/1/2010", "2/2/2015" }, false),
+        new ReportParameter("Parameter3", new [] { "12345", "9876", "123" }, true),
+        new ReportParameter("Parameter4", "6/20/2014", false)
     };
 }
 
