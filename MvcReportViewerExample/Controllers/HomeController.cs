@@ -89,7 +89,7 @@ namespace MvcReportViewer.Example.Controllers
             return this.Report(
                 format,
                 RemoteReportName,
-                new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 },
+                new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345, Parameter4 = (DateTime?)null },
                 filename: filename);
         }
 
