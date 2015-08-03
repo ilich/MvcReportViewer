@@ -2,13 +2,13 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>MvcReportViewer</id>
-    <version>0.7.0</version>
+    <version>0.7.1</version>
     <authors>Ilya Verbitskiy</authors>
     <owners>Ilya Verbitskiy</owners>
     <licenseUrl>https://github.com/ilich/MvcReportViewer/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/ilich/MvcReportViewer</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-	<title>MvcReportViewer</title>
+    <title>MvcReportViewer</title>
     <description>ASP.NET MVC Html Helpers for ReportViewer Control</description>
     <copyright>Copyright © Ilya Verbitskiy 2013-2015</copyright>
     <tags>ReportViewer SSRS Reporting HtmlHelpers</tags>
