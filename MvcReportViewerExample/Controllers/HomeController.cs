@@ -111,17 +111,38 @@ namespace MvcReportViewer.Example.Controllers
 
         public ActionResult LocalReports()
         {
-            var model = new SqlLocalReportsModel
+            // Session Provider
+            var model = new LocalReportsModel()
             {
-                Products = "select * from dbo.Products",
-                Cities = "select * from dbo.Cities",
-                FilteredCities = "select * from dbo.Cities where Id < 3"
+                Products = GetProducts(),
+                Cities = GetPocoCities(),
+                FilteredCities = GetDataTable("select * from dbo.Cities where Id < 3")
             };
+
+            //// SQL Provider
+            //var model = new SqlLocalReportsModel()
+            //{
+            //    Products = "select * from dbo.Products",
+            //    Cities = "select * from dbo.Cities",
+            //    FilteredCities = "select * from dbo.Cities where Id < 3"
+            //};
 
             return View(model);
         }
 
         #region Helper Methods for SessionLocalDataSourceProvider examples
+
+        public static IEnumerable<CityModel> GetPocoCities()
+        {
+            return new List<CityModel>
+            {
+                new CityModel {Id = 1, Name = "New York"},
+                new CityModel {Id = 2, Name = "London"},
+                new CityModel {Id = 3, Name = "Paris"},
+                new CityModel {Id = 4, Name = "Prague"},
+                new CityModel {Id = 5, Name = "Amsterdam"},
+            };
+        } 
 
         private static DataTable GetProducts()
         {

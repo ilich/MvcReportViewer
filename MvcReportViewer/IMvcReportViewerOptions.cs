@@ -87,14 +87,6 @@ namespace MvcReportViewer
         IMvcReportViewerOptions ProcessingMode(ProcessingMode mode);
 
         /// <summary>
-        /// Registers local data source.
-        /// </summary>
-        /// <param name="dataSourceName">Report data source name.</param>
-        /// <param name="dataTable">The data.</param>
-        /// <returns></returns>
-        IMvcReportViewerOptions LocalDataSource(string dataSourceName, DataTable dataTable);
-
-        /// <summary>
         /// Registers custom local data source, e.g. SQL query
         /// </summary>
         /// <param name="dataSourceName">Report data source name.</param>

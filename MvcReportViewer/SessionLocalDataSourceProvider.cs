@@ -14,11 +14,8 @@ namespace MvcReportViewer
 
         public void Add<T>(Guid reportControlId, string dataSourceName, T dataSource)
         {
-            throw new NotSupportedException();
-        }
+            var source = dataSource as ReportDataSource ?? new ReportDataSource(dataSourceName, dataSource);
 
-        public void Add(Guid reportControlId, ReportDataSource dataSource)
-        {
             if (dataSource == null)
             {
                 return;
@@ -31,8 +28,8 @@ namespace MvcReportViewer
             dataSources.Add(
                 new ReportDataSourceWrapper
                 {
-                    Name = dataSource.Name,
-                    Value = (DataTable)dataSource.Value
+                    Name = source.Name,
+                    Value = source.Value
                 });
 
             _session[key] = dataSources;
@@ -50,7 +47,7 @@ namespace MvcReportViewer
         {
             public string Name { get; set; }
 
-            public DataTable Value { get; set; }
+            public object Value { get; set; }
         }
     }
 }

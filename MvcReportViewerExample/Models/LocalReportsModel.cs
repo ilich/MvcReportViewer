@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 
 namespace MvcReportViewer.Example.Models
 {
@@ -6,8 +7,15 @@ namespace MvcReportViewer.Example.Models
     {
         public DataTable Products { get; set; }
 
-        public DataTable Cities { get; set; }
+        public IEnumerable<CityModel> Cities { get; set; }
 
         public DataTable FilteredCities { get; set; }
+    }
+
+    public class CityModel
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
     }
 }
