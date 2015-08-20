@@ -58,7 +58,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 **MvcReportViewer.IsAzureSSRS** - Use SSRS service hosted on Windows Azure.
 
-**MvcReportViewer.LocalDataSourceProvider** - Local Report Data Source provider. The provider has to implement ILocalReportDataSourceProvider interface. You can also register ILocalReportDataSourceProvider via ASP.NET MVC Dependency Injection. See (NinjectWebCommon.cs)[https://github.com/ilich/MvcReportViewer/blob/master/MvcReportViewerExample/App_Start/NinjectWebCommon.cs] for details.
+**MvcReportViewer.LocalDataSourceProvider** - Local Report Data Source provider. The provider has to implement ILocalReportDataSourceProvider interface. You can also register ILocalReportDataSourceProvider via ASP.NET MVC Dependency Injection. See [NinjectWebCommon.cs](https://github.com/ilich/MvcReportViewer/blob/master/MvcReportViewerExample/App_Start/NinjectWebCommon.cs) for details.
 
 ### Basic Interface
 
