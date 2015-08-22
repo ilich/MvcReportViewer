@@ -171,6 +171,14 @@ The following code allows user to download the report in MS Excel format.
 		new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 });
 }</pre></code>
 
+How to build source code
+------------------------
+
+* Install Visual Studio 2015.
+* Install [Microsoft Report Viewer 2012](http://www.microsoft.com/en-us/download/details.aspx?id=35747).
+* Download source code from GitHub.
+* Open MvcReportViewer.sln and run the build inside Visual Studio 2015.
+
 License
 -------
 
