@@ -1,4 +1,5 @@
-﻿using Microsoft.Reporting.WebForms;
+﻿using System;
+using Microsoft.Reporting.WebForms;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -150,6 +151,13 @@ namespace MvcReportViewer
                         var reportDataSource = new ReportDataSource(dataSource.Key, dataSource.Value);
                         localReport.DataSources.Add(reportDataSource);
                     }
+                }
+
+                var formats = new LocalReport().ListRenderingExtensions();
+
+                if (!formats.Any(x => String.Compare(x.Name, ReportFormat.ToString() , StringComparison.OrdinalIgnoreCase) == 0))
+                {
+                    throw new MvcReportViewerException("Local Server doesn't support the format specified." );
                 }
 
                 Warning[] warnings;
