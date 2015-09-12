@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Microsoft.Reporting.WebForms;
 
 namespace MvcReportViewer
@@ -283,6 +283,17 @@ if (formElement{0}) {{
                 html.Append(CreateHiddenField(UriParameters.Password, _password));
             }
 
+            var frameHeight = GetFrameHeight();
+            if (frameHeight != null)
+            {
+                if (_controlSettings == null)
+                {
+                    _controlSettings = new ControlSettings();    
+                }
+
+                _controlSettings.FrameHeight = new Unit(frameHeight.Value, UnitType.Pixel);
+            }
+
             var serializedSettings = _settingsManager.Serialize(_controlSettings);
             foreach (var setting in serializedSettings)
             {
@@ -365,6 +376,17 @@ if (formElement{0}) {{
                 query[UriParameters.Password] = _password;
             }
 
+            var frameHeight = GetFrameHeight();
+            if (frameHeight != null)
+            {
+                if (_controlSettings == null)
+                {
+                    _controlSettings = new ControlSettings();
+                }
+
+                _controlSettings.FrameHeight = new Unit(frameHeight.Value, UnitType.Pixel);    
+            }
+
             var serializedSettings = _settingsManager.Serialize(_controlSettings);
             foreach (var setting in serializedSettings)
             {
@@ -410,6 +432,32 @@ if (formElement{0}) {{
 
             var encryptedQuery = UriParameters.Encrypted + "=" + SecurityUtil.Encrypt(query.ToString());
             return uri + "?" + encryptedQuery;
+        }
+
+        private int? GetFrameHeight()
+        {
+            var iframeHeight = string.Empty;
+            foreach (var key in _htmlAttributes.Keys)
+            {
+                if (string.Compare(key, "height", StringComparison.InvariantCultureIgnoreCase) == 0)
+                {
+                    iframeHeight = key;
+                    break;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(iframeHeight))
+            {
+                var raw = _htmlAttributes[iframeHeight].ToString();
+                int value;
+                if (int.TryParse(raw, out value))
+                {
+                    value -= 20;
+                    return value;
+                }
+            }
+
+            return null;
         }
 
         private string ConvertValueToString(object value)

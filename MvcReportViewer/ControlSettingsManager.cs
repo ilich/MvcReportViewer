@@ -21,7 +21,7 @@ namespace MvcReportViewer
         static ControlSettingsManager()
         {
             var type = typeof(ControlSettings);
-            foreach(var property in type.GetProperties())
+            foreach(var property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
                 var uriAttr = property.GetCustomAttributes(typeof(UriParameterAttribute), false)
                                       .FirstOrDefault() as UriParameterAttribute;

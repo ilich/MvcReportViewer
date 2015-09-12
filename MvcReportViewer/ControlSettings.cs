@@ -238,5 +238,12 @@ namespace MvcReportViewer
         /// </summary>
         [UriParameter("_38")]
         public bool? EnableExternalImages { get; set; }
+
+        /// <summary>
+        /// Gets or sets HTML iframe height set by user. The property is used to calculate hard-coded heigh 
+        /// to fix Google Chrome rendering issue.
+        /// </summary>
+        [UriParameter("_39")]
+        internal Unit? FrameHeight { get; set; }
     }
 }

@@ -258,13 +258,26 @@ namespace MvcReportViewer
                 reportViewer.ZoomPercent = parameters.ZoomPercent.Value;
             }
 
-            if (parameters.AsyncRendering != null)
+            reportViewer.Width = parameters.Width ?? new Unit("100%");
+
+            // Use AsyncRendering = false and hard-coded Height to fix problem with Google Chrome report rendering
+            // http://stackoverflow.com/questions/778688/reportviewer-control-height-issue
+
+            if (parameters.Height != null)
             {
-                reportViewer.AsyncRendering = (bool)parameters.AsyncRendering;
+                reportViewer.Height = parameters.Height.Value;
+            }
+            else if (parameters.FrameHeight != null)
+            {
+                reportViewer.Height = parameters.FrameHeight.Value;
+            }
+            else
+            {
+                reportViewer.Height = new Unit("100%");
             }
 
-            reportViewer.Width = parameters.Width ?? new Unit("100%");
-            reportViewer.Height = parameters.Height ?? new Unit("100%");
+            reportViewer.AsyncRendering = parameters.AsyncRendering ?? false;
+
             reportViewer.KeepSessionAlive = parameters.KeepSessionAlive ?? false;
         }
     }
