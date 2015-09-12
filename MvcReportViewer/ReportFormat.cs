@@ -5,6 +5,12 @@
         Excel,
         Word,
         Pdf,
-        Image
+        Image,
+        ExcelOpenXml,
+        WordOpenXml,
+        MHtml,
+        Atom,
+        Csv,
+        Xml
     }
 }
