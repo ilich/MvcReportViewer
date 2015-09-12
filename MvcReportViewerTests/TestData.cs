@@ -31,6 +31,10 @@ namespace MvcReportViewer.Tests
 
         public static readonly int BackColorArgbValue = Color.Green.ToArgb();
 
+        public const string FrameHeightParameter = "_39";
+
+        public const int FrameHeightValue = 900;
+
         public const string ShowParameterPrompts = "_18";
 
         public const bool ShowParameterPromptsValue = true;

@@ -109,15 +109,22 @@ namespace MvcReportViewer.Tests
                     {
                         ShowParameterPrompts = TestData.ShowParameterPromptsValue
                     },
-                new { id = TestData.Id });
+                new
+                {
+                    id = TestData.Id,
+                    height = TestData.FrameHeightValue
+                });
             iframe.ControlId = Guid.Empty;
 
             var html = ToIframeHtml(iframe);
             Assert.AreEqual("iframe", html.Name);
-            Assert.AreEqual(2, html.Attributes.Count);
+            Assert.AreEqual(3, html.Attributes.Count);
             Assert.AreEqual(TestData.Id, html.Attributes["id"].Value);
+            Assert.AreEqual(TestData.FrameHeightValue.ToString(), html.Attributes["height"].Value);
+
+            int expectedViewerHeight = TestData.FrameHeightValue - 20;
             var expectedUrl =
-                $"{TestData.ViewerUri}&amp;{UriParameters.ReportPath}={TestData.ReportName}&amp;{UriParameters.ReportServerUrl}={TestData.Server}&amp;{UriParameters.Username}={TestData.Username}&amp;{UriParameters.Password}={TestData.Password}&amp;{TestData.ShowParameterPrompts}={TestData.ShowParameterPromptsValue}&amp;{TestData.ReportParametes}";
+                $"{TestData.ViewerUri}&amp;{UriParameters.ReportPath}={TestData.ReportName}&amp;{UriParameters.ReportServerUrl}={TestData.Server}&amp;{UriParameters.Username}={TestData.Username}&amp;{UriParameters.Password}={TestData.Password}&amp;{TestData.ShowParameterPrompts}={TestData.ShowParameterPromptsValue}&amp;{TestData.FrameHeightParameter}={expectedViewerHeight}px&amp;{TestData.ReportParametes}";
             Assert.AreEqual(expectedUrl, html.Attributes["src"].Value);
         }
 
