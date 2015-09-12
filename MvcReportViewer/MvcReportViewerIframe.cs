@@ -436,6 +436,11 @@ if (formElement{0}) {{
 
         private int? GetFrameHeight()
         {
+            if (_htmlAttributes == null)
+            {
+                return null;
+            }
+
             var iframeHeight = string.Empty;
             foreach (var key in _htmlAttributes.Keys)
             {
