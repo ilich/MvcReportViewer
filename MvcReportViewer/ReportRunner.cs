@@ -126,6 +126,7 @@ namespace MvcReportViewer
 
             var reportViewer = new ReportViewer();
             reportViewer.Initialize(_viewerParameters);
+            ValidateReportFormat(reportViewer);
 
             string mimeType;
             Stream output;
@@ -133,9 +134,10 @@ namespace MvcReportViewer
             if (_viewerParameters.ProcessingMode == ProcessingMode.Remote)
             {
                 string extension;
+                var format = ReportFormat2String(ReportFormat);
 
                 output = reportViewer.ServerReport.Render(
-                    ReportFormat.ToString(),
+                    format,
                     "<DeviceInfo></DeviceInfo>",
                     null,
                     out mimeType,
@@ -153,20 +155,15 @@ namespace MvcReportViewer
                     }
                 }
 
-                var formats = new LocalReport().ListRenderingExtensions();
-
-                if (!formats.Any(x => String.Compare(x.Name, ReportFormat.ToString() , StringComparison.OrdinalIgnoreCase) == 0))
-                {
-                    throw new MvcReportViewerException("Local Server doesn't support the format specified." );
-                }
-
                 Warning[] warnings;
                 string[] streamids;
                 string encoding;
                 string extension;
 
+                var format = ReportFormat2String(ReportFormat);
+
                 var report = localReport.Render(
-                    ReportFormat.ToString(), 
+                    format, 
                     null,
                     out mimeType,
                     out encoding,
@@ -210,6 +207,11 @@ namespace MvcReportViewer
             }
         }
 
+        private string ReportFormat2String(ReportFormat format)
+        {
+            return format == ReportFormat.Html ? "HTML4.0" : format.ToString();
+        }
+
         private void Validate()
         {
             if (string.IsNullOrEmpty(_viewerParameters.ReportServerUrl))
@@ -220,6 +222,19 @@ namespace MvcReportViewer
             if (string.IsNullOrEmpty(_viewerParameters.ReportPath))
             {
                 throw new MvcReportViewerException("Report is not specified.");
+            }
+        }
+
+        private void ValidateReportFormat(ReportViewer reportViewer)
+        {
+            var format = ReportFormat2String(ReportFormat);
+            var formats = _viewerParameters.ProcessingMode == ProcessingMode.Remote
+                ? reportViewer.ServerReport.ListRenderingExtensions()
+                : reportViewer.LocalReport.ListRenderingExtensions();
+
+            if (formats.All(f => string.Compare(f.Name, format, StringComparison.InvariantCultureIgnoreCase) != 0))
+            {
+                throw new MvcReportViewerException($"{ReportFormat} is not supported");
             }
         }
     }

@@ -61,7 +61,7 @@ namespace MvcReportViewer.Example.Controllers
 
         public ActionResult DownloadWord()
         {
-            return DownloadReportMultipleValues(ReportFormat.Word, "Report.doc");
+            return DownloadReportMultipleValues(ReportFormat.WordOpenXml, "Report.docx");
         }
 
         public ActionResult DownloadPdf()

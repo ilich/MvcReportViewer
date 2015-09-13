@@ -10,7 +10,8 @@
         WordOpenXml,
         MHtml,
         Atom,
-        Csv,
-        Xml
+        Rgdi,
+        Rpl,
+        Html
     }
 }
