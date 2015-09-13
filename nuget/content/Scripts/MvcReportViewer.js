@@ -13,7 +13,7 @@
                 var $uiRows = $('#ReportViewer_fixedTable > tbody > tr');
                 var controlsHeight = 0;
                 $uiRows.each(function (i, el) {
-                    if (i != $uiRows.length - 1) {
+                    if (i !== $uiRows.length - 1) {
                         controlsHeight += $(el).height();
                     }
                 });
@@ -39,10 +39,10 @@
         if (!isIE) {
             var buttonHtml = $('#non-ie-print-button').html();
             $('#ReportViewer_ctl05 > div').append(buttonHtml);
-            $('#PrintButton').click(function (e) {
+            $('#PrintButton').click(function(e) {
                 e.preventDefault();
                 printReport();
-            })
+            });
         }
     });
     
