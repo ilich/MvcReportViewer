@@ -13,7 +13,8 @@ The project solves this issue. We provided a simple ASP.NET Web Forms report vie
 Installation
 ------------
 
-Install **MvcReportViewer** package from NuGet.
+* Install [Microsoft Report Viewer 2012](http://www.microsoft.com/en-us/download/details.aspx?id=35747). The library has be deployed to developer machines and to servers.
+* Install **MvcReportViewer** package from NuGet.
 
 Usage
 -----
