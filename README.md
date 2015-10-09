@@ -48,18 +48,20 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 #### Application Settings 
 
-<pre><code>&lt;!-- Required by Microsoft ReportViewer control --&gt;
-&lt;add key="MvcReportViewer.AspxViewer" value="/MvcReportViewer.aspx" /&gt;
-&lt;add key="MvcReportViewer.AspxViewerJavaScript" value="~/Scripts/MvcReportViewer.js" /&gt;
-&lt;add key="MvcReportViewer.ErrorPage" value="~/MvcReportViewerErrorPage.html"/&gt;
-&lt;add key="MvcReportViewer.ShowErrorPage" value="True"/&gt;
-&lt;add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" /&gt;
-&lt;add key="MvcReportViewer.Username" value="" /&gt;
-&lt;add key="MvcReportViewer.Password" value="" /&gt;
-&lt;add key="MvcReportViewer.EncryptParameters" value="False" /&gt;
-&lt;add key="MvcReportViewer.IsAzureSSRS" value="false" /&gt;
-&lt;add key="MvcReportViewer.LocalDataSourceProvider" value="MvcReportViewer.SessionLocalDataSourceProvider, MvcReportViewer" /&gt;
-</code></pre>
+```xml
+<!-- Required by Microsoft ReportViewer control -->
+<add key="MvcReportViewer.AspxViewer" value="~/MvcReportViewer.aspx" />
+<add key="MvcReportViewer.AspxViewerJavaScript" value="~/Scripts/MvcReportViewer.js" />
+<add key="MvcReportViewer.ErrorPage" value="~/MvcReportViewerErrorPage.html" />
+<add key="MvcReportViewer.ShowErrorPage" value="False" />
+<add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" />
+<add key="MvcReportViewer.Username" value="" />
+<add key="MvcReportViewer.Password" value="" />
+<add key="MvcReportViewer.EncryptParameters" value="True" />
+<add key="MvcReportViewer.IsAzureSSRS" value="false" />
+<add key="MvcReportViewer.LocalDataSourceProvider" value="MvcReportViewer.SqlLocalDataSourceProvider, MvcReportViewer" />
+<add key="SqlLocalDataSourceProvider.ConnectionString" value="Products" />
+```
 
 #### Description
 
@@ -83,16 +85,24 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 **MvcReportViewer.LocalDataSourceProvider (localDataSourceProvider)** - Local Report Data Source provider. The provider has to implement ILocalReportDataSourceProvider interface. You can also register ILocalReportDataSourceProvider via ASP.NET MVC Dependency Injection. See [NinjectWebCommon.cs](https://github.com/ilich/MvcReportViewer/blob/master/MvcReportViewerExample/App_Start/NinjectWebCommon.cs) for details.
 
+**SqlLocalDataSourceProvider.ConnectionString** - Connection string used in SqlLocalDataSourceProvider to query data.
+
 ### Basic Interface
 
 Reference **MvcReportViewer** in your view
-<pre><code>@using MvcReportViewer</code></pre>
+
+```aspx-cs
+@using MvcReportViewer
+```
+
 Then you can use our bultin HtmlHelpers as follows:
 
-<pre><code>@Html.MvcReportViewer(
+```aspx-cs
+@Html.MvcReportViewer(
     "/Reports/TestReport",
     new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 },
-    new { Height = 900, Width = 900, style = "border: none" })</code></pre>
+    new { Height = 900, Width = 900, style = "border: none" })
+```
 	
 **@Html.MvcReportViewer(string reportPath, object htmlAttributes)**
 
