@@ -30,10 +30,11 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 #### MvcReportViewer configuration section
 
-<pre><code>&lt;configSections&gt;
-    &lt;section name="MvcReportViewer" type="MvcReportViewer.Configuration.MvcReportViewerSettings, MvcReportViewer"/&gt;
-&lt;/configSections&gt;
-&lt;MvcReportViewer reportServerUrl="http://localhost/ReportServer_SQLEXPRESS"
+```xml
+<configSections>
+    <section name="MvcReportViewer" type="MvcReportViewer.Configuration.MvcReportViewerSettings, MvcReportViewer"/>
+</configSections>
+<MvcReportViewer reportServerUrl="http://localhost/ReportServer_SQLEXPRESS"
     username="" 
     password=""
     aspxViewer="~/MvcReportViewer.aspx"
@@ -42,7 +43,8 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
     showErrorPage="false"
     isAzureSSRS="false"
     encryptParameters="true"
-    localDataSourceProvider="MvcReportViewer.SessionLocalDataSourceProvider, MvcReportViewer" /&gt;</code></pre>
+    localDataSourceProvider="MvcReportViewer.SessionLocalDataSourceProvider, MvcReportViewer" />
+```
 
 #### Application Settings 
 
