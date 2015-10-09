@@ -26,7 +26,22 @@ Usage
 Add **&lt;add path="Reserved.ReportViewerWebControl.axd" verb="&#42;" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" validate="false"/&gt;** to **system.web/httpHandlers** section.<br><br>
 Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="ReportViewerWebControlHandler" preCondition="integratedMode" verb="&#42;" path="Reserved.ReportViewerWebControl.axd" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"/&gt;** to **system.webServer/handlers** section.
 
-* Configure MvcReportViewer HTML helper in the web.config.
+* Configure MvcReportViewer HTML helper in the web.config. There are two ways of doind this. You can use application settings or MvcReportViewer configuration section.
+
+#### MvcReportViewer configuration section
+
+<pre><code>&lt;MvcReportViewer reportServerUrl="http://localhost/ReportServer_SQLEXPRESS"
+username="" 
+password=""
+aspxViewer="~/MvcReportViewer.aspx"
+aspxViewerJavaScript="~/Scripts/MvcReportViewer.js"
+errorPage="~/MvcReportViewerErrorPage.html"
+showErrorPage="false"
+isAzureSSRS="false"
+encryptParameters="true"
+localDataSourceProvider="MvcReportViewer.SessionLocalDataSourceProvider, MvcReportViewer" /&gt;</code></pre>
+
+#### Application Settings 
 
 <pre><code>&lt;!-- Required by Microsoft ReportViewer control --&gt;
 &lt;add key="MvcReportViewer.AspxViewer" value="/MvcReportViewer.aspx" /&gt;
@@ -40,6 +55,8 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 &lt;add key="MvcReportViewer.IsAzureSSRS" value="false" /&gt;
 &lt;add key="MvcReportViewer.LocalDataSourceProvider" value="MvcReportViewer.SessionLocalDataSourceProvider, MvcReportViewer" /&gt;
 </code></pre>
+
+#### Description
 
 **MvcReportViewer.AspxViewer** - Path to the Report Viewer page shown in the iframe. Its name is **MvcReportViewer.aspx** and it is in the application's root by default.
 
