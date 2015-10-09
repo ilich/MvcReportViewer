@@ -7,10 +7,10 @@
     @@Html.MvcReportViewer(
         "/TestReports/TestReport",
         new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345, Parameter4 = DateTime.UtcNow },
-        new { Height = 900, Width = 900, style = "border: none" })
+        new { Height = "900px", Width = "100%", style = "border: none" })
 }
 
 @Html.MvcReportViewer(
     "/TestReports/TestReport",
     new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345, Parameter4 = DateTime.UtcNow },
-    new { Height = 900, Width = 900, style = "border: none" })
+    new { Height = "900px", Width = "100%", style = "border: none" })

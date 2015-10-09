@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -291,7 +292,7 @@ if (formElement{0}) {{
                     _controlSettings = new ControlSettings();    
                 }
 
-                _controlSettings.FrameHeight = new Unit(frameHeight.Value, UnitType.Pixel);
+                _controlSettings.FrameHeight = new Unit(frameHeight.Item1, frameHeight.Item2);
             }
 
             var serializedSettings = _settingsManager.Serialize(_controlSettings);
@@ -384,7 +385,7 @@ if (formElement{0}) {{
                     _controlSettings = new ControlSettings();
                 }
 
-                _controlSettings.FrameHeight = new Unit(frameHeight.Value, UnitType.Pixel);    
+                _controlSettings.FrameHeight = new Unit(frameHeight.Item1, frameHeight.Item2);    
             }
 
             var serializedSettings = _settingsManager.Serialize(_controlSettings);
@@ -434,7 +435,7 @@ if (formElement{0}) {{
             return uri + "?" + encryptedQuery;
         }
 
-        private int? GetFrameHeight()
+        private Tuple<int, UnitType> GetFrameHeight()
         {
             if (_htmlAttributes == null)
             {
@@ -451,18 +452,32 @@ if (formElement{0}) {{
                 }
             }
 
-            if (!string.IsNullOrEmpty(iframeHeight))
+            if (string.IsNullOrEmpty(iframeHeight))
             {
-                var raw = _htmlAttributes[iframeHeight].ToString();
-                int value;
-                if (int.TryParse(raw, out value))
-                {
-                    value -= 20;
-                    return value;
-                }
+                return null;
             }
 
-            return null;
+            var raw = _htmlAttributes[iframeHeight].ToString().Trim();
+            if (!Regex.IsMatch(raw, @"^[\d]+[%|px]*$"))
+            {
+                return null;
+            }
+
+            var heightMatch = Regex.Match(raw, @"^[\d]+");
+            if (!heightMatch.Success)
+            {
+                return null;
+            }
+
+            int value;
+            if (!int.TryParse(heightMatch.Value, out value))
+            {
+                return null;
+            }
+
+            var unitType = raw.EndsWith("%") ? UnitType.Percentage : UnitType.Pixel;
+            value -= unitType == UnitType.Pixel ? 20 : 1;
+            return new Tuple<int, UnitType>(value, unitType);
         }
 
         private string ConvertValueToString(object value)
