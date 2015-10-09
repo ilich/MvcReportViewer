@@ -91,13 +91,13 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 Reference **MvcReportViewer** in your view
 
-```aspx-cs
+```csharp
 @using MvcReportViewer
 ```
 
 Then you can use our bultin HtmlHelpers as follows:
 
-```aspx-cs
+```csharp
 @Html.MvcReportViewer(
     "/Reports/TestReport",
     new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 },
@@ -146,9 +146,11 @@ Then you can use our bultin HtmlHelpers as follows:
 
 ### Fluent Interface
 
-<pre><code>@Html.MvcReportViewerFluent("/Reports/TestReport")
+```csharp
+@Html.MvcReportViewerFluent("/Reports/TestReport")
      .ReportParameters(new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 })
-     .Attributes(new { Height = 900, Width = 900, style = "border: none" })</pre></code>
+     .Attributes(new { Height = 900, Width = 900, style = "border: none" })
+```
 
 **@Html.MvcReportViewerFluent(string reportPath)**
 
@@ -196,13 +198,15 @@ Where *reportFormat* might be *ReportFormat.Excel*, *ReportFormat.Word*, *Report
 
 The following code allows user to download the report in MS Excel format.
 
-<pre><code>public ActionResult DownloadExcel()
+```csharp
+public ActionResult DownloadExcel()
 {
     return this.Report(
-	    ReportFormat.Excel,
-		"/Reports/TestReport",
-		new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 });
-}</pre></code>
+        ReportFormat.Excel,
+        "/Reports/TestReport",
+        new { Parameter1 = "Hello World!", Parameter2 = DateTime.Now, Parameter3 = 12345 });
+}
+```
 
 How to build source code
 ------------------------
