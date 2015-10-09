@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -9,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using Microsoft.Reporting.WebForms;
+using MvcReportViewer.Configuration;
 
 namespace MvcReportViewer
 {
@@ -26,6 +26,8 @@ if (formElement{0}) {{
 }}
 ";
         private readonly ControlSettingsManager _settingsManager = new ControlSettingsManager();
+
+        private readonly ReportViewerConfiguration _config = new ReportViewerConfiguration();
 
         private string _reportPath;
 
@@ -151,8 +153,7 @@ if (formElement{0}) {{
             IDictionary<string, object> htmlAttributes,
             FormMethod method)
         {
-            var javaScriptApi = ConfigurationManager.AppSettings[WebConfigSettings.JavaScriptApi];
-            if (string.IsNullOrEmpty(javaScriptApi))
+            if (string.IsNullOrEmpty(_config.AspxViewerJavaScript))
             {
                 throw new MvcReportViewerException("MvcReportViewer.js location is not found. Make sure you have MvcReportViewer.AspxViewerJavaScript in your Web.config.");
             }
@@ -165,7 +166,7 @@ if (formElement{0}) {{
             _reportParameters = reportParameters?.ToList();
             _htmlAttributes = htmlAttributes;
             _method = method;
-            _aspxViewer = ConfigurationManager.AppSettings[WebConfigSettings.AspxViewer];
+            _aspxViewer = _config.AspxViewer;
             if (string.IsNullOrEmpty(_aspxViewer))
             {
                 throw new MvcReportViewerException("ASP.NET Web Forms viewer is not set. Make sure you have MvcReportViewer.AspxViewer in your Web.config.");
@@ -177,12 +178,7 @@ if (formElement{0}) {{
                 _aspxViewer = VirtualPathUtility.ToAbsolute(_aspxViewer);
             }
 
-            var encryptParametesConfig = ConfigurationManager.AppSettings[WebConfigSettings.EncryptParameters];
-            if (!bool.TryParse(encryptParametesConfig, out _encryptParameters))
-            {
-                _encryptParameters = false;
-            }
-
+            _encryptParameters = _config.EncryptParameters;
             ControlId = Guid.NewGuid();
         }
 

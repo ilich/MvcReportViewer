@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Configuration;
 using System.Web.Mvc;
+using MvcReportViewer.Configuration;
 
 namespace MvcReportViewer
 {
@@ -9,6 +9,8 @@ namespace MvcReportViewer
         private static readonly object SyncRoot = new object();
 
         private static LocalReportDataSourceProviderFactory _factory;
+
+        private readonly ReportViewerConfiguration _config = new ReportViewerConfiguration();
 
         public static LocalReportDataSourceProviderFactory Current
         {
@@ -41,11 +43,10 @@ namespace MvcReportViewer
 
             // Try to get data source provider from database settings
 
-            var providerTypeName = ConfigurationManager.AppSettings[WebConfigSettings.LocalDataSourceProvider];
+            var providerTypeName = _config.LocalDataSourceProvider;
             if (string.IsNullOrEmpty(providerTypeName))
             {
-                throw new MvcReportViewerException(
-                    $"{WebConfigSettings.LocalDataSourceProvider} configuration is not found in the Web.config");
+                throw new MvcReportViewerException("Local Data Source Provider configuration is not found in the Web.config");
             }
 
             try
@@ -63,7 +64,7 @@ namespace MvcReportViewer
             catch (Exception err)
             {
                 throw new MvcReportViewerException(
-                    $"{WebConfigSettings.LocalDataSourceProvider} configuration in the Web.config is not correct",
+                    "Local Data Source Provider configuration is not found in the Web.config",
                     err);
             }
         }

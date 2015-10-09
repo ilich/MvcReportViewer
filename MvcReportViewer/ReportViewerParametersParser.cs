@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Configuration;
 using Microsoft.Reporting.WebForms;
 using System.Web;
+using MvcReportViewer.Configuration;
 
 namespace MvcReportViewer
 {
     internal class ReportViewerParametersParser
     {
+        private static readonly ReportViewerConfiguration _config = new ReportViewerConfiguration();
+
         public ReportViewerParameters Parse(NameValueCollection queryString)
         {
             if (queryString == null)
@@ -112,12 +114,7 @@ namespace MvcReportViewer
 
         private static bool CheckEncryption(ref NameValueCollection source)
         {
-            bool isEncrypted;
-            var encryptParametesConfig = ConfigurationManager.AppSettings[WebConfigSettings.EncryptParameters];
-            if (!bool.TryParse(encryptParametesConfig, out isEncrypted))
-            {
-                isEncrypted = false;
-            }
+            var isEncrypted = _config.EncryptParameters;
 
             // each parameter is encrypted when POST method is used
             if (string.Compare(HttpContext.Current.Request.HttpMethod, "POST", StringComparison.OrdinalIgnoreCase) == 0)
@@ -148,19 +145,12 @@ namespace MvcReportViewer
 
         private ReportViewerParameters InitializeDefaults()
         {
-            var isAzureSsrs = ConfigurationManager.AppSettings[WebConfigSettings.IsAzureSsrs];
-            bool isAzureSsrsValue;
-            if (string.IsNullOrEmpty(isAzureSsrs) || !bool.TryParse(isAzureSsrs, out isAzureSsrsValue))
-            {
-                isAzureSsrsValue = false;
-            }
-            
             var parameters = new ReportViewerParameters
                 {
-                    ReportServerUrl = ConfigurationManager.AppSettings[WebConfigSettings.Server],
-                    Username = ConfigurationManager.AppSettings[WebConfigSettings.Username],
-                    Password = ConfigurationManager.AppSettings[WebConfigSettings.Password],
-                    IsAzureSsrs = isAzureSsrsValue
+                    ReportServerUrl = _config.ReportServerUrl,
+                    Username = _config.Username,
+                    Password = _config.Password,
+                    IsAzureSsrs = _config.IsAzureSSRS
                 };
 
             return parameters;

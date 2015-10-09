@@ -1,8 +1,8 @@
 ﻿using Microsoft.Reporting.WebForms;
 using System;
-using System.Configuration;
 using System.Web;
 using System.Web.UI;
+using MvcReportViewer.Configuration;
 
 namespace MvcReportViewer
 {
@@ -12,6 +12,8 @@ namespace MvcReportViewer
     public class MvcReportViewer : Page
     {
         private const string IsHeightChangedJs = "<script type='text/javascript'>window.hasUserSetHeight = {0};</script>";
+
+        private readonly ReportViewerConfiguration _config = new ReportViewerConfiguration();
 
         protected ReportViewer ReportViewer;
 
@@ -60,7 +62,7 @@ namespace MvcReportViewer
 
         private void RegisterJavaScriptApi()
         {
-            var javaScriptApi = ConfigurationManager.AppSettings[WebConfigSettings.JavaScriptApi];
+            var javaScriptApi = _config.AspxViewerJavaScript;
             if (string.IsNullOrEmpty(javaScriptApi))
             {
                 throw new MvcReportViewerException("MvcReportViewer.js location is not found. Make sure you have MvcReportViewer.AspxViewerJavaScript in your Web.config.");
@@ -78,16 +80,8 @@ namespace MvcReportViewer
         {
             Trace.Warn("MvcReportViewer", exception.Message);
 
-            var errorPage = ConfigurationManager.AppSettings[WebConfigSettings.ErrorPage];
-            var showErrorPage = ConfigurationManager.AppSettings[WebConfigSettings.ShowErrorPage];
-            bool isErrorPageShown;
-
-            if (!bool.TryParse(showErrorPage, out isErrorPageShown))
-            {
-                return false;
-            }
-
-            if (!isErrorPageShown || string.IsNullOrEmpty(errorPage))
+            var errorPage = _config.ErrorPage;
+            if (!_config.ShowErrorPage || string.IsNullOrEmpty(errorPage))
             {
                 return false;
             }

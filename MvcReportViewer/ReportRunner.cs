@@ -1,24 +1,20 @@
 ﻿using System;
 using Microsoft.Reporting.WebForms;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Data;
 using System.IO;
 using System.Web;
+using MvcReportViewer.Configuration;
 
 namespace MvcReportViewer
 {
     internal class ReportRunner
     {
-        private readonly ReportViewerParameters _viewerParameters = new ReportViewerParameters
-            {
-                ReportServerUrl = ConfigurationManager.AppSettings[WebConfigSettings.Server],
-                Username = ConfigurationManager.AppSettings[WebConfigSettings.Username],
-                Password = ConfigurationManager.AppSettings[WebConfigSettings.Password],
-                IsReportRunnerExecution = true
-            };
+        private readonly ReportViewerConfiguration _config = new ReportViewerConfiguration();
+
+        private readonly ReportViewerParameters _viewerParameters;
 
         private readonly string _filename;
 
@@ -94,6 +90,14 @@ namespace MvcReportViewer
             IDictionary<string, DataTable> localReportDataSources = null,
             string filename = null)
         {
+            _viewerParameters = new ReportViewerParameters
+            {
+                ReportServerUrl = _config.ReportServerUrl,
+                Username = _config.Username,
+                Password = _config.Password,
+                IsReportRunnerExecution = true
+            };
+
             ReportFormat = reportFormat;
             _filename = filename;
 

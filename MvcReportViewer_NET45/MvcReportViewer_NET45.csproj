@@ -84,6 +84,12 @@
     <Compile Include="..\MvcReportViewer\BaseLocalDataSourceProvider.cs">
       <Link>BaseLocalDataSourceProvider.cs</Link>
     </Compile>
+    <Compile Include="..\MvcReportViewer\Configuration\MvcReportViewerSettings.cs">
+      <Link>Configuration\MvcReportViewerSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\Configuration\ReportViewerConfiguration.cs">
+      <Link>Configuration\ReportViewerConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\MvcReportViewer\ControlSettings.cs">
       <Link>ControlSettings.cs</Link>
     </Compile>
@@ -153,9 +159,6 @@
     </Compile>
     <Compile Include="..\MvcReportViewer\UriParameters.cs">
       <Link>UriParameters.cs</Link>
-    </Compile>
-    <Compile Include="..\MvcReportViewer\WebConfigSettings.cs">
-      <Link>WebConfigSettings.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
