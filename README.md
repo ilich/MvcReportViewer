@@ -30,7 +30,10 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 #### MvcReportViewer configuration section
 
-<pre><code>&lt;MvcReportViewer reportServerUrl="http://localhost/ReportServer_SQLEXPRESS"
+<pre><code>&lt;configSections&gt;
+    &lt;section name="MvcReportViewer" type="MvcReportViewer.Configuration.MvcReportViewerSettings, MvcReportViewer"/&gt;
+&lt;/configSections&gt;
+&lt;MvcReportViewer reportServerUrl="http://localhost/ReportServer_SQLEXPRESS"
     username="" 
     password=""
     aspxViewer="~/MvcReportViewer.aspx"
@@ -58,25 +61,25 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 
 #### Description
 
-**MvcReportViewer.AspxViewer** - Path to the Report Viewer page shown in the iframe. Its name is **MvcReportViewer.aspx** and it is in the application's root by default.
+**MvcReportViewer.AspxViewer (aspxViewer)** - Path to the Report Viewer page shown in the iframe. Its name is **MvcReportViewer.aspx** and it is in the application's root by default.
 
-**MvcReportViewer.AspxViewerJavaScript** - Path to Report Viewer JavaScript code which adds additional features to Report Viewer control (e.g. printing support for non-IE browsers, etc.)
+**MvcReportViewer.AspxViewerJavaScript (aspxViewerJavaScript)** - Path to Report Viewer JavaScript code which adds additional features to Report Viewer control (e.g. printing support for non-IE browsers, etc.)
 
-**MvcReportViewer.ErrorPage** - Path to Report Viewer Error page which is shown if an exception occurs. The exception is logged using [ASP.NET Trace functionality](http://msdn.microsoft.com/en-us/library/bb386420%28v=vs.100%29.aspx).
+**MvcReportViewer.ErrorPage (errorPage)** - Path to Report Viewer Error page which is shown if an exception occurs. The exception is logged using [ASP.NET Trace functionality](http://msdn.microsoft.com/en-us/library/bb386420%28v=vs.100%29.aspx).
 
-**MvcReportViewer.ShowErrorPage** - Enable/Disable custom error page.
+**MvcReportViewer.ShowErrorPage (showErrorPage)** - Enable/Disable custom error page.
 
-**MvcReportViewer.ReportServerUrl** - Default SSRS URL.
+**MvcReportViewer.ReportServerUrl (reportServerUrl)** - Default SSRS URL.
 
-**MvcReportViewer.Username** - Default SSRS username.
+**MvcReportViewer.Username (username)** - Default SSRS username.
 
-**MvcReportViewer.Password** - Default SSRS password.
+**MvcReportViewer.Password (password)** - Default SSRS password.
 
-**MvcReportViewer.EncryptParameters** - Report Viewer parameters will be encrypted if it is set to True. It is False by default.
+**MvcReportViewer.EncryptParameters (encryptParameters)** - Report Viewer parameters will be encrypted if it is set to True. It is False by default.
 
-**MvcReportViewer.IsAzureSSRS** - Use SSRS service hosted on Windows Azure.
+**MvcReportViewer.IsAzureSSRS (isAzureSSRS)** - Use SSRS service hosted on Windows Azure.
 
-**MvcReportViewer.LocalDataSourceProvider** - Local Report Data Source provider. The provider has to implement ILocalReportDataSourceProvider interface. You can also register ILocalReportDataSourceProvider via ASP.NET MVC Dependency Injection. See [NinjectWebCommon.cs](https://github.com/ilich/MvcReportViewer/blob/master/MvcReportViewerExample/App_Start/NinjectWebCommon.cs) for details.
+**MvcReportViewer.LocalDataSourceProvider (localDataSourceProvider)** - Local Report Data Source provider. The provider has to implement ILocalReportDataSourceProvider interface. You can also register ILocalReportDataSourceProvider via ASP.NET MVC Dependency Injection. See [NinjectWebCommon.cs](https://github.com/ilich/MvcReportViewer/blob/master/MvcReportViewerExample/App_Start/NinjectWebCommon.cs) for details.
 
 ### Basic Interface
 
