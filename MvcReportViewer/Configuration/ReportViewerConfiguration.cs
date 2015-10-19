@@ -28,7 +28,7 @@ namespace MvcReportViewer.Configuration
             : ConfigurationManager.AppSettings["MvcReportViewer.AspxViewer"];
 
         public string AspxViewerJavaScript => _settings != null
-            ? _settings.AspxViewer
+            ? _settings.AspxViewerJavaScript
             : ConfigurationManager.AppSettings["MvcReportViewer.AspxViewerJavaScript"];
 
         public string ErrorPage => _settings != null
