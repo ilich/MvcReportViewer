@@ -12,6 +12,7 @@ namespace MvcReportViewer
     public class MvcReportViewer : Page
     {
         private const string IsHeightChangedJs = "<script type='text/javascript'>window.hasUserSetHeight = {0};</script>";
+        private const string ShowPrintButtonJs = "<script type='text/javascript'>window.showPrintButton = {0};</script>";
 
         private readonly ReportViewerConfiguration _config = new ReportViewerConfiguration();
 
@@ -38,6 +39,10 @@ namespace MvcReportViewer
                     IsHeightChangedJs,
                     parameters.ControlSettings.Height == null ? "false" : "true");
                 ClientScript.RegisterStartupScript(GetType(), "IsHeightChangedJS", hasHeightChangedScript);
+
+                var showPrintButtonScript = string.Format(ShowPrintButtonJs,
+                    parameters.ControlSettings.ShowPrintButton == false ? "false" : "true");
+                ClientScript.RegisterStartupScript(GetType(), "ShowPrintButtonJs", showPrintButtonScript);
 
                 ReportViewer.ReportError += OnReportError;
                 ReportViewer.Initialize(parameters);
