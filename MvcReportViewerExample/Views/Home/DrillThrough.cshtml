@@ -1,0 +1,27 @@
+﻿@using Microsoft.Reporting.WebForms;
+@using MvcReportViewer;
+@using MvcReportViewer.Example.Models;
+
+@model SubreportModel
+
+@{
+    ViewBag.Title = "Local Reports - Subreport";
+}
+
+@section Code {
+    @@{
+        var settings = new ControlSettings { EnableHyperlinks = true };
+    }
+
+    @@Html.MvcReportViewerFluent("App_Data/Reports/Countries.rdlc")
+        .ProcessingMode(ProcessingMode.Local)
+        .LocalDataSource("Countries", Model.Countries)
+        .EventsHandlerType(typeof(SubreportEventHandlers))
+        .Attributes(new { Height = 900, Width = 900, style = "border: none" })
+        .Method(FormMethod.Post)
+}
+
+@{
+    var settings = new ControlSettings {EnableHyperlinks = true};
+}
+@Html.MvcReportViewerFluent("App_Data/Reports/ListCountries.rdlc").ProcessingMode(ProcessingMode.Local).LocalDataSource("Countries", Model.Countries).EventsHandlerType(typeof(SubreportEventHandlers)).ControlSettings(settings).Attributes(new { Height = 900, Width = 900, style = "border: none" }).Method(FormMethod.Post)

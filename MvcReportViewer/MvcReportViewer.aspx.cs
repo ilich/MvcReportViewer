@@ -14,6 +14,8 @@ namespace MvcReportViewer
         private const string IsHeightChangedJs = "<script type='text/javascript'>window.hasUserSetHeight = {0};</script>";
         private const string ShowPrintButtonJs = "<script type='text/javascript'>window.showPrintButton = {0};</script>";
 
+        private const string EventHandlers = "MvcReportViewer.EventHandlers";
+
         private readonly ReportViewerConfiguration _config = new ReportViewerConfiguration();
 
         protected ReportViewer ReportViewer;
@@ -25,31 +27,44 @@ namespace MvcReportViewer
 
         private void ShowReport()
         {
-            if (IsPostBack)
-            {
-                return;
-            }
-
             try
             {
-                var parser = new ReportViewerParametersParser();
-                var parameters = Request.Form.Count > 0 ? parser.Parse(Request.Form) : parser.Parse(Request.QueryString);
+                if (!IsPostBack)
+                {
+                    var parser = new ReportViewerParametersParser();
+                    var parameters = Request.Form.Count > 0 ? parser.Parse(Request.Form) : parser.Parse(Request.QueryString);
 
-                var hasHeightChangedScript = string.Format(
-                    IsHeightChangedJs,
-                    parameters.ControlSettings.Height == null ? "false" : "true");
-                ClientScript.RegisterStartupScript(GetType(), "IsHeightChangedJS", hasHeightChangedScript);
+                    var hasHeightChangedScript = string.Format(
+                        IsHeightChangedJs,
+                        parameters.ControlSettings.Height == null ? "false" : "true");
+                    ClientScript.RegisterStartupScript(GetType(), "IsHeightChangedJS", hasHeightChangedScript);
 
-                var showPrintButtonScript = string.Format(ShowPrintButtonJs,
-                    parameters.ControlSettings.ShowPrintButton == false ? "false" : "true");
-                ClientScript.RegisterStartupScript(GetType(), "ShowPrintButtonJs", showPrintButtonScript);
+                    var showPrintButtonScript = string.Format(ShowPrintButtonJs,
+                        parameters.ControlSettings.ShowPrintButton == false ? "false" : "true");
+                    ClientScript.RegisterStartupScript(GetType(), "ShowPrintButtonJs", showPrintButtonScript);
 
-                ReportViewer.ReportError += OnReportError;
-                ReportViewer.Initialize(parameters);
+                    ReportViewer.ReportError += OnReportError;
+                    ReportViewer.Initialize(parameters);
 
-                RegisterJavaScriptApi();
+                    RegisterJavaScriptApi();
+
+                    // Save Drillthrough information for future use
+                    if (!string.IsNullOrEmpty(parameters.EventsHandlerType))
+                    {
+                        ViewState[EventHandlers] = parameters.EventsHandlerType;
+                    }
+                }
+                else
+                {
+                    // Drillthrough event has to be configured no matter what.
+                    var eventHandlers = ViewState[EventHandlers] as string;
+                    if (!string.IsNullOrEmpty(eventHandlers))
+                    {
+                        ReportViewer.SetupDrillthrough(eventHandlers);
+                    }
+                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 var result = RedirectToErrorPage(e);
                 if (!result)

@@ -137,5 +137,15 @@ namespace MvcReportViewer.Example.Controllers
 
             return View(model);
         }
+
+        public ActionResult DrillThrough()
+        {
+            var model = new SubreportModel
+            {
+                Countries = LocalData.GetCountries()
+            };
+
+            return View(model);
+        }
     }
 }

@@ -214,6 +214,7 @@
     <EmbeddedResource Include="App_Data\Reports\NoDataReport.rdlc" />
     <EmbeddedResource Include="App_Data\Reports\Countries.rdlc" />
     <EmbeddedResource Include="App_Data\Reports\CitiesByCountry.rdlc" />
+    <EmbeddedResource Include="App_Data\Reports\ListCountries.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Reports\DatabaseDataSet.xsc">
@@ -230,6 +231,7 @@
     <Content Include="Views\Home\LocalReports.cshtml" />
     <Content Include="Views\Home\NoDataLocalReport.cshtml" />
     <Content Include="Views\Home\Subreport.cshtml" />
+    <Content Include="Views\Home\DrillThrough.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

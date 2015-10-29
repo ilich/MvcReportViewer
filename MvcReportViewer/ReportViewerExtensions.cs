@@ -8,19 +8,35 @@ namespace MvcReportViewer
     {
         public static void Initialize(this ReportViewer reportViewer, ReportViewerParameters parameters)
         {
+            var handlers = CreateEventHandlers(parameters);
+
             if (parameters.ProcessingMode == ProcessingMode.Remote)
             {
                 SetupRemoteProcessing(reportViewer, parameters);
             }
             else
             {
-                SetupLocalProcessing(reportViewer, parameters);
+                SetupLocalProcessing(reportViewer, parameters, handlers);
+            }
+
+            if (handlers != null)
+            {
+                reportViewer.Drillthrough += (sender, e) => handlers.OnDrillthrough(reportViewer, e);
             }
 
             SetReportViewerSettings(reportViewer, parameters.ControlSettings);
         }
 
-        private static void SetupLocalProcessing(ReportViewer reportViewer, ReportViewerParameters parameters)
+        public static void SetupDrillthrough(this ReportViewer reportViewer, string eventsHandlerType)
+        {
+            var handlers = CreateEventHandlers(eventsHandlerType);
+            if (handlers != null)
+            {
+                reportViewer.Drillthrough += (sender, e) => handlers.OnDrillthrough(reportViewer, e);
+            }
+        }
+
+        private static void SetupLocalProcessing(ReportViewer reportViewer, ReportViewerParameters parameters, IReportViewerEventsHandler handlers)
         {
             reportViewer.ProcessingMode = ProcessingMode.Local;
             var localReport = reportViewer.LocalReport;
@@ -43,21 +59,8 @@ namespace MvcReportViewer
                 localReport.SetParameters(parameters.ReportParameters.Values);
             }
 
-            if (!string.IsNullOrEmpty(parameters.EventsHandlerType))
+            if (handlers != null)
             {
-                var handlersType = Type.GetType(parameters.EventsHandlerType);
-                if (handlersType == null)
-                {
-                    throw new MvcReportViewerException($"Type {parameters.EventsHandlerType} is not found");
-                }
-
-                var handlers = Activator.CreateInstance(handlersType) as IReportViewerEventsHandler;
-                if (handlers == null)
-                {
-                    throw new MvcReportViewerException(
-                        $"Type {parameters.EventsHandlerType} has not implemented IReportViewerEventsHandler interface or cannot be instantiated.");
-                }
-
                 localReport.SubreportProcessing += (sender, e) => handlers.OnSubreportProcessing(reportViewer, e);
             }
 
@@ -306,6 +309,34 @@ namespace MvcReportViewer
             reportViewer.AsyncRendering = parameters.AsyncRendering ?? false;
 
             reportViewer.KeepSessionAlive = parameters.KeepSessionAlive ?? false;
+        }
+
+        private static IReportViewerEventsHandler CreateEventHandlers(ReportViewerParameters parameters)
+        {
+            return CreateEventHandlers(parameters.EventsHandlerType);
+        }
+
+        private static IReportViewerEventsHandler CreateEventHandlers(string eventsHandlerType)
+        {
+            if (string.IsNullOrEmpty(eventsHandlerType))
+            {
+                return null;
+            }
+
+            var handlersType = Type.GetType(eventsHandlerType);
+            if (handlersType == null)
+            {
+                throw new MvcReportViewerException($"Type {eventsHandlerType} is not found");
+            }
+
+            var handlers = Activator.CreateInstance(handlersType) as IReportViewerEventsHandler;
+            if (handlers == null)
+            {
+                throw new MvcReportViewerException(
+                    $"Type {eventsHandlerType} has not implemented IReportViewerEventsHandler interface or cannot be instantiated.");
+            }
+
+            return handlers;
         }
     }
 }
