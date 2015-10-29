@@ -33,5 +33,7 @@ namespace MvcReportViewer
         public bool IsReportRunnerExecution { get; set; }
 
         public ControlSettings ControlSettings { get; set; }
+
+        public string EventsHandlerType { get; set; }
     }
 }

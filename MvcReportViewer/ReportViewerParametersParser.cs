@@ -8,7 +8,7 @@ namespace MvcReportViewer
 {
     internal class ReportViewerParametersParser
     {
-        private static readonly ReportViewerConfiguration _config = new ReportViewerConfiguration();
+        private static readonly ReportViewerConfiguration Config = new ReportViewerConfiguration();
 
         public ReportViewerParameters Parse(NameValueCollection queryString)
         {
@@ -53,6 +53,10 @@ namespace MvcReportViewer
                 else if (key.EqualsIgnoreCase(UriParameters.Password))
                 {
                     parameters.Password = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
+                }
+                else if (key.EqualsIgnoreCase(UriParameters.EventsHandlerType))
+                {
+                    parameters.EventsHandlerType = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
                 }
                 else if (!settinsManager.IsControlSetting(key))
                 {
@@ -114,7 +118,7 @@ namespace MvcReportViewer
 
         private static bool CheckEncryption(ref NameValueCollection source)
         {
-            var isEncrypted = _config.EncryptParameters;
+            var isEncrypted = Config.EncryptParameters;
 
             // each parameter is encrypted when POST method is used
             if (string.Compare(HttpContext.Current.Request.HttpMethod, "POST", StringComparison.OrdinalIgnoreCase) == 0)
@@ -147,10 +151,10 @@ namespace MvcReportViewer
         {
             var parameters = new ReportViewerParameters
                 {
-                    ReportServerUrl = _config.ReportServerUrl,
-                    Username = _config.Username,
-                    Password = _config.Password,
-                    IsAzureSsrs = _config.IsAzureSSRS
+                    ReportServerUrl = Config.ReportServerUrl,
+                    Username = Config.Username,
+                    Password = Config.Password,
+                    IsAzureSsrs = Config.IsAzureSSRS
                 };
 
             return parameters;

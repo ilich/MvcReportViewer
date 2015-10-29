@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -145,8 +146,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\LocalData.cs" />
     <Compile Include="Models\SqlLocalReportsModel.cs" />
     <Compile Include="Models\LocalReportsModel.cs" />
+    <Compile Include="Models\SubreportEventHandlers.cs" />
+    <Compile Include="Models\SubreportModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +212,8 @@
     <EmbeddedResource Include="App_Data\Reports\Products.rdlc" />
     <EmbeddedResource Include="App_Data\Reports\Cities.rdlc" />
     <EmbeddedResource Include="App_Data\Reports\NoDataReport.rdlc" />
+    <EmbeddedResource Include="App_Data\Reports\Countries.rdlc" />
+    <EmbeddedResource Include="App_Data\Reports\CitiesByCountry.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Reports\DatabaseDataSet.xsc">
@@ -223,6 +229,7 @@
     </Content>
     <Content Include="Views\Home\LocalReports.cshtml" />
     <Content Include="Views\Home\NoDataLocalReport.cshtml" />
+    <Content Include="Views\Home\Subreport.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -105,6 +105,9 @@
     <Compile Include="..\MvcReportViewer\IMvcReportViewerOptions.cs">
       <Link>IMvcReportViewerOptions.cs</Link>
     </Compile>
+    <Compile Include="..\MvcReportViewer\IReportViewerEventsHandler.cs">
+      <Link>IReportViewerEventsHandler.cs</Link>
+    </Compile>
     <Compile Include="..\MvcReportViewer\LocalReportDataSourceProviderFactory.cs">
       <Link>LocalReportDataSourceProviderFactory.cs</Link>
     </Compile>

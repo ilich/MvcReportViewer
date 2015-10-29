@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Reporting.WebForms;
@@ -93,5 +93,13 @@ namespace MvcReportViewer
         /// <param name="dataSource">The data.</param>
         /// <returns></returns>
         IMvcReportViewerOptions LocalDataSource<T>(string dataSourceName, T dataSource);
+
+        /// <summary>
+        /// Sets the type implementing IReportViewerEventsHandler interface. The instance of the type is responsible for
+        /// processing Report Viewer Web Control's events, e.g. SubreportProcessing.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        IMvcReportViewerOptions EventsHandlerType(Type type);
     }
 }

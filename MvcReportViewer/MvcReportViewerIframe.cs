@@ -37,6 +37,8 @@ if (formElement{0}) {{
 
         private string _password;
 
+        private string _eventsHandlerType;
+
         private FormMethod _method;
 
         private ProcessingMode _processingMode = Microsoft.Reporting.WebForms.ProcessingMode.Remote;
@@ -280,6 +282,11 @@ if (formElement{0}) {{
                 html.Append(CreateHiddenField(UriParameters.Password, _password));
             }
 
+            if (!string.IsNullOrEmpty(_eventsHandlerType))
+            {
+                html.Append(CreateHiddenField(UriParameters.EventsHandlerType, _eventsHandlerType));
+            }
+
             var frameHeight = GetFrameHeight();
             if (frameHeight != null)
             {
@@ -371,6 +378,11 @@ if (formElement{0}) {{
             {
                 query[UriParameters.Username] = _username;
                 query[UriParameters.Password] = _password;
+            }
+
+            if (!string.IsNullOrEmpty(_eventsHandlerType))
+            {
+                query[UriParameters.EventsHandlerType] = _eventsHandlerType;
             }
 
             var frameHeight = GetFrameHeight();
@@ -635,6 +647,28 @@ if (formElement{0}) {{
             var provider = LocalReportDataSourceProviderFactory.Current.Create();
             provider.Add(ControlId, dataSourceName, dataSource);
 
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the type implementing IReportViewerEventsHandler interface. The instance of the type is responsible for
+        /// processing Report Viewer Web Control's events, e.g. SubreportProcessing.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public IMvcReportViewerOptions EventsHandlerType(Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            if (type.GetInterfaces().All(i => i != typeof (IReportViewerEventsHandler)))
+            {
+                throw new MvcReportViewerException($"{type.FullName} must implement IReportViewerEventsHandler interface.");    
+            }
+
+            _eventsHandlerType = type.AssemblyQualifiedName;
             return this;
         }
     }

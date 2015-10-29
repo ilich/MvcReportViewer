@@ -80,6 +80,7 @@
     <Compile Include="ControlSettingsManager.cs" />
     <Compile Include="ILocalReportDataSourceProvider.cs" />
     <Compile Include="IMvcReportViewerOptions.cs" />
+    <Compile Include="IReportViewerEventsHandler.cs" />
     <Compile Include="LocalReportDataSourceProviderFactory.cs" />
     <Compile Include="MvcReportViewer.aspx.cs">
       <DependentUpon>MvcReportViewer.aspx</DependentUpon>

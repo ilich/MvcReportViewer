@@ -1,0 +1,20 @@
+﻿@using Microsoft.Reporting.WebForms;
+@using MvcReportViewer;
+@using MvcReportViewer.Example.Models;
+
+@model SubreportModel
+
+@{
+    ViewBag.Title = "Local Reports - Subreport";
+}
+
+@section Code {
+    @@Html.MvcReportViewerFluent("App_Data/Reports/Countries.rdlc")
+        .ProcessingMode(ProcessingMode.Local)
+        .LocalDataSource("Countries", Model.Countries)
+        .EventsHandlerType(typeof(SubreportEventHandlers))
+        .Attributes(new { Height = 900, Width = 900, style = "border: none" })
+        .Method(FormMethod.Post)
+}
+
+@Html.MvcReportViewerFluent("App_Data/Reports/Countries.rdlc").ProcessingMode(ProcessingMode.Local).LocalDataSource("Countries", Model.Countries).EventsHandlerType(typeof(SubreportEventHandlers)).Attributes(new { Height = 900, Width = 900, style = "border: none" }).Method(FormMethod.Post)

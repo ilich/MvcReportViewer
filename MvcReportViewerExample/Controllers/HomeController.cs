@@ -3,8 +3,6 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Data;
 using MvcReportViewer.Example.Models;
-using System.Configuration;
-using System.Data.SqlClient;
 using Microsoft.Reporting.WebForms;
 
 namespace MvcReportViewer.Example.Controllers
@@ -80,8 +78,8 @@ namespace MvcReportViewer.Example.Controllers
                     ProcessingMode.Local,
                     new Dictionary<string, DataTable>
                     {
-                        { "Products", GetProducts() },
-                        { "Cities", GetCities() }
+                        { "Products", LocalData.GetProducts() },
+                        { "Cities", LocalData.GetCities() }
                     },
                     filename);
             }
@@ -114,9 +112,9 @@ namespace MvcReportViewer.Example.Controllers
             // Session Provider
             var model = new LocalReportsModel()
             {
-                Products = GetProducts(),
-                Cities = GetPocoCities(),
-                FilteredCities = GetDataTable("select * from dbo.Cities where Id < 3")
+                Products = LocalData.GetProducts(),
+                Cities = LocalData.GetPocoCities(),
+                FilteredCities = LocalData.GetDataTable("select * from dbo.Cities where Id < 3")
             };
 
             //// SQL Provider
@@ -130,48 +128,14 @@ namespace MvcReportViewer.Example.Controllers
             return View(model);
         }
 
-        #region Helper Methods for SessionLocalDataSourceProvider examples
-
-        public static IEnumerable<CityModel> GetPocoCities()
+        public ActionResult Subreport()
         {
-            return new List<CityModel>
+            var model = new SubreportModel
             {
-                new CityModel {Id = 1, Name = "New York"},
-                new CityModel {Id = 2, Name = "London"},
-                new CityModel {Id = 3, Name = "Paris"},
-                new CityModel {Id = 4, Name = "Prague"},
-                new CityModel {Id = 5, Name = "Amsterdam"},
+                Countries = LocalData.GetCountries()
             };
-        } 
 
-        private static DataTable GetProducts()
-        {
-            return GetDataTable("select * from dbo.Products");
+            return View(model);
         }
-
-        private static DataTable GetCities()
-        {
-            return GetDataTable("select * from dbo.Cities");
-        }
-
-        private static DataTable GetDataTable(string sql)
-        {
-            var connectionString = ConfigurationManager.ConnectionStrings["Products"].ConnectionString;
-            using (var connection = new SqlConnection(connectionString))
-            {
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = sql;
-                    using (var adapter = new SqlDataAdapter(command))
-                    {
-                        var table = new DataTable();
-                        adapter.Fill(table);
-                        return table;
-                    }
-                }
-            }
-        }
-
-        #endregion
     }
 }

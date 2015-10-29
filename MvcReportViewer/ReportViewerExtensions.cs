@@ -37,11 +37,28 @@ namespace MvcReportViewer
             {
                 localReport.EnableHyperlinks = true;
             }
-                
 
             if (parameters.ReportParameters.Count > 0)
             {
                 localReport.SetParameters(parameters.ReportParameters.Values);
+            }
+
+            if (!string.IsNullOrEmpty(parameters.EventsHandlerType))
+            {
+                var handlersType = Type.GetType(parameters.EventsHandlerType);
+                if (handlersType == null)
+                {
+                    throw new MvcReportViewerException($"Type {parameters.EventsHandlerType} is not found");
+                }
+
+                var handlers = Activator.CreateInstance(handlersType) as IReportViewerEventsHandler;
+                if (handlers == null)
+                {
+                    throw new MvcReportViewerException(
+                        $"Type {parameters.EventsHandlerType} has not implemented IReportViewerEventsHandler interface or cannot be instantiated.");
+                }
+
+                localReport.SubreportProcessing += (sender, e) => handlers.OnSubreportProcessing(reportViewer, e);
             }
 
             // If parameters.LocalReportDataSources then we should get report data source
