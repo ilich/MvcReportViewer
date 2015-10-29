@@ -26,8 +26,18 @@ namespace MvcReportViewer
             var localReport = reportViewer.LocalReport;
             localReport.ReportPath = parameters.ReportPath;
 
-            if(parameters.ControlSettings?.EnableExternalImages != null && parameters.ControlSettings.EnableExternalImages.Value)
+            if (parameters.ControlSettings?.EnableExternalImages != null &&
+                parameters.ControlSettings.EnableExternalImages.Value)
+            {
                 localReport.EnableExternalImages = true;
+            }
+
+            if (parameters.ControlSettings?.EnableHyperlinks != null &&
+                parameters.ControlSettings.EnableHyperlinks.Value)
+            {
+                localReport.EnableHyperlinks = true;
+            }
+                
 
             if (parameters.ReportParameters.Count > 0)
             {

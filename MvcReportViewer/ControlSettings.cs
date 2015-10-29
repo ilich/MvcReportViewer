@@ -234,7 +234,7 @@ namespace MvcReportViewer
         public Unit? Height { get; set; }
 
         /// <summary>
-        /// Enable using external images. 
+        /// Enable using external images (Local Reports only). 
         /// </summary>
         [UriParameter("_38")]
         public bool? EnableExternalImages { get; set; }
@@ -245,5 +245,11 @@ namespace MvcReportViewer
         /// </summary>
         [UriParameter("_39")]
         internal Unit? FrameHeight { get; set; }
+
+        /// <summary>
+        /// Indicates whether the report can be rendered if it contains hyperlink actions (Local Reports only).
+        /// </summary>
+        [UriParameter("_40")]
+        public bool? EnableHyperlinks { get; set; }
     }
 }
