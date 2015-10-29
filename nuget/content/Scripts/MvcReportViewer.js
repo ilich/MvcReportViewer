@@ -36,7 +36,7 @@
         }
 
         // 2. Add Print button for non-IE browsers
-        if (!isIE) {
+        if (!isIE && window.showPrintButton) {
             var buttonHtml = $('#non-ie-print-button').html();
             $('#ReportViewer_ctl05 > div').append(buttonHtml);
             $('#PrintButton').click(function(e) {
