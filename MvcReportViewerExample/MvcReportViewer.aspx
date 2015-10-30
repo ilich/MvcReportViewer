@@ -18,20 +18,13 @@
     </form>
 
     <script type="text/html" id="non-ie-print-button">
-        <table style="width: 6px; display: inline;" cellspacing="0" cellpadding="0" toolbarspacer="true">
-            <tbody>
-                <tr>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="" style="font-family: Verdana; font-size: 8pt; vertical-align: top; display: inline;">
+        <div class="" style="font-family: Verdana; font-size: 8pt; vertical-align: top; display: inline-block; width: 28px; margin-left: 6px;">
             <table style="display: inline;" cellspacing="0" cellpadding="0">
                 <tbody>
                     <tr>
                         <td height="28">
                             <div>
-                                <div style="border: 1px solid transparent; border-image: none; cursor: default; background-color: transparent;">
+                                <div id="mvcreportviewer-btn-print" style="border: 1px solid transparent; border-image: none; cursor: default; background-color: transparent;">
                                     <table title="Print">
                                         <tbody>
                                             <tr>
