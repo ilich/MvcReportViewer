@@ -42,6 +42,12 @@ namespace MvcReportViewer
             var localReport = reportViewer.LocalReport;
             localReport.ReportPath = parameters.ReportPath;
 
+            if (parameters.ControlSettings?.UseCurrentAppDomainPermissionSet != null &&
+                parameters.ControlSettings.UseCurrentAppDomainPermissionSet.Value)
+            {
+                localReport.SetBasePermissionsForSandboxAppDomain(AppDomain.CurrentDomain.PermissionSet.Copy());
+            }
+
             if (parameters.ControlSettings?.EnableExternalImages != null &&
                 parameters.ControlSettings.EnableExternalImages.Value)
             {

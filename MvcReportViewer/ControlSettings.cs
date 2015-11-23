@@ -251,5 +251,11 @@ namespace MvcReportViewer
         /// </summary>
         [UriParameter("_40")]
         public bool? EnableHyperlinks { get; set; }
+
+        /// <summary>
+        /// Indicates whether the report will use Current App Domain Permission Set (Local Reports only).
+        /// </summary>
+        [UriParameter("_41")]
+        public bool? UseCurrentAppDomainPermissionSet { get; set; }
     }
 }

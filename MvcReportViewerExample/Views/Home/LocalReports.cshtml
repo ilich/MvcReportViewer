@@ -7,14 +7,27 @@
 
 @{
     ViewBag.Title = "Local Reports";
+
+    var settings = new ControlSettings
+    {
+        UseCurrentAppDomainPermissionSet = true
+    };
 }
 
 @section Code {
+    @@{
+        var settings = new ControlSettings
+        {
+            UseCurrentAppDomainPermissionSet = true
+        };
+    }
+
     @@Html.MvcReportViewerFluent("App_Data/Reports/Products.rdlc")
          .ProcessingMode(ProcessingMode.Local)
          .ReportParameters(new { Parameter1 = "Test", Parameter2 = 123 })
          .LocalDataSource("Products", Model.Products)
          .LocalDataSource("Cities", Model.Cities)
+         .ControlSettings(settings)
          .Attributes(new { Height = 900, Width = 900, style = "border: none" })
          .Method(FormMethod.Post)
 
@@ -25,6 +38,6 @@
          .Attributes(new { Height = 900, Width = 900, style = "border: none" })
 }
 
-@Html.MvcReportViewerFluent("App_Data/Reports/Products.rdlc").ProcessingMode(ProcessingMode.Local).ReportParameters(new { Parameter1 = "Test", Parameter2 = 123 }).LocalDataSource("Products", Model.Products).LocalDataSource("Cities", Model.Cities).Attributes(new { Height = 900, Width = 900, style = "border: none" }).Method(FormMethod.Post)
+@Html.MvcReportViewerFluent("App_Data/Reports/Products.rdlc").ProcessingMode(ProcessingMode.Local).ReportParameters(new { Parameter1 = "Test", Parameter2 = 123 }).LocalDataSource("Products", Model.Products).LocalDataSource("Cities", Model.Cities).ControlSettings(settings).Attributes(new { Height = 900, Width = 900, style = "border: none" }).Method(FormMethod.Post)
 
 @Html.MvcReportViewerFluent("App_Data/Reports/Cities.rdlc").ProcessingMode(ProcessingMode.Local).Method(FormMethod.Post).LocalDataSource("Cities", Model.FilteredCities).Attributes(new { Height = 900, Width = 900, style = "border: none" })
