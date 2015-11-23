@@ -13,6 +13,7 @@ The project solves this issue. We provided a simple ASP.NET Web Forms report vie
 Installation
 ------------
 
+* Install **Microsoft® System CLR Types for Microsoft® SQL Server® 2012** if needed. Go to https://www.microsoft.com/en-us/download/details.aspx?id=29065 and scroll page to **Microsoft® System CLR Types for Microsoft® SQL Server® 2012**.
 * Install [Microsoft Report Viewer 2012](http://www.microsoft.com/en-us/download/details.aspx?id=35747). The library has be deployed to developer machines and to servers.
 * Install **MvcReportViewer** package from NuGet.
 
@@ -214,6 +215,7 @@ How to build source code
 ------------------------
 
 * Install Visual Studio 2015.
+* Install **Microsoft® System CLR Types for Microsoft® SQL Server® 2012** if needed. Go to https://www.microsoft.com/en-us/download/details.aspx?id=29065 and scroll page to **Microsoft® System CLR Types for Microsoft® SQL Server® 2012**.
 * Install [Microsoft Report Viewer 2012](http://www.microsoft.com/en-us/download/details.aspx?id=35747).
 * Download source code from GitHub.
 * Open MvcReportViewer.sln and run the build inside Visual Studio 2015.
