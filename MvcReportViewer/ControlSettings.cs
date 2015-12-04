@@ -257,5 +257,11 @@ namespace MvcReportViewer
         /// </summary>
         [UriParameter("_41")]
         public bool? UseCurrentAppDomainPermissionSet { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value that indicates the time, in seconds, before asynchronous postbacks time out if no response is received.
+        /// </summary>
+        [UriParameter("_42")]
+        public int? AsyncPostBackTimeout { get; set; }
     }
 }

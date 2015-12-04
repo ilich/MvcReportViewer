@@ -20,6 +20,8 @@ namespace MvcReportViewer
 
         protected ReportViewer ReportViewer;
 
+        protected ScriptManager ScriptManager;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             ShowReport();
@@ -46,7 +48,7 @@ namespace MvcReportViewer
                     ReportViewer.ReportError += OnReportError;
                     ReportViewer.Initialize(parameters);
 
-                    RegisterJavaScriptApi();
+                    RegisterJavaScriptApi(parameters);
 
                     // Save Drillthrough information for future use
                     if (!string.IsNullOrEmpty(parameters.EventsHandlerType))
@@ -80,8 +82,13 @@ namespace MvcReportViewer
             e.Handled = true;
         }
 
-        private void RegisterJavaScriptApi()
+        private void RegisterJavaScriptApi(ReportViewerParameters parameters)
         {
+            if (parameters.ControlSettings.AsyncPostBackTimeout != null)
+            {
+                ScriptManager.AsyncPostBackTimeout = (int)parameters.ControlSettings.AsyncPostBackTimeout;
+            }
+
             var javaScriptApi = _config.AspxViewerJavaScript;
             if (string.IsNullOrEmpty(javaScriptApi))
             {
