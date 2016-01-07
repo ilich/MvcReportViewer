@@ -17,6 +17,14 @@ namespace MvcReportViewer
     /// </summary>
     public class MvcReportViewerIframe : IMvcReportViewerOptions
     {
+        private static Func<string, string> _applyAppPathModifier;
+
+        internal static Func<string, string> ApplyAppPathModifier
+        {
+            get { return _applyAppPathModifier; }
+            set { _applyAppPathModifier = value; }
+        }
+
         internal static readonly string VisibilitySeparator = "~~~";
 
         private const string JsPostForm = @"
@@ -52,6 +60,15 @@ if (formElement{0}) {{
         private readonly string _aspxViewer;
 
         private readonly bool _encryptParameters;
+
+        static MvcReportViewerIframe()
+        {
+            var response = HttpContext.Current?.Response;
+            if (response != null)
+            {
+                _applyAppPathModifier = response.ApplyAppPathModifier;
+            }
+        }
 
         /// <summary>
         /// Creates an instance of MvcReportViewerIframe class.
@@ -180,6 +197,8 @@ if (formElement{0}) {{
                 _aspxViewer = VirtualPathUtility.ToAbsolute(_aspxViewer);
             }
 
+            _aspxViewer = ApplyAppPathModifier(_aspxViewer);
+
             _encryptParameters = _config.EncryptParameters;
             ControlId = Guid.NewGuid();
         }
@@ -189,7 +208,7 @@ if (formElement{0}) {{
             get;
             set;
         }
-
+        
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
