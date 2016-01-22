@@ -173,7 +173,7 @@ _**Fluent Interface Methods**_
 
 **ReportParameters(IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; reportParameters)** - Sets the report parameter properties for the report.
 
-**ReportParameters(IEnumerable&lt;ReportParameter&gt; reportParameters)** - Sets the report parameter properties for the report.
+**ReportParameters(IEnumerable&lt;ReportParameter&gt; reportParameters)** - Sets the report parameter properties for the report. You **MUST** use this method if your report parameters contants underscores.
 
 **ControlSettings(ControlSettings settings)** - Sets ReportViewer control UI parameters
 
