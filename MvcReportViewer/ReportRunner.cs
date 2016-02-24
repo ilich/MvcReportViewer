@@ -7,6 +7,7 @@ using System.Data;
 using System.IO;
 using System.Web;
 using MvcReportViewer.Configuration;
+using System.Collections;
 
 namespace MvcReportViewer
 {
@@ -198,16 +199,42 @@ namespace MvcReportViewer
             foreach (var reportParameter in reportParameters)
             {
                 var parameterName = reportParameter.Key;
-                if (_viewerParameters.ReportParameters.ContainsKey(parameterName))
+                var parameterValue = reportParameter.Value;
+                var parameterList = parameterValue as IEnumerable;
+                if (parameterList != null && !(parameterValue is string))
                 {
-                    _viewerParameters.ReportParameters[parameterName].Values.Add(reportParameter.Value?.ToString());
+                    // I can loop through the values. User is using an array or a list.
+
+                    foreach(var value in parameterList)
+                    {
+                        if (_viewerParameters.ReportParameters.ContainsKey(parameterName))
+                        {
+                            _viewerParameters.ReportParameters[parameterName].Values.Add(value.ToString());
+                        }
+                        else
+                        {
+                            var parameter = new ReportParameter(parameterName);
+                            parameter.Values.Add(value.ToString());
+                            _viewerParameters.ReportParameters.Add(parameterName, parameter);
+                        }
+                    }
                 }
                 else
                 {
-                    var parameter = new ReportParameter(parameterName);
-                    parameter.Values.Add(reportParameter.Value?.ToString());
-                    _viewerParameters.ReportParameters.Add(parameterName, parameter);
+                    // Parameter is a literal object. Just add it to the list.
+
+                    if (_viewerParameters.ReportParameters.ContainsKey(parameterName))
+                    {
+                        _viewerParameters.ReportParameters[parameterName].Values.Add(reportParameter.Value?.ToString());
+                    }
+                    else
+                    {
+                        var parameter = new ReportParameter(parameterName);
+                        parameter.Values.Add(reportParameter.Value?.ToString());
+                        _viewerParameters.ReportParameters.Add(parameterName, parameter);
+                    }
                 }
+                
             }
         }
 
