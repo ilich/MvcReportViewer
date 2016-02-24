@@ -9,6 +9,12 @@ namespace MvcReportViewer.Tests
 {
     internal static class TestData
     {
+        public static readonly string DataSource = "TestDataSource1";
+
+        public static readonly string DataSourceUsername = "user1";
+
+        public static readonly string DataSourcePassword = "password1";
+
         public static readonly string ReportName = "TestReport";
 
         public static readonly string DefaultServer = "http://localhost/ReportServer_SQLEXPRESS";

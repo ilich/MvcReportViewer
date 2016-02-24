@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using Microsoft.Reporting.WebForms;
 using MvcReportViewer.Configuration;
+using Newtonsoft.Json;
 
 namespace MvcReportViewer
 {
@@ -56,6 +57,8 @@ if (formElement{0}) {{
         private IDictionary<string, object> _htmlAttributes;
 
         private ControlSettings _controlSettings;
+
+        private DataSourceCredentials[] _dataSourceCredentials;
 
         private readonly string _aspxViewer;
 
@@ -306,6 +309,11 @@ if (formElement{0}) {{
                 html.Append(CreateHiddenField(UriParameters.EventsHandlerType, _eventsHandlerType));
             }
 
+            if (_dataSourceCredentials?.Length > 0)
+            {
+                html.Append(CreateHiddenField(UriParameters.DataSourceCredentials, JsonConvert.SerializeObject(_dataSourceCredentials)));
+            }
+
             var frameHeight = GetFrameHeight();
             if (frameHeight != null)
             {
@@ -402,6 +410,11 @@ if (formElement{0}) {{
             if (!string.IsNullOrEmpty(_eventsHandlerType))
             {
                 query[UriParameters.EventsHandlerType] = _eventsHandlerType;
+            }
+
+            if (_dataSourceCredentials?.Length > 0)
+            {
+                query[UriParameters.DataSourceCredentials] = JsonConvert.SerializeObject(_dataSourceCredentials);
             }
 
             var frameHeight = GetFrameHeight();
@@ -688,6 +701,17 @@ if (formElement{0}) {{
             }
 
             _eventsHandlerType = type.AssemblyQualifiedName;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets data source credentials for the report. 
+        /// </summary>
+        /// <param name="credentials">An array of Credentials objects.</param>
+        /// <returns></returns>
+        public IMvcReportViewerOptions SetDataSourceCredentials(DataSourceCredentials[] credentials)
+        {
+            _dataSourceCredentials = credentials;
             return this;
         }
     }

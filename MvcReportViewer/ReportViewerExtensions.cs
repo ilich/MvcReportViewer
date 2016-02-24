@@ -114,6 +114,11 @@ namespace MvcReportViewer
                 }
             }
 
+            if (parameters.DataSourceCredentials?.Length > 0)
+            {
+                serverReport.SetDataSourceCredentials(parameters.DataSourceCredentials);
+            }
+
             if (parameters.ReportParameters.Count > 0)
             {
                 serverReport.SetParameters(parameters.ReportParameters.Values);

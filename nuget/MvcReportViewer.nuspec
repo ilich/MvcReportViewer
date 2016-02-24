@@ -12,5 +12,8 @@
     <description>ASP.NET MVC Html Helpers for ReportViewer Control</description>
     <copyright>Copyright © Ilya Verbitskiy 2013-2015</copyright>
     <tags>ReportViewer SSRS Reporting HtmlHelpers</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="8.0.2" />
+    </dependencies>
   </metadata>
 </package>

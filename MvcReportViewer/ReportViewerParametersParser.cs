@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using Microsoft.Reporting.WebForms;
 using System.Web;
 using MvcReportViewer.Configuration;
+using Newtonsoft.Json;
 
 namespace MvcReportViewer
 {
@@ -57,6 +58,11 @@ namespace MvcReportViewer
                 else if (key.EqualsIgnoreCase(UriParameters.EventsHandlerType))
                 {
                     parameters.EventsHandlerType = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
+                }
+                else if (key.EqualsIgnoreCase(UriParameters.DataSourceCredentials))
+                {
+                    var json = isEncrypted ? SecurityUtil.Decrypt(urlParam) : urlParam;
+                    parameters.DataSourceCredentials = JsonConvert.DeserializeObject<DataSourceCredentials[]>(json);
                 }
                 else if (!settinsManager.IsControlSetting(key))
                 {

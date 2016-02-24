@@ -17,5 +17,7 @@
         public static readonly string ProcessingMode = "_m";
 
         public static readonly string EventsHandlerType = "_evh";
+
+        public static readonly string DataSourceCredentials = "_dc";
     }
 }

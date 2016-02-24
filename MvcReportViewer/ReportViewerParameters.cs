@@ -30,6 +30,8 @@ namespace MvcReportViewer
 
         public IDictionary<string, DataTable> LocalReportDataSources { get; set; }
 
+        public DataSourceCredentials[] DataSourceCredentials { get; set; }
+
         public bool IsReportRunnerExecution { get; set; }
 
         public ControlSettings ControlSettings { get; set; }

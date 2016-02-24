@@ -189,6 +189,8 @@ _**Fluent Interface Methods**_
 
 **EventsHandlerType(Type type)** - Sets the type implementing IReportViewerEventsHandler interface. The instance of the type is responsible for processing Report Viewer Web Control's events, e.g. SubreportProcessing. Review [Subreport.cshtml](https://github.com/ilich/MvcReportViewer/blob/master/MvcReportViewerExample/Views/Home/Subreport.cshtml), [SubreportEventHandlers.cs](https://github.com/ilich/MvcReportViewer/blob/master/MvcReportViewerExample/Models/SubreportEventHandlers.cs) and [HomeController.cs](https://github.com/ilich/MvcReportViewer/blob/master/MvcReportViewerExample/Controllers/HomeController.cs) for the information how to use the feature.
 
+**SetDataSourceCredentials(DataSourceCredentials[] credentials)** - Sets data source credentials for the report. 
+
 **LocalDataSource&lt;T&gt;(string dataSourceName, T dataSource)** - Registers local report data source. The default local data source provider (MvcReportViewer.SessionLocalDataSourceProvider) stores data in user session. There is also MvcReportViewer.SqlLocalDataSourceProvider provider which stores SQL queries. You have to add SqlLocalDataSourceProvider.ConnectionString application configuration to your Web.config file to be able to use this provider. The configuration values is your connection string name. Please check MvcReportViewer example for further information.
 
 ### Controller Extensions

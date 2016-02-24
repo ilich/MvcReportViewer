@@ -101,5 +101,12 @@ namespace MvcReportViewer
         /// <param name="type"></param>
         /// <returns></returns>
         IMvcReportViewerOptions EventsHandlerType(Type type);
+
+        /// <summary>
+        /// Sets data source credentials for the report. 
+        /// </summary>
+        /// <param name="credentials">An array of Credentials objects.</param>
+        /// <returns></returns>
+        IMvcReportViewerOptions SetDataSourceCredentials(DataSourceCredentials[] credentials);
     }
 }
