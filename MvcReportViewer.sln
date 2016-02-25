@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcReportViewerTests", "Mvc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcReportViewer_NET45", "MvcReportViewer_NET45\MvcReportViewer_NET45.csproj", "{BF8D2B0B-EFD0-44A6-B6E1-A3215B4C477B}"
 EndProject
-Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "TestReports", "TestReports\TestReports.rptproj", "{A02F36AE-B9A6-4A0E-BF85-42CC8B32FA75}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,15 +42,6 @@ Global
 		{BF8D2B0B-EFD0-44A6-B6E1-A3215B4C477B}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{BF8D2B0B-EFD0-44A6-B6E1-A3215B4C477B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF8D2B0B-EFD0-44A6-B6E1-A3215B4C477B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A02F36AE-B9A6-4A0E-BF85-42CC8B32FA75}.Debug|Any CPU.ActiveCfg = Debug
-		{A02F36AE-B9A6-4A0E-BF85-42CC8B32FA75}.Debug|Any CPU.Build.0 = Debug
-		{A02F36AE-B9A6-4A0E-BF85-42CC8B32FA75}.Debug|Any CPU.Deploy.0 = Debug
-		{A02F36AE-B9A6-4A0E-BF85-42CC8B32FA75}.DebugLocal|Any CPU.ActiveCfg = DebugLocal
-		{A02F36AE-B9A6-4A0E-BF85-42CC8B32FA75}.DebugLocal|Any CPU.Build.0 = DebugLocal
-		{A02F36AE-B9A6-4A0E-BF85-42CC8B32FA75}.DebugLocal|Any CPU.Deploy.0 = DebugLocal
-		{A02F36AE-B9A6-4A0E-BF85-42CC8B32FA75}.Release|Any CPU.ActiveCfg = Release
-		{A02F36AE-B9A6-4A0E-BF85-42CC8B32FA75}.Release|Any CPU.Build.0 = Release
-		{A02F36AE-B9A6-4A0E-BF85-42CC8B32FA75}.Release|Any CPU.Deploy.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
