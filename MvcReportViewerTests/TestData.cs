@@ -17,7 +17,7 @@ namespace MvcReportViewer.Tests
 
         public static readonly string ReportName = "TestReport";
 
-        public static readonly string DefaultServer = "http://localhost/ReportServer_SQLEXPRESS";
+        public static readonly string DefaultServer = "http://localhost:60002/ReportServer";
 
         public static readonly string DefaultUsername = "admin";
 
