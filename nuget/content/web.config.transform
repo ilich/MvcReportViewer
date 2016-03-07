@@ -5,7 +5,7 @@
     <add key="MvcReportViewer.AspxViewerJavaScript" value="~/Scripts/MvcReportViewer.js"/>
     <add key="MvcReportViewer.ErrorPage" value="~/MvcReportViewerErrorPage.html"/>
     <add key="MvcReportViewer.ShowErrorPage" value="True"/>
-    <add key="MvcReportViewer.ReportServerUrl" value="http://localhost:60002/ReportServer" />
+    <add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" />
     <add key="MvcReportViewer.Username" value="" />
     <add key="MvcReportViewer.Password" value="" />
     <add key="MvcReportViewer.EncryptParameters" value="False"/>
