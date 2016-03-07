@@ -16,7 +16,7 @@
       <Options>
         <OutputPath>bin\Debug</OutputPath>
         <TargetServerVersion>SSRS2008R2</TargetServerVersion>
-        <TargetServerURL>http://localhost/ReportServer_SQLEXPRESS</TargetServerURL>
+        <TargetServerURL>http://localhost:60002/ReportServer</TargetServerURL>
         <TargetFolder>TestReports</TargetFolder>
         <TargetDataSourceFolder>Data Sources</TargetDataSourceFolder>
         <TargetDatasetFolder>Datasets</TargetDatasetFolder>
