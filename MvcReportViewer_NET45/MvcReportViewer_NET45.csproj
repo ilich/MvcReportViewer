@@ -131,9 +131,6 @@
     <Compile Include="..\MvcReportViewer\MvcReportViewerIframe.cs">
       <Link>MvcReportViewerIframe.cs</Link>
     </Compile>
-    <Compile Include="..\MvcReportViewer\ParameterHelpers.cs">
-      <Link>ParameterHelpers.cs</Link>
-    </Compile>
     <Compile Include="..\MvcReportViewer\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>

@@ -3,6 +3,7 @@ using Microsoft.Reporting.WebForms;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Data;
 using System.IO;
 using System.Web;
 using MvcReportViewer.Configuration;
@@ -18,51 +19,11 @@ namespace MvcReportViewer
 
         private readonly string _filename;
 
-        public ReportRunner(IProvideReportConfiguration configuration)
-        {
-            var reportFormat = configuration.ReportFormat;
-            var filename = configuration.Filename;
-            var processingMode = configuration.ProcessingMode;
-            var localReportDataSources = configuration.DataSources?.ToDictionary(pair => pair.Key, pair => pair.Value);
-            var reportPath = configuration.ReportPath;
-            var reportServerUrl = configuration.ReportServerUrl;
-            var username = configuration.Username;
-            var password = configuration.Password;
-            var reportParameters = ParameterHelpers.GetReportParameters(configuration.ReportParameters);
-
-            _viewerParameters = new ReportViewerParameters
-            {
-                ReportServerUrl = _config.ReportServerUrl,
-                Username = _config.Username,
-                Password = _config.Password,
-                IsReportRunnerExecution = true
-            };
-
-            ReportFormat = reportFormat;
-            _filename = filename;
-
-            _viewerParameters.ProcessingMode = processingMode;
-            if (processingMode == ProcessingMode.Local && localReportDataSources != null)
-            {
-                _viewerParameters.LocalReportDataSources = localReportDataSources;
-            }
-
-            _viewerParameters.ReportPath = reportPath;
-            _viewerParameters.ReportServerUrl = reportServerUrl ?? _viewerParameters.ReportServerUrl;
-            if (username != null || password != null)
-            {
-                _viewerParameters.Username = username;
-                _viewerParameters.Password = password;
-            }
-
-            ParseParameters(reportParameters);
-        }
-
         public ReportRunner(
             ReportFormat reportFormat,
             string reportPath,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, object> localReportDataSources = null,
+            IDictionary<string, DataTable> localReportDataSources = null,
             string filename = null)
             : this(reportFormat, reportPath, null, null, null, null, mode, localReportDataSources, filename)
         {
@@ -73,7 +34,7 @@ namespace MvcReportViewer
             string reportPath,
             IDictionary<string, object> reportParameters,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, object> localReportDataSources = null,
+            IDictionary<string, DataTable> localReportDataSources = null,
             string filename = null)
             : this(
                 reportFormat, 
@@ -90,7 +51,7 @@ namespace MvcReportViewer
             string reportPath,
             IEnumerable<KeyValuePair<string, object>> reportParameters,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, object> localReportDataSources = null,
+            IDictionary<string, DataTable> localReportDataSources = null,
             string filename = null)
             : this(reportFormat, reportPath, null, null, null, reportParameters, mode, localReportDataSources, filename)
         {
@@ -104,7 +65,7 @@ namespace MvcReportViewer
             string password,
             IDictionary<string, object> reportParameters,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, object> localReportDataSources = null,
+            IDictionary<string, DataTable> localReportDataSources = null,
             string filename = null)
             : this(
                 reportFormat, 
@@ -127,7 +88,7 @@ namespace MvcReportViewer
             string password,
             IEnumerable<KeyValuePair<string, object>> reportParameters,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, object> localReportDataSources = null,
+            IDictionary<string, DataTable> localReportDataSources = null,
             string filename = null)
         {
             _viewerParameters = new ReportViewerParameters

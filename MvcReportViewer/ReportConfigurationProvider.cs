@@ -10,8 +10,6 @@ namespace MvcReportViewer
     {
         public IEnumerable<KeyValuePair<string, object>> DataSources { get; set; }
 
-        public string Filename { get; set; }
-
         public Guid ControlId { get; set; }
 
         public ControlSettings ControlSettings { get; set; }
@@ -21,10 +19,6 @@ namespace MvcReportViewer
         public object HtmlAttributes { get; set; }
 
         public string Password { get; set; }
-
-        public ProcessingMode ProcessingMode { get; set; }
-
-        public ReportFormat ReportFormat { get; set; }
 
         public object ReportParameters { get; set; }
 

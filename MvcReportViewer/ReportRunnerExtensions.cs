@@ -22,7 +22,7 @@ namespace MvcReportViewer
             ReportFormat reportFormat, 
             string reportPath,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, object> localReportDataSources = null,
+            IDictionary<string, DataTable> localReportDataSources = null,
             string filename = null)
         {
             var reportRunner = new ReportRunner(reportFormat, reportPath, mode, localReportDataSources, filename);
@@ -46,7 +46,7 @@ namespace MvcReportViewer
             string reportPath,
             object reportParameters,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, object> localReportDataSources = null,
+            IDictionary<string, DataTable> localReportDataSources = null,
             string filename = null)
         {
             var reportRunner = new ReportRunner(
@@ -77,7 +77,7 @@ namespace MvcReportViewer
             string reportPath,
             IEnumerable<KeyValuePair<string, object>> reportParameters,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, object> localReportDataSources = null,
+            IDictionary<string, DataTable> localReportDataSources = null,
             string filename = null)
         {
             var reportRunner = new ReportRunner(
@@ -114,7 +114,7 @@ namespace MvcReportViewer
             string password = null,
             object reportParameters = null,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, object> localReportDataSources = null,
+            IDictionary<string, DataTable> localReportDataSources = null,
             string filename = null)
         {
             var reportRunner = new ReportRunner(
@@ -154,7 +154,7 @@ namespace MvcReportViewer
             string username = null,
             string password = null,
             ProcessingMode mode = ProcessingMode.Remote,
-            IDictionary<string, object> localReportDataSources = null,
+            IDictionary<string, DataTable> localReportDataSources = null,
             string filename = null)
         {
             var reportRunner = new ReportRunner(
