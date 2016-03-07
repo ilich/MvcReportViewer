@@ -19,6 +19,11 @@ namespace MvcReportViewer
 
         private readonly string _filename;
 
+        public ReportRunner(IProvideReportConfiguration configuration)
+        {
+            throw new NotImplementedException();
+        }
+
         public ReportRunner(
             ReportFormat reportFormat,
             string reportPath,

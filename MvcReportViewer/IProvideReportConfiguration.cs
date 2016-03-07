@@ -18,6 +18,8 @@ namespace MvcReportViewer
 
         string Password { get; set; }
 
+        ReportFormat ReportFormat { get; set; }
+
         object ReportParameters { get; set; }
 
         string ReportPath { get; set; }
