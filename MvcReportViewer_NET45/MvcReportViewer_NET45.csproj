@@ -109,6 +109,9 @@
     <Compile Include="..\MvcReportViewer\IMvcReportViewerOptions.cs">
       <Link>IMvcReportViewerOptions.cs</Link>
     </Compile>
+    <Compile Include="..\MvcReportViewer\IProvideReportConfiguration.cs">
+      <Link>IProvideReportConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\MvcReportViewer\IReportViewerEventsHandler.cs">
       <Link>IReportViewerEventsHandler.cs</Link>
     </Compile>
@@ -130,6 +133,9 @@
     </Compile>
     <Compile Include="..\MvcReportViewer\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\MvcReportViewer\ReportConfigurationProvider.cs">
+      <Link>ReportConfigurationProvider.cs</Link>
     </Compile>
     <Compile Include="..\MvcReportViewer\ReportFormat.cs">
       <Link>ReportFormat.cs</Link>

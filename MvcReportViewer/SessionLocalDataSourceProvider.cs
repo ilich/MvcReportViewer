@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.SessionState;
@@ -12,7 +11,7 @@ namespace MvcReportViewer
     {
         private readonly HttpSessionState _session = HttpContext.Current.Session;
 
-        public void Add<T>(Guid reportControlId, string dataSourceName, T dataSource)
+        public void Add(Guid reportControlId, string dataSourceName, object dataSource)
         {
             var source = dataSource as ReportDataSource ?? new ReportDataSource(dataSourceName, dataSource);
 
