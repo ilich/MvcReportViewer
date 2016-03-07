@@ -35,7 +35,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 <configSections>
     <section name="MvcReportViewer" type="MvcReportViewer.Configuration.MvcReportViewerSettings, MvcReportViewer"/>
 </configSections>
-<MvcReportViewer reportServerUrl="http://localhost/ReportServer_SQLEXPRESS"
+<MvcReportViewer reportServerUrl="http://localhost:60002/ReportServer"
     username="" 
     password=""
     aspxViewer="~/MvcReportViewer.aspx"
@@ -55,7 +55,7 @@ Add **&lt;remove name="ReportViewerWebControlHandler" /&gt; &lt;add name="Report
 <add key="MvcReportViewer.AspxViewerJavaScript" value="~/Scripts/MvcReportViewer.js" />
 <add key="MvcReportViewer.ErrorPage" value="~/MvcReportViewerErrorPage.html" />
 <add key="MvcReportViewer.ShowErrorPage" value="False" />
-<add key="MvcReportViewer.ReportServerUrl" value="http://localhost/ReportServer_SQLEXPRESS" />
+<add key="MvcReportViewer.ReportServerUrl" value="http://localhost:60002/ReportServer" />
 <add key="MvcReportViewer.Username" value="" />
 <add key="MvcReportViewer.Password" value="" />
 <add key="MvcReportViewer.EncryptParameters" value="True" />
