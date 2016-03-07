@@ -45,7 +45,7 @@ namespace MvcReportViewer.Tests
         [Test]
         public void Iframe_FromConfiguration_SrcDataSources()
         {
-            var httpContext = GetHttpContext();
+            var httpContext = MockHelpers.GetHttpContext();
             HttpContext.Current = httpContext;
 
             var mockDependencyResolver = new Mock<IDependencyResolver>();
@@ -414,23 +414,6 @@ namespace MvcReportViewer.Tests
             var html = _htmlHelper.MvcReportViewer(configuration);
             var hasTag = HasTag(html, expectedTag);
             Assert.IsTrue(hasTag);
-        }
-
-        private HttpContext GetHttpContext()
-        {
-            var httpRequest = new HttpRequest("", "http://localhost/", "");
-            var stringWriter = new StringWriter();
-            var httpResponce = new HttpResponse(stringWriter);
-            var httpContext = new HttpContext(httpRequest, httpResponce);
-
-            var sessionContainer = new HttpSessionStateContainer("id", new SessionStateItemCollection(),
-                                                    new HttpStaticObjectsCollection(), 10, true,
-                                                    HttpCookieMode.AutoDetect,
-                                                    SessionStateMode.InProc, false);
-
-            SessionStateUtility.AddHttpSessionStateToContext(httpContext, sessionContainer);
-
-            return httpContext;
         }
 
         private void CheckPostGeneratedIframe(string expectedTag)
