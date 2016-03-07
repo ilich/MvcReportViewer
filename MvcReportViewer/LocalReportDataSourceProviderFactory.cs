@@ -42,7 +42,6 @@ namespace MvcReportViewer
             }
 
             // Try to get data source provider from database settings
-
             var providerTypeName = _config.LocalDataSourceProvider;
             if (string.IsNullOrEmpty(providerTypeName))
             {
