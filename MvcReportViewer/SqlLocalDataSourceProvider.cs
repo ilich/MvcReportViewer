@@ -15,7 +15,7 @@ namespace MvcReportViewer
 
         private readonly HttpSessionState _session = HttpContext.Current.Session;
 
-        public void Add<T>(Guid reportControlId, string dataSourceName, T dataSource)
+        public void Add(Guid reportControlId, string dataSourceName, object dataSource)
         {
             // This local report data source provider works only with string
             // parameters which are SQL queries

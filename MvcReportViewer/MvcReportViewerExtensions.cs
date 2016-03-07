@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace MvcReportViewer
@@ -9,6 +10,11 @@ namespace MvcReportViewer
     /// </summary>
     public static class MvcReportViewerExtensions
     {
+        public static MvcReportViewerIframe MvcReportViewer(this HtmlHelper helper, IProvideReportConfiguration configuration)
+        {
+            return new MvcReportViewerIframe(configuration);
+        }
+
         /// <summary>
         /// Returns an HTML <b>iframe</b> rendering ASP.NET ReportViewer control with Remote Processing Mode.
         /// </summary>
