@@ -92,7 +92,6 @@
     <Compile Include="MvcReportViewerIframeFluentTests.cs" />
     <Compile Include="MvcReportViewerIframeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReportConfigurationProviderTests.cs" />
     <Compile Include="ReportRunnerTests.cs" />
     <Compile Include="ReportViewerParametersParserTests.cs" />
     <Compile Include="TestData.cs" />
