@@ -28,7 +28,7 @@ namespace MvcReportViewer
 
         public IDictionary<string, ReportParameter> ReportParameters { get; set; }
 
-        public IDictionary<string, DataTable> LocalReportDataSources { get; set; }
+        public IDictionary<string, object> LocalReportDataSources { get; set; }
 
         public DataSourceCredentials[] DataSourceCredentials { get; set; }
 

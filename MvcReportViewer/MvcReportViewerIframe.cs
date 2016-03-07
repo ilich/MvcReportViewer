@@ -80,9 +80,9 @@ if (formElement{0}) {{
             var controlSettings = configuration.ControlSettings;
             var dataSources = configuration.DataSources;
             var method = configuration.FormMethod;
-            var htmlAttributes = GetReportParameters(configuration.HtmlAttributes).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var htmlAttributes = ParameterHelpers.GetReportParameters(configuration.HtmlAttributes).ToDictionary(pair => pair.Key, pair => pair.Value);
             var password = configuration.Password;
-            var reportParameters = GetReportParameters(configuration.ReportParameters);
+            var reportParameters = ParameterHelpers.GetReportParameters(configuration.ReportParameters);
             var reportPath = configuration.ReportPath;
             var reportServerUrl = configuration.ReportServerUrl;
             var username = configuration.Username;
@@ -757,13 +757,6 @@ if (formElement{0}) {{
 
 
             return aspxViewer;
-        }
-
-        private IEnumerable<KeyValuePair<string, object>> GetReportParameters(object reportParameters)
-        {
-            return reportParameters is IEnumerable<KeyValuePair<string, object>>
-                       ? (IEnumerable<KeyValuePair<string, object>>)reportParameters
-                       : HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters);
         }
 
         private void SetDataSources(IEnumerable<KeyValuePair<string, object>> dataSources)

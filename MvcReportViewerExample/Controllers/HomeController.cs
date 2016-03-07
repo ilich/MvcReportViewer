@@ -76,7 +76,7 @@ namespace MvcReportViewer.Example.Controllers
                     LocalReportName,
                     new { Parameter1 = "Test", Parameter2 = 123 },
                     ProcessingMode.Local,
-                    new Dictionary<string, DataTable>
+                    new Dictionary<string, object>
                     {
                         { "Products", LocalData.GetProducts() },
                         { "Cities", LocalData.GetCities() }

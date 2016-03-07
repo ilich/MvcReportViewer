@@ -94,6 +94,7 @@
     <Compile Include="MvcReportViewerException.cs" />
     <Compile Include="MvcReportViewerExtensions.cs" />
     <Compile Include="MvcReportViewerIframe.cs" />
+    <Compile Include="ParameterHelpers.cs" />
     <Compile Include="ReportConfigurationProvider.cs" />
     <Compile Include="ReportFormat.cs" />
     <Compile Include="ReportRunner.cs" />

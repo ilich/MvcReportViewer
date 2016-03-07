@@ -47,10 +47,7 @@ namespace MvcReportViewer.Tests
                 ReportPath = TestData.ReportName
             };
 
-            var reportRunner = new ReportRunner(
-                ReportFormat.Excel,
-                TestData.ReportName,
-                TestData.ActualParameters);
+            var reportRunner = new ReportRunner(configuration);
 
             var parameters = reportRunner.ViewerParameters;
             Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
@@ -99,13 +96,7 @@ namespace MvcReportViewer.Tests
                 Username = TestData.Username,
             };
 
-            var reportRunner = new ReportRunner(
-                ReportFormat.Excel,
-                TestData.ReportName,
-                TestData.Server,
-                TestData.Username,
-                TestData.Password,
-                TestData.ActualParameters);
+            var reportRunner = new ReportRunner(configuration);
 
             var parameters = reportRunner.ViewerParameters;
             Assert.AreEqual(TestData.ReportName, parameters.ReportPath);
