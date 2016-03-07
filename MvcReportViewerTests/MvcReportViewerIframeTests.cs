@@ -10,7 +10,7 @@ namespace MvcReportViewer.Tests
     {
         private readonly HtmlHelper _htmlHelper = HtmlHelperFactory.Create();
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             MvcReportViewerIframe.ApplyAppPathModifier = p => p;
