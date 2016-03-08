@@ -24,29 +24,36 @@ namespace MvcReportViewer.Tests
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Parse_NullQueryString_RaisedArgumentNullException()
         {
-            var parser = new ReportViewerParametersParser();
-            parser.Parse(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var parser = new ReportViewerParametersParser();
+                parser.Parse(null);
+            });
+            
         }
 
         [Test]
-        [ExpectedException(typeof(MvcReportViewerException))]
         public void Parse_ParseWithoutQueryString_RaiseMvcReportViewerException()
         {
-            var parser = new ReportViewerParametersParser();
-            parser.Parse(new NameValueCollection());
+            Assert.Throws<MvcReportViewerException>(() =>
+            {
+                var parser = new ReportViewerParametersParser();
+                parser.Parse(new NameValueCollection());
+            });
         }
 
         [Test]
-        [ExpectedException(typeof(MvcReportViewerException))]
         public void Parse_EmptyServerInQueryString_RaiseMvcReportViewerException()
         {
-            var parser = new ReportViewerParametersParser();
-            var queryString = GetQueryString();
-            queryString.Add(UriParameters.ReportServerUrl, string.Empty);
-            parser.Parse(queryString);
+            Assert.Throws<MvcReportViewerException>(() =>
+            {
+                var parser = new ReportViewerParametersParser();
+                var queryString = GetQueryString();
+                queryString.Add(UriParameters.ReportServerUrl, string.Empty);
+                parser.Parse(queryString);
+            });
         }
 
         [Test]
