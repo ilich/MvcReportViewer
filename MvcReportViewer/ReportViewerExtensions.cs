@@ -1,5 +1,9 @@
-﻿using System;
 using Microsoft.Reporting.WebForms;
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Web;
 using System.Web.UI.WebControls;
 
 namespace MvcReportViewer
@@ -40,7 +44,36 @@ namespace MvcReportViewer
         {
             reportViewer.ProcessingMode = ProcessingMode.Local;
             var localReport = reportViewer.LocalReport;
-            localReport.ReportPath = parameters.ReportPath;
+            
+            if (File.Exists(HttpContext.Current.Server.MapPath(parameters.ReportPath)))
+            {   // the report is located in the file system and we can pull that.
+                localReport.ReportPath = parameters.ReportPath;
+            }
+            else
+            {   // the report is not found in the file system we need to see if it is embedded
+                Assembly 
+                    oTheAssembly = null;
+
+                try
+                {
+                    // this part of the file can be tweaked to work in whatever environment or how you want to search assemblies for the resource.
+                    // in this case we are searching all assemblies loaded in the application domain
+                    oTheAssembly = AppDomain.CurrentDomain.GetAssemblies()
+                        .Where(Assembly => Assembly.FullName.StartsWith(parameters.ReportPath.Split('.')[0]) && Assembly.GetManifestResourceNames().Length > 0)
+                        .SingleOrDefault(Assembly => Assembly.GetManifestResourceNames().Contains(parameters.ReportPath));
+                }
+                catch (Exception pEx)
+                {
+                    throw new MvcReportViewerException($"Error in locating embedded resource: {parameters.ReportPath}", pEx);
+                }
+
+                if (oTheAssembly == null)
+                {
+                    throw new MvcReportViewerException($"Could not locate the report: {parameters.ReportPath}");
+                }
+                // now we need to load the report definition
+                localReport.LoadReportDefinition(oTheAssembly.GetManifestResourceStream(parameters.ReportPath));
+            }
 
             if (parameters.ControlSettings?.UseCurrentAppDomainPermissionSet != null &&
                 parameters.ControlSettings.UseCurrentAppDomainPermissionSet.Value)
