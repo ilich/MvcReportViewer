@@ -87,7 +87,11 @@ namespace MvcReportViewer
                     localReport.DataSources.Add(dataSource);
                 }
             }
-            
+
+            if (parameters.ControlSettings?.DisplayName != null)
+            {
+                localReport.DisplayName = parameters.ControlSettings.DisplayName;
+            }
         }
 
         private static void SetupRemoteProcessing(ReportViewer reportViewer, ReportViewerParameters parameters)
@@ -122,6 +126,11 @@ namespace MvcReportViewer
             if (parameters.ReportParameters.Count > 0)
             {
                 serverReport.SetParameters(parameters.ReportParameters.Values);
+            }
+
+            if (parameters.ControlSettings?.DisplayName != null)
+            {
+                serverReport.DisplayName = parameters.ControlSettings.DisplayName;
             }
         }
 

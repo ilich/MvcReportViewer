@@ -263,5 +263,11 @@ namespace MvcReportViewer
         /// </summary>
         [UriParameter("_42")]
         public int? AsyncPostBackTimeout { get; set; }
+
+        /// <summary>
+        /// Gets or sets the display name of the report.
+        /// </summary>
+        [UriParameter("_43")]
+        public string DisplayName { get; set; }
     }
 }
