@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using Microsoft.Reporting.WebForms;
 using System.Web.UI.WebControls;
 
@@ -92,6 +94,11 @@ namespace MvcReportViewer
             {
                 localReport.DisplayName = parameters.ControlSettings.DisplayName;
             }
+
+            if (parameters.ControlSettings?.VisibleExportFormats != null)
+            {
+                HideRenderingExtensions(localReport, parameters.ControlSettings);
+            }
         }
 
         private static void SetupRemoteProcessing(ReportViewer reportViewer, ReportViewerParameters parameters)
@@ -131,6 +138,28 @@ namespace MvcReportViewer
             if (parameters.ControlSettings?.DisplayName != null)
             {
                 serverReport.DisplayName = parameters.ControlSettings.DisplayName;
+            }
+
+            if (parameters.ControlSettings?.VisibleExportFormats != null)
+            {
+                HideRenderingExtensions(serverReport, parameters.ControlSettings);
+            }
+        }
+
+        private static void HideRenderingExtensions(Report report, ControlSettings controlSettings)
+        {
+            var hiddenRenderingExtensions = report.ListRenderingExtensions()
+                    .Where(renderingExtension =>
+                        controlSettings.VisibleExportFormats.All(exportFormat =>
+                            !renderingExtension.Name.EqualsIgnoreCase(exportFormat.ToString())));
+
+            foreach (var renderingExtension in hiddenRenderingExtensions)
+            {
+                var isVisiblePrivateField = renderingExtension.GetType().GetField("m_isVisible", BindingFlags.Instance | BindingFlags.NonPublic);
+                if (isVisiblePrivateField != null)
+                {
+                    isVisiblePrivateField.SetValue(renderingExtension, false);
+                }
             }
         }
 

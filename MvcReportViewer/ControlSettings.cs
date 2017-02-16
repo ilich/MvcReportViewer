@@ -269,5 +269,11 @@ namespace MvcReportViewer
         /// </summary>
         [UriParameter("_43")]
         public string DisplayName { get; set; }
+
+        /// <summary>
+        /// Specifies the export formats to be visible. All export formats will be visible if the value is null or empty.
+        /// </summary>
+        [UriParameter("_44")]
+        public ReportFormat[] VisibleExportFormats { get; set; }
     }
 }

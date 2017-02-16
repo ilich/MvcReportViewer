@@ -64,6 +64,10 @@ namespace MvcReportViewer
                                                         .ToArgb()
                                                         .ToString(CultureInfo.CurrentCulture);
                 }
+                else if (property.PropertyType == typeof(ReportFormat[]))
+                {
+                    serializedSetting = string.Join(",", (IEnumerable<ReportFormat>) value);
+                }
                 else
                 {
                     serializedSetting = value.ToString();
@@ -160,6 +164,18 @@ namespace MvcReportViewer
                 {
                     property.SetValue(settings, mode, null);
                 }
+            }
+            else if (property.PropertyType == typeof(ReportFormat[]))
+            {
+                var hiddenFormats = new List<ReportFormat>();
+                foreach (var splitValue in value.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    ReportFormat format;
+                    if (Enum.TryParse(splitValue, true, out format))
+                        hiddenFormats.Add(format);
+                }
+
+                property.SetValue(settings, hiddenFormats.ToArray(), null);
             }
             else
             {
