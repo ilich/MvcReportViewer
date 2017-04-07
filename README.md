@@ -127,7 +127,7 @@ Then you can use our bultin HtmlHelpers as follows:
 
 *htmlAttributes* - An object that contains the HTML attributes to set for the element.
 
-You **MUST** use this method if your report parameters contants underscores.
+You **MUST** use this method if your report parameters contain underscores.
 
 **@Html.MvcReportViewer(string reportPath, string reportServerUrl = null, string username = null, string password = null, IEnumerable<KeyValuePair<string, object>> reportParameters = null, ControlSettings controlSettings = null, object htmlAttributes = null, FormMethod method = FormMethod.Get)**
 
