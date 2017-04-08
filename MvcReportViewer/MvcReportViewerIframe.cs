@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,13 +19,9 @@ namespace MvcReportViewer
     /// </summary>
     public class MvcReportViewerIframe : IMvcReportViewerOptions
     {
-        private static Func<string, string> _applyAppPathModifier;
+        internal static Func<string, string> ApplyAppPathModifier { get; set; }
 
-        internal static Func<string, string> ApplyAppPathModifier
-        {
-            get { return _applyAppPathModifier; }
-            set { _applyAppPathModifier = value; }
-        }
+        private ILocalReportDataSourceProvider DataSourceProvider => LocalReportDataSourceProviderFactory.Current.Create();
 
         internal static readonly string VisibilitySeparator = "~~~";
 
@@ -69,8 +66,46 @@ if (formElement{0}) {{
             var response = HttpContext.Current?.Response;
             if (response != null)
             {
-                _applyAppPathModifier = response.ApplyAppPathModifier;
+                ApplyAppPathModifier = response.ApplyAppPathModifier;
             }
+        }
+
+        /// <summary>
+        /// Creates an instance of the MvcReportViewerIframe class.
+        /// </summary>
+        /// <param name="configuration">The report configuration provider used to configure the new MvcReportViewerIframe.</param>
+        public MvcReportViewerIframe(IProvideReportConfiguration configuration)
+        {
+            var controlId = configuration.ControlId;
+            var controlSettings = configuration.ControlSettings;
+            var dataSources = configuration.DataSources;
+            var method = configuration.FormMethod;
+            var htmlAttributes = GetReportParameters(configuration.HtmlAttributes).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var password = configuration.Password;
+            var reportParameters = GetReportParameters(configuration.ReportParameters);
+            var reportPath = configuration.ReportPath;
+            var reportServerUrl = configuration.ReportServerUrl;
+            var username = configuration.Username;
+
+            if (string.IsNullOrEmpty(_config.AspxViewerJavaScript))
+            {
+                throw new MvcReportViewerException("MvcReportViewer.js location is not found. Make sure you have MvcReportViewer.AspxViewerJavaScript in your Web.config.");
+            }
+
+            _aspxViewer = GetAspxViewer();
+            ControlId = controlId;
+            _controlSettings = controlSettings;
+
+            SetDataSources(dataSources);
+
+            _encryptParameters = _config.EncryptParameters;
+            _htmlAttributes = htmlAttributes;
+            _method = method;
+            _password = password;
+            _reportParameters = reportParameters?.ToList();
+            _reportPath = reportPath;
+            _reportServerUrl = reportServerUrl;
+            _username = username;
         }
 
         /// <summary>
@@ -143,13 +178,13 @@ if (formElement{0}) {{
             IDictionary<string, object> htmlAttributes,
             FormMethod method)
             : this(
-                   reportPath, 
-                   reportServerUrl, 
-                   username, 
-                   password, 
-                   reportParameters?.ToList(), 
-                   controlSettings, 
-                   htmlAttributes, 
+                   reportPath,
+                   reportServerUrl,
+                   username,
+                   password,
+                   reportParameters?.ToList(),
+                   controlSettings,
+                   htmlAttributes,
                    method)
         {
         }
@@ -175,35 +210,26 @@ if (formElement{0}) {{
             IDictionary<string, object> htmlAttributes,
             FormMethod method)
         {
-            if (string.IsNullOrEmpty(_config.AspxViewerJavaScript))
+            if (String.IsNullOrEmpty(this._config.AspxViewerJavaScript))
             {
                 throw new MvcReportViewerException("MvcReportViewer.js location is not found. Make sure you have MvcReportViewer.AspxViewerJavaScript in your Web.config.");
             }
 
-            _reportPath = reportPath;
-            _reportServerUrl = reportServerUrl;
-            _username = username;
-            _password = password;
-            _controlSettings = controlSettings;
-            _reportParameters = reportParameters?.ToList();
-            _htmlAttributes = htmlAttributes;
-            _method = method;
-            _aspxViewer = _config.AspxViewer;
-            if (string.IsNullOrEmpty(_aspxViewer))
-            {
-                throw new MvcReportViewerException("ASP.NET Web Forms viewer is not set. Make sure you have MvcReportViewer.AspxViewer in your Web.config.");
-            }
+            this._reportPath = reportPath;
+            this._reportServerUrl = reportServerUrl;
+            this._username = username;
+            this._password = password;
+            this._controlSettings = controlSettings;
+            this._reportParameters = reportParameters?.ToList();
+            this._htmlAttributes = htmlAttributes;
+            this._method = method;
 
-            _aspxViewer = _aspxViewer.Trim();
-            if (_aspxViewer.StartsWith("~"))
-            {
-                _aspxViewer = VirtualPathUtility.ToAbsolute(_aspxViewer);
-            }
 
-            _aspxViewer = ApplyAppPathModifier(_aspxViewer);
 
-            _encryptParameters = _config.EncryptParameters;
-            ControlId = Guid.NewGuid();
+            this._aspxViewer = GetAspxViewer();
+
+            this._encryptParameters = this._config.EncryptParameters;
+            this.ControlId = Guid.NewGuid();
         }
 
         internal Guid ControlId
@@ -211,14 +237,14 @@ if (formElement{0}) {{
             get;
             set;
         }
-        
+
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            return RenderIframe();
+            return this.RenderIframe();
         }
 
         /// <summary>
@@ -227,42 +253,42 @@ if (formElement{0}) {{
         /// <returns>An HTML-encoded string.</returns>
         public string ToHtmlString()
         {
-            return ToString();
+            return this.ToString();
         }
 
         private string RenderIframe()
         {
-            switch (_method)
+            switch (this._method)
             {
                 case FormMethod.Get:
-                    return GetIframeUsingGetMethod();
-                    
+                    return this.GetIframeUsingGetMethod();
+
                 case FormMethod.Post:
-                    return GetIframeUsingPostMethod();
+                    return this.GetIframeUsingPostMethod();
             }
-            
+
             throw new InvalidOperationException();
         }
 
         private string GetIframeUsingPostMethod()
         {
-            var iframeId = GenerateId();
-            var formId = GenerateId();
+            var iframeId = this.GenerateId();
+            var formId = this.GenerateId();
 
             // <form method="POST" action="/MvcReportViewer.aspx">...</form>
             var form = new TagBuilder("form");
             form.MergeAttribute("method", "POST");
-            form.MergeAttribute("action", _aspxViewer);
+            form.MergeAttribute("action", this._aspxViewer);
             form.MergeAttribute("target", iframeId);
             form.GenerateId(formId);
-            form.InnerHtml = BuildIframeFormFields();
+            form.InnerHtml = this.BuildIframeFormFields();
 
             // <iframe />
             var iframe = new TagBuilder("iframe");
-            iframe.MergeAttributes(_htmlAttributes);
+            iframe.MergeAttributes(this._htmlAttributes);
             iframe.MergeAttribute("name", iframeId);
             iframe.GenerateId(iframeId);
-            
+
             // <script>...</script>
             var script = new StringBuilder("<script>");
             script.AppendFormat(JsPostForm, formId);
@@ -272,7 +298,7 @@ if (formElement{0}) {{
             html.Append(form);
             html.Append(iframe);
             html.Append(script);
-         
+
             return html.ToString();
         }
 
@@ -285,55 +311,55 @@ if (formElement{0}) {{
         {
             var html = new StringBuilder();
 
-            html.Append(CreateHiddenField(UriParameters.ControlId, ControlId));
-            html.Append(CreateHiddenField(UriParameters.ProcessingMode, _processingMode));
+            html.Append(this.CreateHiddenField(UriParameters.ControlId, this.ControlId));
+            html.Append(this.CreateHiddenField(UriParameters.ProcessingMode, this._processingMode));
 
-            if (!string.IsNullOrEmpty(_reportPath))
+            if (!String.IsNullOrEmpty(this._reportPath))
             {
-                html.Append(CreateHiddenField(UriParameters.ReportPath, _reportPath));
+                html.Append(this.CreateHiddenField(UriParameters.ReportPath, this._reportPath));
             }
 
-            if (!string.IsNullOrEmpty(_reportServerUrl))
+            if (!String.IsNullOrEmpty(this._reportServerUrl))
             {
-                html.Append(CreateHiddenField(UriParameters.ReportServerUrl, _reportServerUrl));
+                html.Append(this.CreateHiddenField(UriParameters.ReportServerUrl, this._reportServerUrl));
             }
 
-            if (!string.IsNullOrEmpty(_username) || !string.IsNullOrEmpty(_password))
+            if (!String.IsNullOrEmpty(this._username) || !String.IsNullOrEmpty(this._password))
             {
-                html.Append(CreateHiddenField(UriParameters.Username, _username));
-                html.Append(CreateHiddenField(UriParameters.Password, _password));
+                html.Append(this.CreateHiddenField(UriParameters.Username, this._username));
+                html.Append(this.CreateHiddenField(UriParameters.Password, this._password));
             }
 
-            if (!string.IsNullOrEmpty(_eventsHandlerType))
+            if (!String.IsNullOrEmpty(this._eventsHandlerType))
             {
-                html.Append(CreateHiddenField(UriParameters.EventsHandlerType, _eventsHandlerType));
+                html.Append(this.CreateHiddenField(UriParameters.EventsHandlerType, this._eventsHandlerType));
             }
 
-            if (_dataSourceCredentials?.Length > 0)
+            if (this._dataSourceCredentials?.Length > 0)
             {
-                html.Append(CreateHiddenField(UriParameters.DataSourceCredentials, JsonConvert.SerializeObject(_dataSourceCredentials)));
+                html.Append(this.CreateHiddenField(UriParameters.DataSourceCredentials, JsonConvert.SerializeObject(this._dataSourceCredentials)));
             }
 
-            var frameHeight = GetFrameHeight();
+            var frameHeight = this.GetFrameHeight();
             if (frameHeight != null)
             {
-                if (_controlSettings == null)
+                if (this._controlSettings == null)
                 {
-                    _controlSettings = new ControlSettings();    
+                    this._controlSettings = new ControlSettings();
                 }
 
-                _controlSettings.FrameHeight = new Unit(frameHeight.Item1, frameHeight.Item2);
+                this._controlSettings.FrameHeight = new Unit(frameHeight.Item1, frameHeight.Item2);
             }
 
-            var serializedSettings = _settingsManager.Serialize(_controlSettings);
+            var serializedSettings = this._settingsManager.Serialize(this._controlSettings);
             foreach (var setting in serializedSettings)
             {
-                html.Append(CreateHiddenField(setting.Key, setting.Value));
+                html.Append(this.CreateHiddenField(setting.Key, setting.Value));
             }
-        
-            if (_reportParameters != null)
+
+            if (this._reportParameters != null)
             {
-                foreach (var parameter in _reportParameters)
+                foreach (var parameter in this._reportParameters)
                 {
                     if (parameter.Value == null)
                     {
@@ -343,15 +369,15 @@ if (formElement{0}) {{
                     var multiple = parameter.Value as IEnumerable;
                     if (parameter.Value is string || multiple == null)
                     {
-                        var value = ConvertValueToString(parameter.Value);
-                        html.Append(CreateHiddenField(parameter.Key, value));
+                        var value = this.ConvertValueToString(parameter.Value);
+                        html.Append(this.CreateHiddenField(parameter.Key, value));
                     }
                     else
                     {
                         foreach (var v in multiple)
                         {
-                            var value = ConvertValueToString(v);
-                            html.Append(CreateHiddenField(parameter.Key, value));
+                            var value = this.ConvertValueToString(v);
+                            html.Append(this.CreateHiddenField(parameter.Key, value));
                         }
                     }
                 }
@@ -367,7 +393,7 @@ if (formElement{0}) {{
             tag.MergeAttribute("name", name);
 
             var strValue = value.ToString();
-            if (_encryptParameters)
+            if (this._encryptParameters)
             {
                 strValue = SecurityUtil.Encrypt(strValue);
             }
@@ -380,63 +406,63 @@ if (formElement{0}) {{
         private string GetIframeUsingGetMethod()
         {
             var iframe = new TagBuilder("iframe");
-            var uri = PrepareViewerUri();
+            var uri = this.PrepareViewerUri();
             iframe.MergeAttribute("src", uri);
-            iframe.MergeAttributes(_htmlAttributes);
+            iframe.MergeAttributes(this._htmlAttributes);
             return iframe.ToString();
         }
 
         private string PrepareViewerUri()
         {
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query[UriParameters.ControlId] = ControlId.ToString();
-            query[UriParameters.ProcessingMode] = _processingMode.ToString();
-            if (!string.IsNullOrEmpty(_reportPath))
+            var query = HttpUtility.ParseQueryString(String.Empty);
+            query[UriParameters.ControlId] = this.ControlId.ToString();
+            query[UriParameters.ProcessingMode] = this._processingMode.ToString();
+            if (!String.IsNullOrEmpty(this._reportPath))
             {
-                query[UriParameters.ReportPath] = _reportPath;
+                query[UriParameters.ReportPath] = this._reportPath;
             }
 
-            if (!string.IsNullOrEmpty(_reportServerUrl))
+            if (!String.IsNullOrEmpty(this._reportServerUrl))
             {
-                query[UriParameters.ReportServerUrl] = _reportServerUrl;
+                query[UriParameters.ReportServerUrl] = this._reportServerUrl;
             }
 
-            if (!string.IsNullOrEmpty(_username) || !string.IsNullOrEmpty(_password))
+            if (!String.IsNullOrEmpty(this._username) || !String.IsNullOrEmpty(this._password))
             {
-                query[UriParameters.Username] = _username;
-                query[UriParameters.Password] = _password;
+                query[UriParameters.Username] = this._username;
+                query[UriParameters.Password] = this._password;
             }
 
-            if (!string.IsNullOrEmpty(_eventsHandlerType))
+            if (!String.IsNullOrEmpty(this._eventsHandlerType))
             {
-                query[UriParameters.EventsHandlerType] = _eventsHandlerType;
+                query[UriParameters.EventsHandlerType] = this._eventsHandlerType;
             }
 
-            if (_dataSourceCredentials?.Length > 0)
+            if (this._dataSourceCredentials?.Length > 0)
             {
-                query[UriParameters.DataSourceCredentials] = JsonConvert.SerializeObject(_dataSourceCredentials);
+                query[UriParameters.DataSourceCredentials] = JsonConvert.SerializeObject(this._dataSourceCredentials);
             }
 
-            var frameHeight = GetFrameHeight();
+            var frameHeight = this.GetFrameHeight();
             if (frameHeight != null)
             {
-                if (_controlSettings == null)
+                if (this._controlSettings == null)
                 {
-                    _controlSettings = new ControlSettings();
+                    this._controlSettings = new ControlSettings();
                 }
 
-                _controlSettings.FrameHeight = new Unit(frameHeight.Item1, frameHeight.Item2);    
+                this._controlSettings.FrameHeight = new Unit(frameHeight.Item1, frameHeight.Item2);
             }
 
-            var serializedSettings = _settingsManager.Serialize(_controlSettings);
+            var serializedSettings = this._settingsManager.Serialize(this._controlSettings);
             foreach (var setting in serializedSettings)
             {
                 query[setting.Key] = setting.Value;
             }
 
-            if (_reportParameters != null)
+            if (this._reportParameters != null)
             {
-                foreach (var parameter in _reportParameters)
+                foreach (var parameter in this._reportParameters)
                 {
                     if (parameter.Value == null)
                     {
@@ -446,27 +472,27 @@ if (formElement{0}) {{
                     var multiple = parameter.Value as IEnumerable;
                     if (parameter.Value is string || multiple == null)
                     {
-                        var value = ConvertValueToString(parameter.Value);
+                        var value = this.ConvertValueToString(parameter.Value);
                         query.Add(parameter.Key, value);
                     }
                     else
                     {
                         foreach (var v in multiple)
                         {
-                            var value = ConvertValueToString(v);
+                            var value = this.ConvertValueToString(v);
                             query.Add(parameter.Key, value);
                         }
                     }
                 }
             }
 
-            string uri = _aspxViewer;
+            string uri = this._aspxViewer;
             if (query.Count == 0)
             {
                 return uri;
             }
 
-            if (!_encryptParameters)
+            if (!this._encryptParameters)
             {
                 return uri + "?" + query;
             }
@@ -477,27 +503,27 @@ if (formElement{0}) {{
 
         private Tuple<int, UnitType> GetFrameHeight()
         {
-            if (_htmlAttributes == null)
+            if (this._htmlAttributes == null)
             {
                 return null;
             }
 
-            var iframeHeight = string.Empty;
-            foreach (var key in _htmlAttributes.Keys)
+            var iframeHeight = String.Empty;
+            foreach (var key in this._htmlAttributes.Keys)
             {
-                if (string.Compare(key, "height", StringComparison.InvariantCultureIgnoreCase) == 0)
+                if (String.Compare(key, "height", StringComparison.InvariantCultureIgnoreCase) == 0)
                 {
                     iframeHeight = key;
                     break;
                 }
             }
 
-            if (string.IsNullOrEmpty(iframeHeight))
+            if (String.IsNullOrEmpty(iframeHeight))
             {
                 return null;
             }
 
-            var raw = _htmlAttributes[iframeHeight].ToString().Trim();
+            var raw = this._htmlAttributes[iframeHeight].ToString().Trim();
             if (!Regex.IsMatch(raw, @"^[\d]+[%|px]*$"))
             {
                 return null;
@@ -510,7 +536,7 @@ if (formElement{0}) {{
             }
 
             int value;
-            if (!int.TryParse(heightMatch.Value, out value))
+            if (!Int32.TryParse(heightMatch.Value, out value))
             {
                 return null;
             }
@@ -522,7 +548,7 @@ if (formElement{0}) {{
 
         private string ConvertValueToString(object value)
         {
-            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}", value);
+            return String.Format(CultureInfo.InvariantCulture, "{0}", value);
         }
 
         /// <summary>
@@ -532,7 +558,7 @@ if (formElement{0}) {{
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions ReportPath(string reportPath)
         {
-            _reportPath = reportPath;
+            this._reportPath = reportPath;
             return this;
         }
 
@@ -543,7 +569,7 @@ if (formElement{0}) {{
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions ReportServerUrl(string reportServerUrl)
         {
-            _reportServerUrl = reportServerUrl;
+            this._reportServerUrl = reportServerUrl;
             return this;
         }
 
@@ -554,7 +580,7 @@ if (formElement{0}) {{
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions Username(string username)
         {
-            _username = username;
+            this._username = username;
             return this;
         }
 
@@ -565,7 +591,7 @@ if (formElement{0}) {{
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions Password(string password)
         {
-            _password = password;
+            this._password = password;
             return this;
         }
 
@@ -576,7 +602,7 @@ if (formElement{0}) {{
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions ReportParameters(object reportParameters)
         {
-            _reportParameters = reportParameters == null
+            this._reportParameters = reportParameters == null
                                     ? null
                                     : HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters).ToList();
             return this;
@@ -594,7 +620,7 @@ if (formElement{0}) {{
                 return this;
             }
 
-            _reportParameters = reportParameters.ToList();
+            this._reportParameters = reportParameters.ToList();
             return this;
         }
 
@@ -610,7 +636,7 @@ if (formElement{0}) {{
                 return this;
             }
 
-            _reportParameters = reportParameters.SelectMany(
+            this._reportParameters = reportParameters.SelectMany(
                 p => p.Values
                       .Cast<object>()
                       .Select(pv => new KeyValuePair<string, object>(
@@ -630,7 +656,7 @@ if (formElement{0}) {{
             var attributes = htmlAttributes == null ?
                 null :
                 HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
-            _htmlAttributes = attributes;
+            this._htmlAttributes = attributes;
             return this;
         }
 
@@ -642,7 +668,7 @@ if (formElement{0}) {{
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions Method(FormMethod method)
         {
-            _method = method;
+            this._method = method;
             return this;
         }
 
@@ -653,7 +679,7 @@ if (formElement{0}) {{
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions ControlSettings(ControlSettings settings)
         {
-            _controlSettings = settings;
+            this._controlSettings = settings;
             return this;
         }
 
@@ -664,7 +690,7 @@ if (formElement{0}) {{
         /// <returns>An instance of MvcViewerOptions class.</returns>
         public IMvcReportViewerOptions ProcessingMode(ProcessingMode mode)
         {
-            _processingMode = mode;
+            this._processingMode = mode;
             return this;
         }
 
@@ -674,10 +700,9 @@ if (formElement{0}) {{
         /// <param name="dataSourceName">Report data source name.</param>
         /// <param name="dataSource">The data.</param>
         /// <returns></returns>
-        public IMvcReportViewerOptions LocalDataSource<T>(string dataSourceName, T dataSource)
+        public IMvcReportViewerOptions LocalDataSource(string dataSourceName, object dataSource)
         {
-            var provider = LocalReportDataSourceProviderFactory.Current.Create();
-            provider.Add(ControlId, dataSourceName, dataSource);
+            DataSourceProvider.Add(ControlId, dataSourceName, dataSource);
 
             return this;
         }
@@ -695,12 +720,12 @@ if (formElement{0}) {{
                 throw new ArgumentNullException(nameof(type));
             }
 
-            if (type.GetInterfaces().All(i => i != typeof (IReportViewerEventsHandler)))
+            if (type.GetInterfaces().All(i => i != typeof(IReportViewerEventsHandler)))
             {
-                throw new MvcReportViewerException($"{type.FullName} must implement IReportViewerEventsHandler interface.");    
+                throw new MvcReportViewerException($"{type.FullName} must implement IReportViewerEventsHandler interface.");
             }
 
-            _eventsHandlerType = type.AssemblyQualifiedName;
+            this._eventsHandlerType = type.AssemblyQualifiedName;
             return this;
         }
 
@@ -711,8 +736,47 @@ if (formElement{0}) {{
         /// <returns></returns>
         public IMvcReportViewerOptions SetDataSourceCredentials(DataSourceCredentials[] credentials)
         {
-            _dataSourceCredentials = credentials;
+            this._dataSourceCredentials = credentials;
             return this;
+        }
+
+        private string GetAspxViewer()
+        {
+            if (string.IsNullOrEmpty(_config.AspxViewer))
+            {
+                throw new MvcReportViewerException("ASP.NET Web Forms viewer is not set. Make sure you have MvcReportViewer.AspxViewer in your Web.config.");
+            }
+
+            var aspxViewer = _config.AspxViewer.Trim();
+            if (aspxViewer.StartsWith("~"))
+            {
+                aspxViewer = VirtualPathUtility.ToAbsolute(aspxViewer);
+            }
+
+            aspxViewer = ApplyAppPathModifier(aspxViewer);
+
+
+            return aspxViewer;
+        }
+
+        private IEnumerable<KeyValuePair<string, object>> GetReportParameters(object reportParameters)
+        {
+            return reportParameters is IEnumerable<KeyValuePair<string, object>>
+                       ? (IEnumerable<KeyValuePair<string, object>>)reportParameters
+                       : HtmlHelper.AnonymousObjectToHtmlAttributes(reportParameters);
+        }
+
+        private void SetDataSources(IEnumerable<KeyValuePair<string, object>> dataSources)
+        {
+            if (dataSources == null)
+            {
+                return;
+            }
+
+            foreach (var reportDataSource in dataSources)
+            {
+                DataSourceProvider.Add(ControlId, reportDataSource.Key, reportDataSource.Value);
+            }
         }
     }
 }

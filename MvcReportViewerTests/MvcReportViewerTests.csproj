@@ -85,6 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MockHelpers.cs" />
     <Compile Include="DataSourceCredentialsTests.cs" />
     <Compile Include="HtmlHelperFactory.cs" />
     <Compile Include="IframeTests.cs" />
