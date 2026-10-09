@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>MvcReportViewerBO</id>
+    <version>0.90</version>
+    <title>$title$</title>
+    <authors>Ilya Verbitskiy, Adhemar Soria Galvarro</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <description>ASP.NET MVC wrapped for Microsoft ReportViewer control</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <dependencies>
+      <group targetFramework=".NETFramework4.80" />
+    </dependencies>
+  </metadata>
+</package>

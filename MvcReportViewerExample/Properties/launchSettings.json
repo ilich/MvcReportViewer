@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MvcReportViewerExample": {
+      "commandName": "Project",
+      "launchBrowser": true
+    }
+  }
+}

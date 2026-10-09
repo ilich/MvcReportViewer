@@ -10,6 +10,7 @@ namespace MvcReportViewer.Example.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
+    using Ninject.Web.Common.WebHost;
 
     public static class NinjectWebCommon 
     {
@@ -44,7 +45,6 @@ namespace MvcReportViewer.Example.App_Start
             {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
-
                 RegisterServices(kernel);
                 return kernel;
             }
